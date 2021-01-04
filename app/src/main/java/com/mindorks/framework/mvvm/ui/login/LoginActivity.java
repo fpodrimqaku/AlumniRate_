@@ -28,9 +28,7 @@ import com.mindorks.framework.mvvm.di.component.ActivityComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
-/**
- * Created by amitshekhar on 08/07/17.
- */
+
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements LoginNavigator {
 

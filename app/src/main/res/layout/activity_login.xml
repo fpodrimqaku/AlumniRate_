@@ -1,18 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
-  ~
-  ~  Licensed under the Apache License, Version 2.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~  You may obtain a copy of the License at
-  ~
-  ~      https://mindorks.com/license/apache-v2
-  ~
-  ~  Unless required by applicable law or agreed to in writing, software
-  ~  distributed under the License is distributed on an "AS IS" BASIS,
-  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~  See the License for the specific language governing permissions and
-  ~  limitations under the License
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,14 +27,19 @@
             android:background="@drawable/bg_design">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="80dp"
+                android:layout_width="378dp"
+                android:layout_height="457dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="80dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="80dp"
                 app:cardCornerRadius="7dp"
                 app:cardElevation="22dp">
+
+
+
+
+
 
                 <TextView
                     style="@style/TextStyle.Heading"
@@ -62,7 +53,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="262dp"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:orientation="vertical">
@@ -106,8 +97,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
                             android:layout_marginTop="30dp"
+                            android:layout_marginRight="20dp"
                             android:background="@drawable/input_border_bottom"
                             android:cursorVisible="true"
                             android:gravity="center|left|bottom"
@@ -130,6 +121,15 @@
                         android:padding="10dp"
                         android:text="@string/login"
                         android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/button5"
+                        android:layout_width="111dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="15dp"
+
+                        android:text="@string/SIGN_UP" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,6 +158,7 @@
                         android:scaleType="centerCrop"
                         app:srcCompat="@drawable/ic_facebook" />
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
         </RelativeLayout>

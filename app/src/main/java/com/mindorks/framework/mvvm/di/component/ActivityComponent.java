@@ -9,9 +9,7 @@ import com.mindorks.framework.mvvm.ui.splash.SplashActivity;
 
 import dagger.Component;
 
-/*
- * Author: rotbolt
- */
+
 
 @ActivityScope
 @Component(modules = ActivityModule.class, dependencies = AppComponent.class)

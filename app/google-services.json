@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "94445225113",
+    "project_id": "alumnirate",
+    "storage_bucket": "alumnirate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94445225113:android:1971a117ba8285e3f8e408",
+        "android_client_info": {
+          "package_name": "com.mindorks.framework.mvvm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94445225113-k4gnbbov3hvt0g8u4hqvdp0p5f1n92k4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4tbLtgLBj3DPp3psDzsMxDwF21TPq4-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94445225113-k4gnbbov3hvt0g8u4hqvdp0p5f1n92k4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

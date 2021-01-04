@@ -83,4 +83,16 @@
     <string name="empty_screen">We do not have anything\nhere right now.</string>
     <string name="please_retry">Please Retry</string>
     <string name="retry">Retry</string>
+
+
+    <string name="STUDENT">Student</string>
+    <string name="PROFESOR">Student</string>
+    <string name="TELLER">Referent</string>
+    <string name="PLEASE_PICK_LOGIN_MODE">Ju lutemi zgjedhni metodën e kyqjes!</string>sign
+    <string name="SIGN_UP">Hap Llogari</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
 </resources>

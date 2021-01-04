@@ -6,9 +6,7 @@ import com.mindorks.framework.mvvm.ui.main.rating.RateUsDialog;
 
 import dagger.Component;
 
-/*
- * Author: rotbolt
- */
+
 
 @DialogScope
 @Component(modules = DialogModule.class, dependencies = AppComponent.class)

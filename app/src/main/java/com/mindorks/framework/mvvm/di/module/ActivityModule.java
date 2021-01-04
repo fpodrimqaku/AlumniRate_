@@ -17,9 +17,7 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 
-/*
- * Author: rotbolt
- */
+
 
 @Module
 public class ActivityModule {

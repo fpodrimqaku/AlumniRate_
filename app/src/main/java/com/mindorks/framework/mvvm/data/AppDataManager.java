@@ -19,9 +19,12 @@ package com.mindorks.framework.mvvm.data;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
+import com.mindorks.framework.mvvm.data.firebase.Auth;
+import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
 import com.mindorks.framework.mvvm.data.local.prefs.PreferencesHelper;
 import com.mindorks.framework.mvvm.data.model.api.BlogResponse;
@@ -35,12 +38,16 @@ import com.mindorks.framework.mvvm.data.model.db.User;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
 import com.mindorks.framework.mvvm.data.remote.ApiHelper;
+import com.mindorks.framework.mvvm.utils.Action;
 import com.mindorks.framework.mvvm.utils.AppConstants;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
+
 import java.lang.reflect.Type;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -60,13 +67,16 @@ public class AppDataManager implements DataManager {
 
     private final PreferencesHelper mPreferencesHelper;
 
+    private final FirebaseHelper firebaseHelper;
+
     @Inject
-    public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, ApiHelper apiHelper, Gson gson) {
+    public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, ApiHelper apiHelper, Gson gson, Auth firebaseAccess) {
         mContext = context;
         mDbHelper = dbHelper;
         mPreferencesHelper = preferencesHelper;
         mApiHelper = apiHelper;
         mGson = gson;
+        firebaseHelper = firebaseAccess;
     }
 
     @Override
@@ -289,5 +299,15 @@ public class AppDataManager implements DataManager {
         setCurrentUserProfilePicUrl(profilePicPath);
 
         updateApiHeader(userId, accessToken);
+    }
+
+    @Override
+    public FirebaseUser getCurrentLoggedInUser() {
+       return  firebaseHelper.getCurrentLoggedInUser();
+    }
+
+    @Override
+    public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
+        firebaseHelper.signInWithEmailAndPassword(email, password, onSuccess, onFailure);
     }
 }

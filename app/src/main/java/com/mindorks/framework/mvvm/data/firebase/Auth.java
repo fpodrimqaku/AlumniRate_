@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
+import com.mindorks.framework.mvvm.utils.Action;
 
 import java.util.concurrent.Executor;
 
@@ -20,7 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class Auth {
+public class Auth  implements FirebaseHelper {
     FirebaseAuth firebaseAuth;
 
     @Inject
@@ -33,46 +34,32 @@ public class Auth {
     }
 
 
-    public void signInWithEmailAndPassword(String email,String password){
+    public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    //Log.d(TAG, "signInWithEmail:success");
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    //updateUI(user);
-                } else {
-                    // If sign in fails, display a message to the user.
-                  //  Log.w(TAG, "signInWithEmail:failure", task.getException());
-                  //  Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                  //          Toast.LENGTH_SHORT).show();
-                  //  updateUI(null);
-                }
-            }
-        });
-    }
-
-    public void signUpWithNewUser(String email, String password) {
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("blu3", "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-
+                            onSuccess.takeAction();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("blu3", "createUserWithEmail:failure", task.getException());
-
+                            onFailure.takeAction();
                         }
+                    }
+                });
+    }
 
+    public void signUpWithNewUser(String email, String password,Action onSuccess, Action onFailure) {
 
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            onSuccess.takeAction();
+                        } else {
+                            onFailure.takeAction();
+                        }
                     }
                 });
     }
@@ -90,4 +77,6 @@ public class Auth {
         }
         return user;
     }
+
+
 }

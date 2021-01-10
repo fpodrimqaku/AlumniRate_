@@ -6,13 +6,10 @@
     tools:context="com.mindorks.framework.mvvm.ui.login.LoginActivity">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="com.mindorks.framework.mvvm.ui.login.LoginViewModel" />
-
     </data>
 
     <FrameLayout
@@ -20,7 +17,6 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-
             android:id="@+id/activityMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -35,10 +31,6 @@
                 android:layout_marginBottom="80dp"
                 app:cardCornerRadius="7dp"
                 app:cardElevation="22dp">
-
-
-
-
 
 
                 <TextView
@@ -172,5 +164,4 @@
             android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
-
 </layout>

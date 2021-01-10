@@ -13,6 +13,8 @@ import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.AppDataManager;
 import com.mindorks.framework.mvvm.data.DataManager;
+import com.mindorks.framework.mvvm.data.firebase.Auth;
+import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.local.db.AppDatabase;
 import com.mindorks.framework.mvvm.data.local.db.AppDbHelper;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
@@ -125,6 +127,12 @@ public class AppModule {
     @Singleton
     FirebaseAuth provideFirebaseAuth() {
         return FirebaseAuth.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    FirebaseHelper provideFirebaseHelper(Auth firebaseAccess) {
+        return firebaseAccess;
     }
 
 }

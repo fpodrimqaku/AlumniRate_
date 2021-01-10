@@ -2,6 +2,8 @@
 package com.mindorks.framework.mvvm.ui.login;
 
 import android.text.TextUtils;
+import android.widget.Toast;
+
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.api.LoginRequest;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
@@ -32,7 +34,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
     public void login(String email, String password) {
         setIsLoading(true);
-        getCompositeDisposable().add(getDataManager()
+        /*getCompositeDisposable().add(getDataManager()
                 .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password))
                 .doOnSuccess(response -> getDataManager()
                         .updateUserInfo(
@@ -50,7 +52,21 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 }, throwable -> {
                     setIsLoading(false);
                     getNavigator().handleError(throwable);
-                }));
+                }));*/
+        setIsLoading(true);
+        getDataManager().signInWithEmailAndPassword(email,password,()->{
+
+            getNavigator().openMainActivity();
+            setIsLoading(false);
+        },()->{
+
+
+            setIsLoading(false);
+        });
+
+
+
+
     }
 
     public void onFbLoginClick() {

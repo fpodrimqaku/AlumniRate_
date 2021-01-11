@@ -2,6 +2,7 @@
 package com.mindorks.framework.mvvm.ui.login;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.mindorks.framework.mvvm.data.DataManager;
@@ -9,7 +10,6 @@ import com.mindorks.framework.mvvm.data.model.api.LoginRequest;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
-
 
 
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
@@ -33,7 +33,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     }
 
     public void login(String email, String password) {
-        setIsLoading(true);
+
         /*getCompositeDisposable().add(getDataManager()
                 .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password))
                 .doOnSuccess(response -> getDataManager()
@@ -54,17 +54,15 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                     getNavigator().handleError(throwable);
                 }));*/
         setIsLoading(true);
-        getDataManager().signInWithEmailAndPassword(email,password,()->{
+        getDataManager().signInWithEmailAndPassword(email, password, () -> {
 
             getNavigator().openMainActivity();
             setIsLoading(false);
-        },()->{
+        }, () -> {
 
-
+            Log.d("blu3", "here");
             setIsLoading(false);
         });
-
-
 
 
     }
@@ -114,6 +112,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                     getNavigator().handleError(throwable);
                 }));
     }
+
     public void onCreateAccountClick() {
         setIsLoading(true);
         getCompositeDisposable().add(getDataManager()

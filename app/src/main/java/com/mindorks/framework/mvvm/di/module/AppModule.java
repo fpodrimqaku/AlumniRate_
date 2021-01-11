@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.room.Room;
 import android.content.Context;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -69,6 +70,7 @@ public class AppModule {
     @Provides
     @Singleton
     Context provideContext(Application application) {
+
         return application;
     }
 
@@ -126,6 +128,8 @@ public class AppModule {
     @Provides
     @Singleton
     FirebaseAuth provideFirebaseAuth() {
+
+
         return FirebaseAuth.getInstance();
     }
 

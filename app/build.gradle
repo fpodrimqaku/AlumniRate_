@@ -87,11 +87,14 @@ dependencies {
     // logger
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
 
+   /* implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'*/
+
     // dependencies for local unit tests
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     testAnnotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
 
+    implementation "androidmads.library.qrgenearator:QRGenearator:1.0.3"
     // UI Testing
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
@@ -102,6 +105,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
 
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

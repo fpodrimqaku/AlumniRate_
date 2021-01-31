@@ -17,13 +17,12 @@
 package com.mindorks.framework.mvvm.data;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
-import com.mindorks.framework.mvvm.data.firebase.Auth;
+import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
 import com.mindorks.framework.mvvm.data.local.prefs.PreferencesHelper;
@@ -70,7 +69,7 @@ public class AppDataManager implements DataManager {
     private final FirebaseHelper firebaseHelper;
 
     @Inject
-    public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, ApiHelper apiHelper, Gson gson, Auth firebaseAccess) {
+    public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, ApiHelper apiHelper, Gson gson, FirebaseHelperImpl firebaseAccess) {
         mContext = context;
         mDbHelper = dbHelper;
         mPreferencesHelper = preferencesHelper;

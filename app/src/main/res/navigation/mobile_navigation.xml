@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.mindorks.framework.mvvm.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_stats"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -19,6 +19,11 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
+        android:name="com.mindorks.framework.mvvm.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_profile"
         android:name="com.mindorks.framework.mvvm.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />

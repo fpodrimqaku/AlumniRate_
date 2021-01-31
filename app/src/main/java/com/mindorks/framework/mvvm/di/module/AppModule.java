@@ -6,7 +6,6 @@ import android.app.Application;
 import androidx.room.Room;
 import android.content.Context;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +13,7 @@ import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.AppDataManager;
 import com.mindorks.framework.mvvm.data.DataManager;
-import com.mindorks.framework.mvvm.data.firebase.Auth;
+import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.local.db.AppDatabase;
 import com.mindorks.framework.mvvm.data.local.db.AppDbHelper;
@@ -135,7 +134,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    FirebaseHelper provideFirebaseHelper(Auth firebaseAccess) {
+    FirebaseHelper provideFirebaseHelper(FirebaseHelperImpl firebaseAccess) {
         return firebaseAccess;
     }
 

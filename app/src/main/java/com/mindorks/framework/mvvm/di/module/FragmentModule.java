@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import dagger.Module;
 import dagger.Provides;
 
-/*
- * Author: rotbolt
- */
+
 
 @Module
 public class FragmentModule {

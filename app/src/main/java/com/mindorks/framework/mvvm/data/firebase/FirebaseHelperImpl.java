@@ -21,19 +21,17 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class Auth  implements FirebaseHelper {
+public class FirebaseHelperImpl implements FirebaseHelper {
     FirebaseAuth firebaseAuth;
 
     @Inject
-    public Auth(FirebaseAuth firebaseAuth) {
+    public FirebaseHelperImpl(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
     }
 
     public FirebaseUser getCurrentLoggedInUser() {
         return firebaseAuth.getCurrentUser();
     }
-
-
     public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -48,7 +46,6 @@ public class Auth  implements FirebaseHelper {
                     }
                 });
     }
-
     public void signUpWithNewUser(String email, String password,Action onSuccess, Action onFailure) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -63,8 +60,6 @@ public class Auth  implements FirebaseHelper {
                     }
                 });
     }
-
-
     public User getCurrentUserSigned() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         User user = new User();

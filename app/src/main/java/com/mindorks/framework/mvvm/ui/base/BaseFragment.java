@@ -22,9 +22,6 @@ import com.mindorks.framework.mvvm.di.module.FragmentModule;
 import javax.inject.Inject;
 
 
-
-
-
 public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseViewModel> extends Fragment {
 
     private BaseActivity mActivity;
@@ -78,7 +75,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         super.onViewCreated(view, savedInstanceState);
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.setLifecycleOwner(this);
-        mViewDataBinding.executePendingBindings();
+       mViewDataBinding.executePendingBindings();
     }
 
     public BaseActivity getBaseActivity() {
@@ -110,7 +107,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
     private FragmentComponent getBuildComponent() {
         return DaggerFragmentComponent.builder()
-                .appComponent(((MvvmApp)(getContext().getApplicationContext())).appComponent)
+                .appComponent(((MvvmApp) (getContext().getApplicationContext())).appComponent)
                 .fragmentModule(new FragmentModule(this))
                 .build();
     }
@@ -121,4 +118,9 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
         void onFragmentDetached(String tag);
     }
+
+    //to be overridden but not neccessarily
+    public void initialize() {
+    }
+
 }

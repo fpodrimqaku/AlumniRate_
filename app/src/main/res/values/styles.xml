@@ -33,12 +33,6 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white_24px</item>
     </style>
 
-    <style name="AppThemeFullScreen" parent="AppTheme">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-    </style>
-
     <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">false</item>
         <item name="color">@color/white</item>
@@ -54,10 +48,6 @@
 
     <style name="TextAppearance.Text.Light" parent="android:TextAppearance">
         <item name="fontPath">fonts/source-sans-pro/SourceSansPro-Light.ttf</item>
-    </style>
-
-    <style name="TextAppearance.Text.Italic" parent="android:TextAppearance">
-        <item name="fontPath">fonts/source-sans-pro/SourceSansPro-Italic.ttf</item>
     </style>
 
     <style name="TextStyle">
@@ -80,11 +70,6 @@
     <style name="TextStyle.Heading" parent="TextStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:textAppearance">@style/TextAppearance.Text.Bold</item>
-    </style>
-
-    <style name="TextStyle.Comment" parent="TextStyle">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textAppearance">@style/TextAppearance.Text.Italic</item>
     </style>
 
     <style name="Toolbar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -129,10 +114,6 @@
 
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/gray</item>
-    </style>
-
-    <style name="TextStyle.EditText" parent="TextStyle">
-        <item name="android:textAppearance">@style/TextAppearance.Text.Regular</item>
     </style>
 
     <style name="Button.Action.Positive" parent="Button">

@@ -25,7 +25,7 @@ import androidx.core.app.NavUtils;
 import androidx.core.app.TaskStackBuilder;
 
 import com.google.android.material.tabs.TabLayout;
-import com.mindorks.framework.mvvm.BR;
+import androidx.databinding.library.baseAdapters.BR;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.ActivityFeedBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -33,9 +33,7 @@ import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 
 import javax.inject.Inject;
 
-/**
- * Created by amitshekhar on 10/07/17.
- */
+
 
 public class FeedActivity extends BaseActivity<ActivityFeedBinding, FeedViewModel> {
 

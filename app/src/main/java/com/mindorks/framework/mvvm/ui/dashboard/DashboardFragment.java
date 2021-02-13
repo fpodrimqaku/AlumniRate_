@@ -35,12 +35,7 @@ public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
 
-    // @BindView(R.id.nested_et_fvalue)
 
-    /*   @BindView(R.id.nested_et_ndvalue)
-       TextInputEditText svalue;
-   */
-    //   @BindView(R.id.imageView_qr_code)
 
     WindowManager manager;
 
@@ -52,18 +47,10 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
 
 
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
 
-
-       /* final TextInputEditText fvalue = (TextInputEditText) root.findViewById(R.id.nested_et_fvalue);
+        final TextInputEditText fvalue = (TextInputEditText) root.findViewById(R.id.nested_et_fvalue);
         final ImageView qrCode_image = (ImageView) root.findViewById(R.id.imageView_qr_code);
         Log.d("blu3", "" + fvalue);
         Log.d("blu3", "" + qrCode_image);
@@ -103,13 +90,6 @@ public class DashboardFragment extends Fragment {
                                         }
 
         );
-
-
-
-
-*/
-
-
 
         return root;
     }

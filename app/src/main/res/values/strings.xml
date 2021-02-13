@@ -2,10 +2,8 @@
     <string name="app_name">MvvmApp</string>
 
     <!--Toolbar menus-->
-    <string name="clear">Clear</string>
     <string name="cut">Cut</string>
     <string name="copy">Copy</string>
-    <string name="paste">Paste</string>
     <string name="delete">Delete</string>
     <string name="share">Share</string>
 
@@ -19,10 +17,6 @@
     <string name="feed">My Feed</string>
 
     <!--App Message-->
-    <string name="api_retry_error">Please retry!</string>
-    <string name="api_default_error">Something wrong happened!</string>
-    <string name="some_error">Some Error Occurred!</string>
-    <string name="connection_error">Internet connection lost!</string>
 
     <!--Login-->
     <string name="login_dummy">Login Dummy</string>
@@ -43,12 +37,6 @@
 
     <!--rating dialog-->
     <string name="rate_us">Rate Us</string>
-    <string name="rating_message">Please let us know, how can we improve ourselves?</string>
-    <string name="rating_play_store_redirect_message_line_1">Awesome! Thank you for the 5 stars.</string>
-    <string name="rating_play_store_redirect_message_line_2">Please help others, in knowing some good things about this app.</string>
-    <string name="rating_play_store_text">Rate us on Play Store</string>
-    <string name="rating_not_provided_error">Please provide us stars.</string>
-    <string name="rating_thanks">Thank you!</string>
 
     <!--play store-->
     <string name="app_google_play_store_link">"https://play.google.com/store/apps/details?id="</string>
@@ -69,13 +57,9 @@
     <string name="retry">Retry</string>
 
 
-    <string name="STUDENT">Student</string>
-    <string name="PROFESOR">Student</string>
-    <string name="TELLER">Referent</string>
-    <string name="PLEASE_PICK_LOGIN_MODE">Ju lutemi zgjedhni metodën e kyqjes!</string>sign
+    sign
     <string name="SIGN_UP">Hap Llogari</string>
     <string name="title_activity_home">MainActivity</string>
-    <string name="title_home">Home</string>
     <string name="title_stats">Stats</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>

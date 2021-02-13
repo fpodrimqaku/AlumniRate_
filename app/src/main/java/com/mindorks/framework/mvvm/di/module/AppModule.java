@@ -7,6 +7,8 @@ import androidx.room.Room;
 import android.content.Context;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mindorks.framework.mvvm.BuildConfig;
@@ -137,5 +139,13 @@ public class AppModule {
     FirebaseHelper provideFirebaseHelper(FirebaseHelperImpl firebaseAccess) {
         return firebaseAccess;
     }
+
+    @Provides
+    @Singleton
+    FirebaseDatabase provideFirebaseDatabase() {
+        return  FirebaseDatabase.getInstance();
+    }
+
+
 
 }

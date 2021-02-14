@@ -35,12 +35,22 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
 
+
+
+
     public void doStuff() {
         QuestionnaireType qtype = new QuestionnaireType();
         Question questionOne = new Question();
         questionOne.setQuestion("how are you?");
         Question questionTwo = new Question();
         questionTwo.setQuestion("how are you now?");
+
+        Question questionThree= new Question();
+        questionThree.setQuestion("random question");
+
+        Question questionFour= new Question();
+        questionFour.setQuestion("another question??????");
+
 
         List<String> options = new ArrayList();
         options.add("bad");
@@ -50,6 +60,8 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         List<Question> questions = new ArrayList();
         questions.add(questionOne);
         questions.add(questionTwo);
+        questions.add(questionThree);
+        questions.add(questionFour);
         qtype.setActive(true);
         qtype.setCreationDate(new Date().toString());
         qtype.setGeneralOptions(options);

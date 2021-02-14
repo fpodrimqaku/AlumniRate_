@@ -147,5 +147,11 @@ public class AppModule {
     }
 
 
+    @Provides
+    @Singleton
+    DatabaseReference provideDatabaseReference(FirebaseDatabase firebaseDatabase) {
+        return  firebaseDatabase.getReference();
+    }
+
 
 }

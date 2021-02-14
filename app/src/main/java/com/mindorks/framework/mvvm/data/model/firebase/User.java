@@ -13,6 +13,8 @@ public class User {
     private Boolean isEmailVerified;
     private String UID;
 
+
+
     public Boolean getEmailVerified() {
         return isEmailVerified;
     }

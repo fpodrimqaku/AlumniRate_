@@ -17,11 +17,9 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
 
-
     public LiveData<String> getText() {
         return mText;
     }
-
 
     public HomeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -33,10 +31,6 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public void onNavBackClick() {
         getNavigator().goBack();
     }
-
-
-
-
 
     public void doStuff() {
         QuestionnaireType qtype = new QuestionnaireType();
@@ -50,7 +44,6 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
         Question questionFour= new Question();
         questionFour.setQuestion("another question??????");
-
 
         List<String> options = new ArrayList();
         options.add("bad");

@@ -9,7 +9,6 @@ public class QuestionnaireOrganization {
     private String toDateTime;
     private String questionnaireId;
 
-
     public String getQuestionnaireId() {
         return questionnaireId;
     }

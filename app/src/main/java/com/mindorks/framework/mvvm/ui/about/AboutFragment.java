@@ -20,6 +20,7 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
         Bundle args = new Bundle();
         AboutFragment fragment = new AboutFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 

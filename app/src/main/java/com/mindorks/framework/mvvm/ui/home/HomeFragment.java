@@ -1,27 +1,33 @@
 package com.mindorks.framework.mvvm.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mindorks.framework.mvvm.R;
-import com.mindorks.framework.mvvm.data.model.firebase.Question;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.databinding.FragmentHomeBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+//Author of below saying->LAURIT HAFIZI
+/*
+ * pjesa e viti i ri kinezt-bomba berthamore
+ * */
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> implements QuestionnaireListNavigator {
 
-    private HomeViewModel homeViewModel;
 
     private RecyclerView questionnaireRecyclerView;
+
 
     @Override
     public int getBindingVariable() {
@@ -33,11 +39,80 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         return R.layout.fragment_home;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel.setNavigator(this);
+
+
+    }
+/*
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel.setNavigator(this);
+        mBlogAdapter.setListener(this);
+    }
+
+    @Override
+    public void onRetryClick() {
+        mViewModel.fetchBlogs();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFragmentBlogBinding = getViewDataBinding();
+        setUp();
+    }
+    */
+
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(getLayoutId(), container, false);
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initiateQuestionnaireRecyclerView(view);
+
+    }
+
+    private void initiateQuestionnaireRecyclerView(View parentView) {
+
+        questionnaireRecyclerView
+                = parentView.findViewById(R.id.rv_questionnaire_types);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+                this.getActivity());
+
+        // RecyclerViewLayoutManager = linearLayoutManager;
+
+        questionnaireRecyclerView.setLayoutManager(
+                linearLayoutManager);
+        QuestionnaireTypeAdapter adapter = new QuestionnaireTypeAdapter(new ArrayList<>());
+
+        super.mViewModel.getDataManager().getQuestionnairesRealtime((result) -> {
+
+            adapter.updateData(result);
+            // adapter.notifyDataSetChanged();
+
+        }, (error) -> {
+            Log.d("blu3", "data set updation failed" + error.getDetails());
+        });
+
+
+        questionnaireRecyclerView.setLayoutManager(linearLayoutManager);
+
+        questionnaireRecyclerView.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -47,8 +122,5 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void goBack() {
-
     }
-
-
 }

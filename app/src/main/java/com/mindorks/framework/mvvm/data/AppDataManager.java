@@ -18,7 +18,10 @@ package com.mindorks.framework.mvvm.data;
 
 import android.content.Context;
 
+import androidx.core.util.Consumer;
+
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
@@ -314,5 +317,9 @@ public class AppDataManager implements DataManager {
     @Override
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType){
         return firebaseHelper.createQuestionnaireType(questionnaireType);
+    }
+
+    public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError){
+        firebaseHelper.getQuestionnairesRealtime(consumerFunction, consumerOnError);
     }
 }

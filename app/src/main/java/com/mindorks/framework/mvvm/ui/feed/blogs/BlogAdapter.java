@@ -28,9 +28,7 @@ import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
 import com.mindorks.framework.mvvm.utils.AppLogger;
 import java.util.List;
 
-/**
- * Created by amitshekhar on 10/07/17.
- */
+
 
 public class BlogAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

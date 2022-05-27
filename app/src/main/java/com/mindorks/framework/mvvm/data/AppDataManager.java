@@ -319,7 +319,12 @@ public class AppDataManager implements DataManager {
         return firebaseHelper.createQuestionnaireType(questionnaireType);
     }
 
+    @Override
+    public void getQuestionnairesRealtime(java.util.function.Consumer<List<QuestionnaireType>> consumerFunction, java.util.function.Consumer<DatabaseError> consumerOnError) {
+
+    }
+
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError){
-        firebaseHelper.getQuestionnairesRealtime(consumerFunction, consumerOnError);
+      //  firebaseHelper.getQuestionnairesRealtime(consumerFunction, consumerOnError);
     }
 }

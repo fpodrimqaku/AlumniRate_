@@ -109,6 +109,11 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questionnaireType;
     }
 
+    @Override
+    public void getQuestionnairesRealtime(java.util.function.Consumer<List<QuestionnaireType>> consumerFunction, java.util.function.Consumer<DatabaseError> consumerOnError) {
+
+    }
+
 
     public QuestionnaireAnswers insertUserAnswers(QuestionnaireAnswers questionnaireAnswers) {
         //todo what is questionnaire model is not valid

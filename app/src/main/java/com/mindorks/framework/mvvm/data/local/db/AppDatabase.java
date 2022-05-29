@@ -25,9 +25,6 @@ import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
 
 @Database(entities = {User.class, Question.class, Option.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {

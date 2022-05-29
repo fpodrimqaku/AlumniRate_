@@ -34,10 +34,14 @@ import javax.inject.Singleton;
 @Singleton
 public class FirebaseHelperImpl implements FirebaseHelper {
 
-    private static class FirebaseReferences {
+    public static class FirebaseReferences {
 
         final public static String QUESTIONNAIRE_TYPE = "questionnaireTypes";
         final public static String QUESTIONNAIRE_ANSWERS = "questionnaireAnswers";
+        final public static String QUESTIONNAIRE = "questionnaires";
+        //final public static String USER = "questionnaireAnswers";
+        final public static String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
+       // final public static String QUESTIONNAIRE_ANSWERS = "questionnaireAnswers";
 
     }
 

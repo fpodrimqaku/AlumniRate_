@@ -22,9 +22,7 @@ import com.mindorks.framework.mvvm.data.model.db.User;
 import io.reactivex.Observable;
 import java.util.List;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public interface DbHelper {
 

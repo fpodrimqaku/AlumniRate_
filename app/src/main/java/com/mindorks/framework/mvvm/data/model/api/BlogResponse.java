@@ -20,9 +20,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public class BlogResponse {
 

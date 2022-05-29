@@ -1,11 +1,9 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
 import android.os.Build;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.util.Consumer;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -39,9 +37,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         final public static String QUESTIONNAIRE_TYPE = "questionnaireTypes";
         final public static String QUESTIONNAIRE_ANSWERS = "questionnaireAnswers";
         final public static String QUESTIONNAIRE = "questionnaires";
-        //final public static String USER = "questionnaireAnswers";
         final public static String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
-       // final public static String QUESTIONNAIRE_ANSWERS = "questionnaireAnswers";
+
+        final public static String PERSON_RATEE = "personRatee";
+        final public static String ASPECT_TO_RATE = "aspectToRate";
+        final public static String RATE_ORGANIZATION = "ratingOrganization";
+        final public static String ASPECT_RATED = "aspectRated";
 
     }
 

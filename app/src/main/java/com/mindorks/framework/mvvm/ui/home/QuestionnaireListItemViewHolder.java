@@ -16,7 +16,7 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
     public QuestionnaireListItemViewHolder(View view) {
         super(view);
         questionnaireName = view.findViewById(R.id.q_li_name);
-        q_users_subjected = view.findViewById(R.id.q_users_subjected);
+        q_users_subjected = view.findViewById(R.id.textView);
 
     }
 

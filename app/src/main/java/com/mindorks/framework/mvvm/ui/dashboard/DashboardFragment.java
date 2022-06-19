@@ -1,5 +1,7 @@
 package com.mindorks.framework.mvvm.ui.dashboard;
 
+import static android.content.Context.WINDOW_SERVICE;
+
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -9,39 +11,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.WriterException;
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
+import com.mindorks.framework.mvvm.databinding.FragmentDashboardBinding;
+import com.mindorks.framework.mvvm.di.component.FragmentComponent;
+import com.mindorks.framework.mvvm.ui.base.BaseFragment;
+import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
-import static android.content.Context.WINDOW_SERVICE;
-
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends BaseFragment<FragmentDashboardBinding,DashboardViewModel> implements QuestionnaireListNavigator {
 
 
     private DashboardViewModel dashboardViewModel;
-
+    private QuestionnaireOrganization questionnaireOrganization = new QuestionnaireOrganization();
 
 
     WindowManager manager;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+      //  mViewModel.setNavigator(this);
+        mViewModel.setNavigator(this);
+
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        super.onCreateView(inflater, container, savedInstanceState);
         this.manager = (WindowManager) getContext().getSystemService(WINDOW_SERVICE);
 
         dashboardViewModel =
@@ -49,11 +57,15 @@ public class DashboardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
 
+       // super.onCreateView(inflater, container, savedInstanceState);
+       // View root = inflater.inflate(getLayoutId(), container, false);
+
+
 
         final TextInputEditText fvalue = (TextInputEditText) root.findViewById(R.id.nested_et_fvalue);
         final ImageView qrCode_image = (ImageView) root.findViewById(R.id.imageView_qr_code);
-        Log.d("blu3", "" + fvalue);
-        Log.d("blu3", "" + qrCode_image);
+       // Log.d("blu3", "" + fvalue);
+       // Log.d("blu3", "" + qrCode_image);
 
         qrCode_image.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -100,12 +112,43 @@ public class DashboardFragment extends Fragment {
         //   ButterKnife.bind(this, view);
 
 
-        initiateThings();
+       // initiateThings();
+    }
+
+    @Override
+    public void performDependencyInjection(FragmentComponent buildComponent) {
+        buildComponent.inject(this);
+    }
+
+    @Override
+    public int getBindingVariable() {
+        return BR.viewModel;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_dashboard;
     }
 
 
-    public void initiateThings() {
+
+    public void initiateQuestionnaire( ){
+
+      /*  getDataManager().signInWithEmailAndPassword(email, password, () -> {
+
+            getNavigator().openMainActivity();
+            setIsLoading(false);
+        }, () -> {
+
+            Log.d("blu3", "here");
+            setIsLoading(false);
+        });
+*/
 
     }
 
+    @Override
+    public void goBack() {
+
+    }
 }

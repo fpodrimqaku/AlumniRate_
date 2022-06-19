@@ -8,6 +8,7 @@ import com.mindorks.framework.mvvm.ViewModelProviderFactory;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.ui.about.AboutViewModel;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
+import com.mindorks.framework.mvvm.ui.dashboard.DashboardViewModel;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogAdapter;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogViewModel;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceAdapter;
@@ -76,5 +77,10 @@ public class FragmentModule {
         return new ViewModelProvider(fragment, factory).get(HomeViewModel.class);
     }
 
-
+    @Provides
+    DashboardViewModel provideDashboardViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<DashboardViewModel> supplier = () -> new DashboardViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<DashboardViewModel> factory = new ViewModelProviderFactory<>(DashboardViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(DashboardViewModel.class);
+    }
 }

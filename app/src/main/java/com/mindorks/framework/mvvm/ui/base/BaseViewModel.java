@@ -25,7 +25,7 @@ public abstract class BaseViewModel<N> extends ViewModel {
     public BaseViewModel(DataManager dataManager,
                          SchedulerProvider schedulerProvider) {
         this.mDataManager = dataManager;
-        this.mSchedulerProvider = schedulerProvider;
+        this.mSchedulerProvider = schedulerProvider; 
         this.mCompositeDisposable = new CompositeDisposable();
     }
 

@@ -1,6 +1,7 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -10,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.utils.Action;
 
+import java.util.Dictionary;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
@@ -28,5 +30,5 @@ public interface FirebaseHelper {
 
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType);
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError);
-
+    public LiveData<Dictionary<Integer,String>> getQuestions();
 }

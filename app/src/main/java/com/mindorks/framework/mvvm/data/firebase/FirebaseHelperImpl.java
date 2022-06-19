@@ -4,6 +4,9 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -15,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
@@ -22,9 +26,12 @@ import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.utils.Action;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -37,6 +44,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         final public static String QUESTIONNAIRE_TYPE = "questionnaireTypes";
         final public static String QUESTIONNAIRE_ANSWERS = "questionnaireAnswers";
         final public static String QUESTIONNAIRE = "questionnaires";
+        final public static String Questionnaire_Organizations = "questionnaireOrganizations";
         final public static String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
 
         final public static String PERSON_RATEE = "personRatee";
@@ -131,7 +139,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     public QuestionnaireOrganization initiateQuestionnaire(QuestionnaireOrganization questionnaireOrganization) {
         //todo what is questionnaire model is not valid
         //todo what if child is not added
-        databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS).push().setValue(questionnaireOrganization);
+        databaseReference.child(FirebaseReferences.Questionnaire_Organizations).push().setValue(questionnaireOrganization);
         return questionnaireOrganization;
     }
 
@@ -162,6 +170,72 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
+
+
+    MutableLiveData <Dictionary<Integer,String>> questionnaireQuestions;
+    Dictionary<Integer,String> questionnaireQuestionsDict;
+
+
+    public void initiatequestions() {
+
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
+        relativeDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    GenericTypeIndicator<HashMap<String,Question>> genericTypeIndicator=  new GenericTypeIndicator<HashMap<String,Question>>() { };
+                    ArrayList <Question> items =new ArrayList<Question>();
+                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                        Question item = ds.getValue(Question.class);
+                        items.add(item);
+                    }
+                    Integer o = 0 ;
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        questionnaireQuestions = new MutableLiveData<>();
+        questionnaireQuestions.setValue(questionnaireQuestionsDict);
+    }
+
+    public LiveData<Dictionary<Integer,String>> getQuestions() {
+      //  initiatequestions();
+        initiatequestions();
+       // return questionnaireQuestions;
+       //insertQuestions();
+        return null;
+    };
+
+    public void insertQuestions (){
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
+        for (int i = 0 ;  i < 10 ; i++)
+        {
+            Question question = new Question();
+            question.setQuestion("Pyetja " + i +" ?");
+            relativeDatabaseReference.push().setValue(question);
+        }
+
+
+       // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
+
+
+    }
+
+
+
+
+
+}
+
+
+
+
 /*    private <T>void bindOnChangeValue(DatabaseReference relativeDatabaseReference,Consumer<T> consumerFunction, Consumer<DatabaseError> consumerOnError){
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -179,7 +253,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         relativeDatabaseReference.addValueEventListener(postListener);
     }*/
 
- }
 /*
 
     ValueEventListener postListener = new ValueEventListener() {

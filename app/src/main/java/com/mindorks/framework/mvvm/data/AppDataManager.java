@@ -19,6 +19,7 @@ package com.mindorks.framework.mvvm.data;
 import android.content.Context;
 
 import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +47,7 @@ import com.mindorks.framework.mvvm.utils.AppConstants;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
 
 import java.lang.reflect.Type;
+import java.util.Dictionary;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -327,4 +329,9 @@ public class AppDataManager implements DataManager {
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError){
       //  firebaseHelper.getQuestionnairesRealtime(consumerFunction, consumerOnError);
     }
+
+    public LiveData<Dictionary<Integer,String>> getQuestions(){
+        return firebaseHelper.getQuestions();
+
+    };
 }

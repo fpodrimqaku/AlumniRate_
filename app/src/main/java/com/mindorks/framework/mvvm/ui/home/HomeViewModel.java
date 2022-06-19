@@ -1,5 +1,7 @@
 package com.mindorks.framework.mvvm.ui.home;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,12 +13,13 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
-
+    private MutableLiveData <Dictionary<Integer,String>> questions;
     public LiveData<String> getText() {
         return mText;
     }
@@ -33,7 +36,10 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
     public void doStuff() {
-        QuestionnaireType qtype = new QuestionnaireType();
+
+Integer gg=  0 ;
+        Log.println(1,"blu3","printing first object    " + getDataManager().getQuestions().getValue().get(1));
+     /*  QuestionnaireType qtype = new QuestionnaireType();
         Question questionOne = new Question();
         questionOne.setQuestion("how are you?");
         Question questionTwo = new Question();
@@ -60,6 +66,6 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         qtype.setGeneralOptions(options);
         qtype.setName("testQuestionnaire");
         qtype.setQuestions(questions);
-        getDataManager().createQuestionnaireType(qtype);
+        getDataManager().createQuestionnaireType(qtype);*/
     }
 }

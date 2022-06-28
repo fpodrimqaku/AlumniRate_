@@ -172,8 +172,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
 
 
-    MutableLiveData <Dictionary<Integer,String>> questionnaireQuestions;
-    Dictionary<Integer,String> questionnaireQuestionsDict;
+   List<Question> questions =  new ArrayList<>();
 
 
     public void initiatequestions() {
@@ -189,7 +188,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                         Question item = ds.getValue(Question.class);
                         items.add(item);
                     }
-                    Integer o = 0 ;
+                questions = items;
 
 
 
@@ -200,16 +199,13 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
             }
         });
-        questionnaireQuestions = new MutableLiveData<>();
-        questionnaireQuestions.setValue(questionnaireQuestionsDict);
+
+
     }
 
-    public LiveData<Dictionary<Integer,String>> getQuestions() {
-      //  initiatequestions();
+    public List<Question> getQuestions() {
         initiatequestions();
-       // return questionnaireQuestions;
-       //insertQuestions();
-        return null;
+        return questions;
     };
 
     public void insertQuestions (){

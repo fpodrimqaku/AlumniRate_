@@ -8,15 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 
 import java.util.List;
 
-public class QuestionnaireTypeAdapter extends RecyclerView.Adapter<QuestionnaireListItemViewHolder> {
+public class QuestionnaireQuestionsAdapter extends RecyclerView.Adapter<QuestionnaireListItemViewHolder> {
 
-    List<QuestionnaireType> items;
+    List<Question> items;
 
-    public QuestionnaireTypeAdapter(List<QuestionnaireType> items) {
+    public QuestionnaireQuestionsAdapter(List<Question> items) {
         this.items = items;
     }
 
@@ -26,7 +27,7 @@ public class QuestionnaireTypeAdapter extends RecyclerView.Adapter<Questionnaire
         View itemView
                 = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.questionnaire_list_item,
+                .inflate(R.layout.question_with_options_item,
                         parent,
                         false);
 
@@ -40,7 +41,7 @@ public class QuestionnaireTypeAdapter extends RecyclerView.Adapter<Questionnaire
         holder.initiateItem(items.get(position));
     }
 
-    public void updateData(List<QuestionnaireType> newItems){
+    public void updateData(List<Question> newItems){
 
         items.clear();
         items.addAll(newItems);

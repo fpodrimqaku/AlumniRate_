@@ -17,7 +17,7 @@
         android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/q_li_name"
+            android:id="@+id/question_text"
             android:layout_width="374dp"
             android:layout_height="42dp"
             android:text="Profesori ka qene i rregullt ne kohe ne ligjerata ? "
@@ -27,59 +27,59 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/question_answer_1"
             android:layout_width="360dp"
             android:layout_height="48dp"
             android:layout_marginTop="15dp"
             android:text="@string/question_one_rate"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/q_li_name"
-            app:layout_constraintStart_toStartOf="@+id/q_li_name"
-            app:layout_constraintTop_toBottomOf="@+id/q_li_name" />
+            app:layout_constraintEnd_toEndOf="@+id/question_text"
+            app:layout_constraintStart_toStartOf="@+id/question_text"
+            app:layout_constraintTop_toBottomOf="@+id/question_text" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/question_answer_2"
             android:layout_width="360dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="@string/question_two_rate"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/radioButton"
-            app:layout_constraintStart_toStartOf="@+id/radioButton"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+            app:layout_constraintEnd_toEndOf="@+id/question_answer_1"
+            app:layout_constraintStart_toStartOf="@+id/question_answer_1"
+            app:layout_constraintTop_toBottomOf="@+id/question_answer_1" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/question_answer_3"
             android:layout_width="360dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="@string/question_three_rate"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/radioButton2"
-            app:layout_constraintStart_toStartOf="@+id/radioButton2"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+            app:layout_constraintEnd_toEndOf="@+id/question_answer_2"
+            app:layout_constraintStart_toStartOf="@+id/question_answer_2"
+            app:layout_constraintTop_toBottomOf="@+id/question_answer_2" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/question_answer_4"
             android:layout_width="360dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="@string/question_four_rate"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/radioButton3"
-            app:layout_constraintStart_toStartOf="@+id/radioButton3"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton3" />
+            app:layout_constraintEnd_toEndOf="@+id/question_answer_3"
+            app:layout_constraintStart_toStartOf="@+id/question_answer_3"
+            app:layout_constraintTop_toBottomOf="@+id/question_answer_3" />
 
         <RadioButton
-            android:id="@+id/radioButton5"
+            android:id="@+id/question_answer_5"
             android:layout_width="360dp"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:text="@string/question_five_rate"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/radioButton4"
-            app:layout_constraintStart_toStartOf="@+id/radioButton4"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton4" />
+            app:layout_constraintEnd_toEndOf="@+id/question_answer_4"
+            app:layout_constraintStart_toStartOf="@+id/question_answer_4"
+            app:layout_constraintTop_toBottomOf="@+id/question_answer_4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -330,8 +330,8 @@ public class AppDataManager implements DataManager {
       //  firebaseHelper.getQuestionnairesRealtime(consumerFunction, consumerOnError);
     }
 
-    public LiveData<Dictionary<Integer,String>> getQuestions(){
+    @Override
+    public List<com.mindorks.framework.mvvm.data.model.firebase.Question> getQuestions(){
         return firebaseHelper.getQuestions();
-
     };
 }

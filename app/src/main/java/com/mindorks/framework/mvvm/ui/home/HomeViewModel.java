@@ -38,7 +38,7 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public void doStuff() {
 
 Integer gg=  0 ;
-        Log.println(1,"blu3","printing first object    " + getDataManager().getQuestions().getValue().get(1));
+        Log.println(1,"blu3","printing first object    ");
      /*  QuestionnaireType qtype = new QuestionnaireType();
         Question questionOne = new Question();
         questionOne.setQuestion("how are you?");

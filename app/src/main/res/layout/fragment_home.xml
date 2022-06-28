@@ -19,22 +19,9 @@
         android:layout_height="match_parent"
         android:onClick="@{() -> viewModel.doStuff()}"
        >
-
-        <Button
-            android:id="@+id/fffffffffffffff"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:text="press me "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> viewModel.doStuff()}"
-            ></Button>
-
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView

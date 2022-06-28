@@ -96,9 +96,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         questionnaireRecyclerView.setLayoutManager(
                 linearLayoutManager);
-        QuestionnaireTypeAdapter adapter = new QuestionnaireTypeAdapter(new ArrayList<>());
+        QuestionnaireQuestionsAdapter adapter = new QuestionnaireQuestionsAdapter(new ArrayList<>());
 
-        super.mViewModel.getDataManager().getQuestionnairesRealtime((result) -> {
+      /*  super.mViewModel.getDataManager().getQuestions((result) -> {
 
             adapter.updateData(result);
             // adapter.notifyDataSetChanged();
@@ -106,8 +106,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         }, (error) -> {
             Log.d("blu3", "data set updation failed" + error.getDetails());
         });
+*/
+        //TODO INVESTIGATE THE ABOVE ROWS LATER
 
-
+        adapter.updateData(super.mViewModel.getDataManager().getQuestions());
         questionnaireRecyclerView.setLayoutManager(linearLayoutManager);
 
         questionnaireRecyclerView.setAdapter(adapter);

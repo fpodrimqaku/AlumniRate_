@@ -224,6 +224,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
+
+            relativeDatabaseReference.push().setValue(questionnaireOrganization);
+        // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
+    }
 
 
 

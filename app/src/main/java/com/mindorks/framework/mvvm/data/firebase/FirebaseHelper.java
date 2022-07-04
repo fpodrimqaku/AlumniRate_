@@ -9,6 +9,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.utils.Action;
 
@@ -32,4 +33,5 @@ public interface FirebaseHelper {
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType);
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError);
     public List<Question> getQuestions();
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization);
 }

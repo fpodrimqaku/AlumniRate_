@@ -38,6 +38,7 @@ import com.mindorks.framework.mvvm.data.model.api.OpenSourceResponse;
 import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
@@ -334,4 +335,9 @@ public class AppDataManager implements DataManager {
     public List<com.mindorks.framework.mvvm.data.model.firebase.Question> getQuestions(){
         return firebaseHelper.getQuestions();
     };
+
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
+        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization);
+
+    }
 }

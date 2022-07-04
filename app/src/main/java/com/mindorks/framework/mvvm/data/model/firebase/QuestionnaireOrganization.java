@@ -1,21 +1,34 @@
 package com.mindorks.framework.mvvm.data.model.firebase;
 
+import java.util.Date;
+
 public class QuestionnaireOrganization {
 
     private String  _QRCode;
     private Boolean locationRequired;
     private String location;
-    private String fromDateTime;
-    private String toDateTime;
-    private String questionnaireId;
+    private Date fromDateTime;
+    private Date toDateTime;
+    private String questionnaireName;
 
-    public String getQuestionnaireId() {
-        return questionnaireId;
+    public String getQuestionnaireName() {
+        return questionnaireName;
     }
 
-    public void setQuestionnaireId(String questionnaireId) {
-        this.questionnaireId = questionnaireId;
+    public void setQuestionnaireName(String questionnaireName) {
+        questionnaireName = questionnaireName;
     }
+
+
+    //private String questionnaireId;
+
+  //  public String getQuestionnaireId() {
+  //      return questionnaireId;
+  //  }
+
+  //  public void setQuestionnaireId(String questionnaireId) {
+   //     this.questionnaireId = questionnaireId;
+   // }
 
     public String get_QRCode() {
         return _QRCode;
@@ -41,19 +54,19 @@ public class QuestionnaireOrganization {
         this.location = location;
     }
 
-    public String getFromDateTime() {
+    public Date getFromDateTime() {
         return fromDateTime;
     }
 
-    public void setFromDateTime(String fromDateTime) {
+    public void setFromDateTime(Date fromDateTime) {
         this.fromDateTime = fromDateTime;
     }
 
-    public String getToDateTime() {
+    public Date getToDateTime() {
         return toDateTime;
     }
 
-    public void setToDateTime(String toDateTime) {
+    public void setToDateTime(Date toDateTime) {
         this.toDateTime = toDateTime;
     }
 }

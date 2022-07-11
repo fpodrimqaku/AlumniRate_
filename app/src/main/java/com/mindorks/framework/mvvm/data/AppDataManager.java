@@ -38,6 +38,7 @@ import com.mindorks.framework.mvvm.data.model.api.OpenSourceResponse;
 import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
@@ -340,4 +341,17 @@ public class AppDataManager implements DataManager {
         firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization);
 
     }
+    //not for direct use rather here to suppress overriding rules
+    public  <T>void insertEntityIntoSet(T entity,String setName){
+        //nerfed
+        return;
+        //firebaseHelper.<T>insertEntityIntoSet(entity,setName);
+
+    }
+
+    public void insertQuestionnaireAnswers (QuestionnaireAnswers questionnaireAnswers){
+        firebaseHelper.<QuestionnaireAnswers>insertEntityIntoSet(questionnaireAnswers,FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+    }
+
+
 }

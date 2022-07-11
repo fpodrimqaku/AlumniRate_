@@ -8,9 +8,7 @@ public class QuestionnaireAnswers {
     private String userId;
     private List<UserAnswer> answers;
 
-
     public String getQuestionnaireId() {
-
         return questionnaireId;
     }
 
@@ -33,4 +31,10 @@ public class QuestionnaireAnswers {
     public void setAnswers(List<UserAnswer> answers) {
         this.answers = answers;
     }
+
+//    public void addUserAnswer(UserAnswer userAnswer){
+//        answers.
+//
+//    }
+
 }

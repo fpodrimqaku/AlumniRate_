@@ -181,7 +181,7 @@ int PERMISSION_ID = 101;
 
     public void initiateThings(View root) {
 
-        Button buton = root.findViewById(R.id.buttonSaveQuestionnaireOrganization);
+       // Button buton = root.findViewById(R.id.buttonSaveQuestionnaireOrganization);
 
         //Uncomment the below line of code for 24 hour view
 }

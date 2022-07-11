@@ -96,7 +96,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         questionnaireRecyclerView.setLayoutManager(
                 linearLayoutManager);
-        QuestionnaireQuestionsAdapter adapter = new QuestionnaireQuestionsAdapter(new ArrayList<>());
+        QuestionnaireQuestionsAdapter adapter = new QuestionnaireQuestionsAdapter(new ArrayList<>(),mViewModel);
 
       /*  super.mViewModel.getDataManager().getQuestions((result) -> {
 
@@ -113,7 +113,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         questionnaireRecyclerView.setLayoutManager(linearLayoutManager);
 
         questionnaireRecyclerView.setAdapter(adapter);
-
 
     }
 

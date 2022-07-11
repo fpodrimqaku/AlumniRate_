@@ -231,6 +231,13 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
     }
 
+    public final <T>void insertEntityIntoSet(T entity,String setName){
+
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(setName);
+
+        relativeDatabaseReference.push().setValue(entity);
+    }
+
 
 
 }

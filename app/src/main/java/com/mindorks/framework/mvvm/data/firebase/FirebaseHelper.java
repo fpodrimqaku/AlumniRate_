@@ -2,6 +2,7 @@ package com.mindorks.framework.mvvm.data.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,4 +36,6 @@ public interface FirebaseHelper {
     public List<Question> getQuestions();
     public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization);
     public <T>void insertEntityIntoSet(T entity,String setName);
+
+    public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
 }

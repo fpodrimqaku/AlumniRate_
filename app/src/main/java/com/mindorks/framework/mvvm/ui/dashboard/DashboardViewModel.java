@@ -11,6 +11,8 @@ import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
+import java.util.Date;
+
 import butterknife.OnClick;
 
 public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator> {
@@ -59,5 +61,16 @@ public void setQuestionnaireLocation (boolean isLocationRequired ,String locatio
 
     }
 
+    public void setQuestionnaireDateFrom (Date dateFrom){
+        this.questionnaireOrganization.setFromDateTime(dateFrom);
+
+
+    }
+
+    public void setQuestionnaireDateTo(Date dateTo){
+        this.questionnaireOrganization.setToDateTime(dateTo);
+
+
+    }
 
 }

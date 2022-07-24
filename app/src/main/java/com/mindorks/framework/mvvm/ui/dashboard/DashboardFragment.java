@@ -50,6 +50,12 @@ import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -159,7 +165,6 @@ int PERMISSION_ID = 101;
         super.onViewCreated(view, savedInstanceState);
           ButterKnife.bind(this, view);
         initiateQrCode(view);
-
         initiateThings(view);
     }
 
@@ -213,9 +218,6 @@ int PERMISSION_ID = 101;
 @OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
     public void initiateTimeFromOrTimeTo(View view){
 
-
-
-
         int hour=5;
         int minute=5;
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
@@ -226,6 +228,31 @@ int PERMISSION_ID = 101;
             {
                 //  hour = selectedHour;
                 //  minute = selectedMinute;
+
+                Date date = new Date();
+                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                int year  = localDate.getYear();
+                int month = localDate.getMonthValue();
+                int day   = localDate.getDayOfMonth();
+
+                Calendar calendarDate = Calendar.getInstance();
+
+                calendarDate.set(Calendar.DATE,day);
+                calendarDate.set(Calendar.HOUR, selectedHour);
+                calendarDate.set(Calendar.MINUTE, selectedMinute);
+                calendarDate.set(Calendar.SECOND, 0);
+                calendarDate.set(Calendar.MILLISECOND, 0);
+                calendarDate.set(Calendar.MONTH, month);
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.setTimeZone(TimeZone.getDefault());
+
+
+
+                if(view.getId() == R.id.questionnaireTimeFrom)
+                dashboardViewModel.setQuestionnaireDateFrom(calendarDate.getTime());
+                else
+                    dashboardViewModel.setQuestionnaireDateTo(calendarDate.getTime());
+
                 String time="";
                 time = selectedHour+":"+selectedMinute;
                 ((TextView)view).setText(time);
@@ -362,4 +389,6 @@ int PERMISSION_ID = 101;
     public void setQuestionnaireLocation(boolean isLocationRequired, String location){
     getViewDataBinding().getViewModel().setQuestionnaireLocation(isLocationRequired,location);
     }
+
+
 }

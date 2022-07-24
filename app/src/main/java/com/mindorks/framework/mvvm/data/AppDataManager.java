@@ -20,6 +20,7 @@ import android.content.Context;
 
 import androidx.core.util.Consumer;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -353,5 +354,9 @@ public class AppDataManager implements DataManager {
         firebaseHelper.<QuestionnaireAnswers>insertEntityIntoSet(questionnaireAnswers,FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
     }
 
+    public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode){
+        return firebaseHelper.fetchQuestionnaireByQrCode(qrCode);
+
+    }
 
 }

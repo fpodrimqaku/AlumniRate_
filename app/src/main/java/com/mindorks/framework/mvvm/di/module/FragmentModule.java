@@ -14,6 +14,7 @@ import com.mindorks.framework.mvvm.ui.feed.blogs.BlogViewModel;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceAdapter;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceViewModel;
 import com.mindorks.framework.mvvm.ui.home.HomeViewModel;
+import com.mindorks.framework.mvvm.ui.notifications.NotificationsViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;
@@ -82,5 +83,12 @@ public class FragmentModule {
         Supplier<DashboardViewModel> supplier = () -> new DashboardViewModel(dataManager, schedulerProvider);
         ViewModelProviderFactory<DashboardViewModel> factory = new ViewModelProviderFactory<>(DashboardViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(DashboardViewModel.class);
+    }
+
+   @Provides
+    NotificationsViewModel provideNotificationsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<NotificationsViewModel> supplier = () -> new NotificationsViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<NotificationsViewModel> factory = new ViewModelProviderFactory<>(NotificationsViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(NotificationsViewModel.class);
     }
 }

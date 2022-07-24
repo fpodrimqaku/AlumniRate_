@@ -37,5 +37,9 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public void onNavBackClick() {
         getNavigator().goBack();
     }
+    public void saveMyRatingAnswers() {
+
+    }
+
 
 }

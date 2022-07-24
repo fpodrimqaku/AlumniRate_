@@ -249,6 +249,11 @@ public class FirebaseHelperImpl implements FirebaseHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                QuestionnaireOrganization questionnaireOrganization  = snapshot.getValue(QuestionnaireOrganization.class);
+               if(questionnaireOrganization==null){
+                   QuestionnaireOrganization dummyQuestionnaireOrganization = new QuestionnaireOrganization();
+                   questionnaireOrganizationMutableLiveData.setValue(dummyQuestionnaireOrganization);
+               }
+               else
                 questionnaireOrganizationMutableLiveData.setValue(questionnaireOrganization);
             }
 

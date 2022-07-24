@@ -16,6 +16,7 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.FragmentHomeBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
+import com.mindorks.placeholderview.annotations.Click;
 
 import java.util.ArrayList;
 //Author of below saying->LAURIT HAFIZI
@@ -123,5 +124,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void goBack() {
+    }
+    @Click(R.id.submitRatingAnswers)
+    public void saveMyRatingAnswers(View view){
+mViewModel.saveMyRatingAnswers();
+
     }
 }

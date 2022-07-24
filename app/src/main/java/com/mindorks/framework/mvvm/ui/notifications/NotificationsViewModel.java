@@ -1,5 +1,7 @@
 package com.mindorks.framework.mvvm.ui.notifications;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,7 +20,7 @@ public class NotificationsViewModel extends BaseViewModel<QuestionnaireListNavig
 
     public NotificationsViewModel(DataManager dataManager,
                                   SchedulerProvider schedulerProvider) {
-        super(dataManager,schedulerProvider);
+        super(dataManager, schedulerProvider);
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
         this.dataManager = dataManager;
@@ -29,14 +31,9 @@ public class NotificationsViewModel extends BaseViewModel<QuestionnaireListNavig
         return mText;
     }
 
-    public boolean CheckIfOrganizedQestionnaireExists(String qrCode){
-       // QuestionnaireOrganization questionnaireOrganization = dataManager.fetchQuestionnaireByQrCode(qrCode).observe(this,(x)->{
-
-
-       // });
-
-        return false;// questionnaireOrganization !=null;
-
+    public MutableLiveData<QuestionnaireOrganization> CheckIfOrganizedQestionnaireExists(String qrCode) {
+        MutableLiveData<QuestionnaireOrganization> questionnaireOrganization = dataManager.fetchQuestionnaireByQrCode(qrCode);
+        return questionnaireOrganization;
     }
 
 }

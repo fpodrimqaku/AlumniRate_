@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.mindorks.framework.mvvm.BR;
+import com.mindorks.framework.mvvm.HomeActivity;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.ActivityLoginBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -55,8 +56,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void login() {
-        String email = mActivityLoginBinding.etEmail.getText().toString();
-        String password = mActivityLoginBinding.etPassword.getText().toString();
+        String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
+        String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
         if (mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
             mViewModel.login(email, password);
@@ -67,7 +68,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void openMainActivity() {
-        Intent intent = MainActivity.newIntent(LoginActivity.this);
+        Intent intent = HomeActivity.newIntent(LoginActivity.this);
         startActivity(intent);
         finish();
     }

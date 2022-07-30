@@ -36,4 +36,8 @@ public class NotificationsViewModel extends BaseViewModel<QuestionnaireListNavig
         return questionnaireOrganization;
     }
 
+    public void setCurrentFormScannedUID(String currentFormUID){
+        getDataManager().setCurrentFormUID(currentFormUID);
+    }
+
 }

@@ -40,7 +40,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String PREF_KEY_CURRENT_USER_PROFILE_PIC_URL = "PREF_KEY_CURRENT_USER_PROFILE_PIC_URL";
 
     private static final String PREF_KEY_USER_LOGGED_IN_MODE = "PREF_KEY_USER_LOGGED_IN_MODE";
-
+    private static final String CURRENT_FORM_UID = "CURRENT_FORM_UID";
     private final SharedPreferences mPrefs;
 
     @Inject
@@ -109,5 +109,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setCurrentUserProfilePicUrl(String profilePicUrl) {
         mPrefs.edit().putString(PREF_KEY_CURRENT_USER_PROFILE_PIC_URL, profilePicUrl).apply();
+    }
+
+    @Override
+    public void setCurrentFormUID(String currentFormUID) {
+        mPrefs.edit().putString(CURRENT_FORM_UID, currentFormUID).apply();
+    }
+
+    @Override
+    public String getCurrentFormUID() {
+        return mPrefs.getString(CURRENT_FORM_UID, null);
     }
 }

@@ -69,13 +69,6 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity());
-       // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        intentIntegrator.setPrompt("Scan a barcode or QR Code");
-        intentIntegrator.setOrientationLocked(true);
-        intentIntegrator.setRequestCode(1234);
-        intentIntegrator.initiateScan();*/
-
         IntentIntegrator.forSupportFragment(this).setOrientationLocked(false).initiateScan();
 
     }
@@ -104,7 +97,7 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
                     if (x != null && x.get_QRCode() != null) {
 
                         HomeActivity homeActivity  = (HomeActivity) this.getContext();
-
+                        mViewModel.setCurrentFormScannedUID(intentResult.getContents());
 
                         BottomNavigationView bottomNavigationView;
                         bottomNavigationView = (BottomNavigationView) homeActivity.findViewById(R.id.nav_view);
@@ -137,4 +130,13 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

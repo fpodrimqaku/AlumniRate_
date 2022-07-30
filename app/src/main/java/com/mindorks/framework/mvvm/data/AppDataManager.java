@@ -189,6 +189,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void setCurrentFormUID(String currentFormUID) {
+        mPreferencesHelper.setCurrentFormUID(currentFormUID);
+    }
+
+    @Override
+    public String getCurrentFormUID() {
+        return mPreferencesHelper.getCurrentFormUID();
+    }
+
+    @Override
     public Single<OpenSourceResponse> getOpenSourceApiCall() {
         return mApiHelper.getOpenSourceApiCall();
     }
@@ -343,15 +353,14 @@ public class AppDataManager implements DataManager {
 
     }
     //not for direct use rather here to suppress overriding rules
-    public  <T>void insertEntityIntoSet(T entity,String setName){
+    public  <T>boolean insertEntityIntoSet(T entity,String setName){
         //nerfed
-        return;
-        //firebaseHelper.<T>insertEntityIntoSet(entity,setName);
+        return firebaseHelper.<T>insertEntityIntoSet(entity,setName);
 
     }
 
-    public void insertQuestionnaireAnswers (QuestionnaireAnswers questionnaireAnswers){
-        firebaseHelper.<QuestionnaireAnswers>insertEntityIntoSet(questionnaireAnswers,FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+    public boolean insertQuestionnaireAnswers (QuestionnaireAnswers questionnaireAnswers){
+       return firebaseHelper.<QuestionnaireAnswers>insertEntityIntoSet(questionnaireAnswers,FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
     }
 
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode){

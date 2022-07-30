@@ -10,25 +10,15 @@ public class QuestionnaireOrganization {
     private Date fromDateTime;
     private Date toDateTime;
     private String questionnaireName;
+    private String rateeId;
 
     public String getQuestionnaireName() {
-        return questionnaireName;
+        return this.questionnaireName;
     }
 
     public void setQuestionnaireName(String questionnaireName) {
         questionnaireName = questionnaireName;
     }
-
-
-    //private String questionnaireId;
-
-  //  public String getQuestionnaireId() {
-  //      return questionnaireId;
-  //  }
-
-  //  public void setQuestionnaireId(String questionnaireId) {
-   //     this.questionnaireId = questionnaireId;
-   // }
 
     public String get_QRCode() {
         return _QRCode;
@@ -68,5 +58,12 @@ public class QuestionnaireOrganization {
 
     public void setToDateTime(Date toDateTime) {
         this.toDateTime = toDateTime;
+    }
+    public String getRateeId() {
+        return rateeId;
+    }
+
+    public void setRateeId(String rateeId) {
+        this.rateeId = rateeId;
     }
 }

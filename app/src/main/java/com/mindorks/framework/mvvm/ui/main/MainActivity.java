@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mNavigationView = mActivityMainBinding.navigationView;
         mCardsContainerView = mActivityMainBinding.cardsContainer;
 
-        setSupportActionBar(mToolbar);
+       // setSupportActionBar(mToolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawer,

@@ -233,10 +233,16 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
     }
 
-    public final <T>void insertEntityIntoSet(T entity,String setName){
-        DatabaseReference relativeDatabaseReference=  databaseReference.child(setName);
-        relativeDatabaseReference.push().setValue(entity);
-    }
+    public final <T> boolean insertEntityIntoSet(T entity,String setName){
+        try {
+            DatabaseReference relativeDatabaseReference = databaseReference.child(setName);
+            relativeDatabaseReference.push().setValue(entity);
+        }catch(Exception exception){
+            return false;
+
+        }
+        return true;
+        }
 
     MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData =  new MutableLiveData<>();
 

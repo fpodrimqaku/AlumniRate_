@@ -40,6 +40,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
     }
 
     public void  insertQuestionnaireOrganization() {
+        questionnaireOrganization.setRateeId(getDataManager().getCurrentUserEmail());
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization);
     }
 

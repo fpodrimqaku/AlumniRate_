@@ -7,7 +7,7 @@ public interface LoginNavigator {
 
     void handleError(Throwable throwable);
 
-    void login();
+    void login(boolean loginAsProfessor);
 
     void openMainActivity();
 }

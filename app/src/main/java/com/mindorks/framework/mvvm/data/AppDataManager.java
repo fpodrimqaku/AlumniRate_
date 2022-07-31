@@ -199,6 +199,17 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void setCurrentLoginUserMode(boolean loginAsRatee) {
+        mPreferencesHelper.setCurrentLoginUserMode(loginAsRatee);
+    }
+
+    @Override
+    public Boolean getCurrentLoginUserMode() {
+        return mPreferencesHelper.getCurrentLoginUserMode();
+    }
+
+
+    @Override
     public Single<OpenSourceResponse> getOpenSourceApiCall() {
         return mApiHelper.getOpenSourceApiCall();
     }

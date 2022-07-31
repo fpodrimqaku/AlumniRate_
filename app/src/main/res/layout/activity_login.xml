@@ -45,7 +45,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="262dp"
+                    android:layout_height="288dp"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:orientation="vertical">
@@ -102,25 +102,69 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/btnServerLogin"
-                        style="@style/Button.Primary"
+
+
+
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="15dp"
-                        android:onClick="@{() -> viewModel.onServerLoginClick()}"
-                        android:padding="10dp"
-                        android:text="@string/login"
-                        android:textSize="18dp" />
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="40dp"
+                        android:orientation="horizontal"
+
+                        >
+                        <Button
+                            android:id="@+id/btnServerLoginRater"
+                            style="@style/Button.Primary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
+                            android:onClick="@{() -> viewModel.onServerLoginClick(false)}"
+                            android:padding="10dp"
+                            android:text="@string/login_as_rater"
+                            android:textSize="16dp"
+                            android:layout_weight="1"
+                            />
+
+                        <Button
+                            android:id="@+id/btnServerLoginAsRatee"
+                            style="@style/Button.Primary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="15dp"
+                            android:onClick="@{() -> viewModel.onServerLoginClick(true)}"
+                            android:padding="10dp"
+                            android:text="@string/login_as_ratee"
+                            android:textSize="16dp"
+                            android:layout_weight="1"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
 
                     <Button
                         android:id="@+id/button5"
+                        style="@style/Button.Primary"
                         android:layout_width="111dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="15dp"
-
+                        android:layout_marginTop="5dp"
                         android:text="@string/SIGN_UP" />
                 </LinearLayout>
 
@@ -129,7 +173,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center"
                     android:layout_marginBottom="40dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="invisible"
+                    >
 
                     <ImageButton
                         android:id="@+id/ibGoogleLogin"

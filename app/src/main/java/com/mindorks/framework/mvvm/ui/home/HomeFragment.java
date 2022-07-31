@@ -114,4 +114,6 @@ root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickL
         mViewModel.saveMyRatingAnswers();
 
     }
+
+    //qr scanner
 }

@@ -51,4 +51,9 @@ public interface PreferencesHelper {
 
 
     public String getCurrentFormUID();
+
+
+    public void setCurrentLoginUserMode(boolean loginAsRatee);
+
+    public Boolean getCurrentLoginUserMode();
 }

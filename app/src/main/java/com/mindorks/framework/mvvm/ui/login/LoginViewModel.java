@@ -32,7 +32,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         return true;
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password,boolean loginAsRatee) {
 
         /*getCompositeDisposable().add(getDataManager()
                 .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password))
@@ -66,6 +66,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                             null,
                             email,
                             email);
+            getDataManager().setCurrentLoginUserMode(loginAsRatee);
 
         }, () -> {
 
@@ -146,7 +147,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     }
 
 
-    public void onServerLoginClick() {
-        getNavigator().login();
+    public void onServerLoginClick(boolean loginAsRatee) {
+        getNavigator().login(loginAsRatee);
     }
 }

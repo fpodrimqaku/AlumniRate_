@@ -141,8 +141,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+    protected void onCreatesss(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mActivityMainBinding = getViewDataBinding();
@@ -151,15 +151,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
 
-
-    protected void onCrertytryate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        if (getViewDataBinding().getViewModel().getDataManager().getCurrentLoginUserMode() == true) {
+            navView.inflateMenu(R.menu.ratee_nav_menu);
+
+        } else {
+            navView.inflateMenu(R.menu.rater_nav_menu);
+
+        }
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_profile)
                 .build();
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
@@ -168,7 +177,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mViewModel.setNavigator(this);
         setUp();
     }
-
 
 
     @Override
@@ -196,7 +204,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mNavigationView = mActivityMainBinding.navigationView;
         mCardsContainerView = mActivityMainBinding.cardsContainer;
 
-       // setSupportActionBar(mToolbar);
+        //  setSupportActionBar(mToolbar);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawer,

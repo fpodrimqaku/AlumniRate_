@@ -26,8 +26,8 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.ActivityLoginBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseActivity;
+import com.mindorks.framework.mvvm.ui.feed.FeedActivity;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
-
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements LoginNavigator {
@@ -54,12 +54,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
     @Override
-    public void login() {
+    public void login(boolean loginAsRatee) {
         String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
         String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
         if (mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
-            mViewModel.login(email, password);
+            mViewModel.login(email, password,loginAsRatee);
         } else {
             Toast.makeText(this, getString(R.string.invalid_email_password), Toast.LENGTH_SHORT).show();
         }

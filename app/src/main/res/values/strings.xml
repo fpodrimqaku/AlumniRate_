@@ -75,4 +75,6 @@
     <string name="action_save">Ruaj</string>
 
     <string name="use_current_location">Perdor lokacionin e tanishem</string>
+    <string name="login_as_ratee">Kyqu si profesor</string>
+    <string name="login_as_rater">Kyqu si student</string>
 </resources>

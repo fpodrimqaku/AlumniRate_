@@ -23,9 +23,7 @@ import com.mindorks.framework.mvvm.di.PreferenceInfo;
 import com.mindorks.framework.mvvm.utils.AppConstants;
 import javax.inject.Inject;
 
-/**
- * Created by amitshekhar on 07/07/17.
- */
+
 
 public class AppPreferencesHelper implements PreferencesHelper {
 
@@ -41,6 +39,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_KEY_USER_LOGGED_IN_MODE = "PREF_KEY_USER_LOGGED_IN_MODE";
     private static final String CURRENT_FORM_UID = "CURRENT_FORM_UID";
+    private static final String LOGIN_USER_MODE = "LOGIN_USER_MODE";
+
     private final SharedPreferences mPrefs;
 
     @Inject
@@ -120,4 +120,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public String getCurrentFormUID() {
         return mPrefs.getString(CURRENT_FORM_UID, null);
     }
+
+
+    @Override
+    public void setCurrentLoginUserMode(boolean loginAsRatee) {
+        mPrefs.edit().putBoolean(LOGIN_USER_MODE, loginAsRatee).apply();
+    }
+
+    @Override
+    public Boolean getCurrentLoginUserMode() {
+        return mPrefs.getBoolean(LOGIN_USER_MODE, false);
+    }
+
 }

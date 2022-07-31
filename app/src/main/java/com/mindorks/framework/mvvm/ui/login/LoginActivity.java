@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.mindorks.framework.mvvm.BR;
-import com.mindorks.framework.mvvm.HomeActivity;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.ActivityLoginBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -68,7 +67,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void openMainActivity() {
-        Intent intent = HomeActivity.newIntent(LoginActivity.this);
+        Intent intent = MainActivity.newIntent(LoginActivity.this);
         startActivity(intent);
         finish();
     }

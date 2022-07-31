@@ -20,6 +20,7 @@ import android.content.Context;
 
 import androidx.core.util.Consumer;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +39,8 @@ import com.mindorks.framework.mvvm.data.model.api.OpenSourceResponse;
 import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
@@ -183,6 +186,16 @@ public class AppDataManager implements DataManager {
     @Override
     public void setCurrentUserProfilePicUrl(String profilePicUrl) {
         mPreferencesHelper.setCurrentUserProfilePicUrl(profilePicUrl);
+    }
+
+    @Override
+    public void setCurrentFormUID(String currentFormUID) {
+        mPreferencesHelper.setCurrentFormUID(currentFormUID);
+    }
+
+    @Override
+    public String getCurrentFormUID() {
+        return mPreferencesHelper.getCurrentFormUID();
     }
 
     @Override
@@ -334,4 +347,25 @@ public class AppDataManager implements DataManager {
     public List<com.mindorks.framework.mvvm.data.model.firebase.Question> getQuestions(){
         return firebaseHelper.getQuestions();
     };
+
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
+        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization);
+
+    }
+    //not for direct use rather here to suppress overriding rules
+    public  <T>boolean insertEntityIntoSet(T entity,String setName){
+        //nerfed
+        return firebaseHelper.<T>insertEntityIntoSet(entity,setName);
+
+    }
+
+    public boolean insertQuestionnaireAnswers (QuestionnaireAnswers questionnaireAnswers){
+       return firebaseHelper.<QuestionnaireAnswers>insertEntityIntoSet(questionnaireAnswers,FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+    }
+
+    public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode){
+        return firebaseHelper.fetchQuestionnaireByQrCode(qrCode);
+
+    }
+
 }

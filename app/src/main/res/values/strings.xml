@@ -72,6 +72,7 @@
     <string name="question_three_rate">Deri Diku</string>
     <string name="question_four_rate">Pajtohem</string>
     <string name="question_five_rate">Pajtohem Plotesisht</string>
+    <string name="action_save">Ruaj</string>
 
     <string name="use_current_location">Perdor lokacionin e tanishem</string>
 </resources>

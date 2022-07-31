@@ -58,6 +58,15 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
             getNavigator().openMainActivity();
             setIsLoading(false);
+            getDataManager()
+                    .updateUserInfo(
+                            null,
+                            null,
+                            DataManager.LoggedInMode.LOGGED_IN_MODE_GOOGLE,
+                            null,
+                            email,
+                            email);
+
         }, () -> {
 
             Log.d("blu3", "here");

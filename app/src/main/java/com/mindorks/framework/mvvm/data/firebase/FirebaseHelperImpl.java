@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
@@ -224,7 +225,56 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
 
+           // relativeDatabaseReference.push().setValue(questionnaireOrganization);
+        relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization);
+        // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
+    }
+
+    public final <T> boolean insertEntityIntoSet(T entity,String setName){
+        try {
+            DatabaseReference relativeDatabaseReference = databaseReference.child(setName);
+            relativeDatabaseReference.push().setValue(entity);
+        }catch(Exception exception){
+            return false;
+
+        }
+        return true;
+        }
+
+    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData =  new MutableLiveData<>();
+
+    public void addListenerToGetQuestionnaireByQrCode (String qrCode){
+        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.Questionnaire_Organizations).child(qrCode);
+
+       // QuestionnaireOrganization questionnaireOrganization =  relativeDatabaseReference.child(qrCode);
+
+        relativeDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               QuestionnaireOrganization questionnaireOrganization  = snapshot.getValue(QuestionnaireOrganization.class);
+               if(questionnaireOrganization==null){
+                   QuestionnaireOrganization dummyQuestionnaireOrganization = new QuestionnaireOrganization();
+                   questionnaireOrganizationMutableLiveData.setValue(dummyQuestionnaireOrganization);
+               }
+               else
+                questionnaireOrganizationMutableLiveData.setValue(questionnaireOrganization);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+       // return questionnaireOrganization;
+    }
+
+    public MutableLiveData<QuestionnaireOrganization> fetchQuestionnaireByQrCode (String qrCode){
+        addListenerToGetQuestionnaireByQrCode(qrCode);
+        return questionnaireOrganizationMutableLiveData;
+    }
 
 
 }

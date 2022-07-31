@@ -45,4 +45,10 @@ public interface PreferencesHelper {
     String getCurrentUserProfilePicUrl();
 
     void setCurrentUserProfilePicUrl(String profilePicUrl);
+
+
+    public void setCurrentFormUID(String currentFormUID) ;
+
+
+    public String getCurrentFormUID();
 }

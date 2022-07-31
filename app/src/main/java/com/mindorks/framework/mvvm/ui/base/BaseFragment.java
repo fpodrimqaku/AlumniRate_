@@ -21,6 +21,8 @@ import com.mindorks.framework.mvvm.di.module.FragmentModule;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+
 
 public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseViewModel> extends Fragment {
 
@@ -55,6 +57,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         performDependencyInjection(getBuildComponent());
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+
     }
 
     @Override

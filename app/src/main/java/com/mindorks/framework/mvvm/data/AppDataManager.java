@@ -40,6 +40,7 @@ import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
@@ -52,6 +53,7 @@ import com.mindorks.framework.mvvm.utils.CommonUtils;
 import java.lang.reflect.Type;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -376,6 +378,16 @@ public class AppDataManager implements DataManager {
 
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode){
         return firebaseHelper.fetchQuestionnaireByQrCode(qrCode);
+
+    }
+
+    public MutableLiveData<QuestionnaireDataCollected> fetchQuestionnaireDataCollected (String userId){
+        return firebaseHelper.fetchQuestionnaireDataCollected(userId);
+
+    }
+
+    public ConcurrentMap<String, QuestionnaireDataCollected> getquestionnaireDataCollected (){
+        return firebaseHelper.getquestionnaireDataCollected();
 
     }
 

@@ -1,10 +1,7 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
-import android.os.Build;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.util.Consumer;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,22 +14,26 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
+import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
+import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.utils.Action;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,6 +53,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         final public static String ASPECT_TO_RATE = "aspectToRate";
         final public static String RATE_ORGANIZATION = "ratingOrganization";
         final public static String ASPECT_RATED = "aspectRated";
+        final public static String QUESTIONNAIRE_DATA_COLLECTED = "questionnaireDataCollected";
 
     }
 
@@ -145,15 +147,16 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-    public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError){
-      DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.QUESTIONNAIRE_TYPE);
+    public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError) {
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_TYPE);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-              GenericTypeIndicator<HashMap<String,QuestionnaireType>> t=  new GenericTypeIndicator<HashMap<String,QuestionnaireType>>() { };
-              List <QuestionnaireType> items=new ArrayList<>();
+                GenericTypeIndicator<HashMap<String, QuestionnaireType>> t = new GenericTypeIndicator<HashMap<String, QuestionnaireType>>() {
+                };
+                List<QuestionnaireType> items = new ArrayList<>();
 
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     QuestionnaireType animal = ds.getValue(QuestionnaireType.class);
                     items.add(animal);
                 }
@@ -171,26 +174,24 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-
-
-   List<Question> questions =  new ArrayList<>();
+    List<Question> questions = new ArrayList<>();
 
 
     public void initiatequestions() {
 
-        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
         relativeDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    GenericTypeIndicator<HashMap<String,Question>> genericTypeIndicator=  new GenericTypeIndicator<HashMap<String,Question>>() { };
-                    ArrayList <Question> items =new ArrayList<Question>();
-                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Question item = ds.getValue(Question.class);
-                        items.add(item);
-                    }
+                GenericTypeIndicator<HashMap<String, Question>> genericTypeIndicator = new GenericTypeIndicator<HashMap<String, Question>>() {
+                };
+                ArrayList<Question> items = new ArrayList<Question>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Question item = ds.getValue(Question.class);
+                    items.add(item);
+                }
                 questions = items;
-
 
 
             }
@@ -207,60 +208,60 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     public List<Question> getQuestions() {
         initiatequestions();
         return questions;
-    };
+    }
 
-    public void insertQuestions (){
-        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
-        for (int i = 0 ;  i < 10 ; i++)
-        {
+    ;
+
+    public void insertQuestions() {
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
+        for (int i = 0; i < 10; i++) {
             Question question = new Question();
-            question.setQuestion("Pyetja " + i +" ?");
+            question.setQuestion("Pyetja " + i + " ?");
             relativeDatabaseReference.push().setValue(question);
         }
 
 
-       // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
+        // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
 
 
     }
 
 
-    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
-        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
+    public void insertQuestionnaireOrganization(QuestionnaireOrganization questionnaireOrganization) {
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
 
-           // relativeDatabaseReference.push().setValue(questionnaireOrganization);
+        // relativeDatabaseReference.push().setValue(questionnaireOrganization);
         relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization);
         // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
     }
 
-    public final <T> boolean insertEntityIntoSet(T entity,String setName){
+    public final <T> boolean insertEntityIntoSet(T entity, String setName) {
         try {
             DatabaseReference relativeDatabaseReference = databaseReference.child(setName);
             relativeDatabaseReference.push().setValue(entity);
-        }catch(Exception exception){
+        } catch (Exception exception) {
             return false;
 
         }
         return true;
-        }
+    }
 
-    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData =  new MutableLiveData<>();
+    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
 
-    public void addListenerToGetQuestionnaireByQrCode (String qrCode){
-        DatabaseReference relativeDatabaseReference=  databaseReference.child(FirebaseReferences.Questionnaire_Organizations).child(qrCode);
+    public void addListenerToGetQuestionnaireByQrCode(String qrCode) {
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations).child(qrCode);
 
-       // QuestionnaireOrganization questionnaireOrganization =  relativeDatabaseReference.child(qrCode);
+        // QuestionnaireOrganization questionnaireOrganization =  relativeDatabaseReference.child(qrCode);
 
         relativeDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               QuestionnaireOrganization questionnaireOrganization  = snapshot.getValue(QuestionnaireOrganization.class);
-               if(questionnaireOrganization==null){
-                   QuestionnaireOrganization dummyQuestionnaireOrganization = new QuestionnaireOrganization();
-                   questionnaireOrganizationMutableLiveData.setValue(dummyQuestionnaireOrganization);
-               }
-               else
-                questionnaireOrganizationMutableLiveData.setValue(questionnaireOrganization);
+                QuestionnaireOrganization questionnaireOrganization = snapshot.getValue(QuestionnaireOrganization.class);
+                if (questionnaireOrganization == null) {
+                    QuestionnaireOrganization dummyQuestionnaireOrganization = new QuestionnaireOrganization();
+                    questionnaireOrganizationMutableLiveData.setValue(dummyQuestionnaireOrganization);
+                } else
+                    questionnaireOrganizationMutableLiveData.setValue(questionnaireOrganization);
             }
 
             @Override
@@ -268,12 +269,107 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
             }
         });
-       // return questionnaireOrganization;
+        // return questionnaireOrganization;
     }
 
-    public MutableLiveData<QuestionnaireOrganization> fetchQuestionnaireByQrCode (String qrCode){
+    public MutableLiveData<QuestionnaireOrganization> fetchQuestionnaireByQrCode(String qrCode) {
         addListenerToGetQuestionnaireByQrCode(qrCode);
         return questionnaireOrganizationMutableLiveData;
+    }
+
+    ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
+
+    public MutableLiveData<QuestionnaireDataCollected> fetchQuestionnaireDataCollected(String userId) {
+
+        DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+
+        DatabaseReference relativeDatabaseReference_QO = databaseReference.child(FirebaseReferences.Questionnaire_Organizations)
+                .orderByChild("questionnaireId").getRef();
+
+        relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                questionnaireDataCollected.clear();
+                snapshot.getChildren().forEach((x) -> {
+                    QuestionnaireDataCollected qdc = new QuestionnaireDataCollected();
+                    QuestionnaireOrganization qo = x.getValue(QuestionnaireOrganization.class);
+                    qdc.setQuestionnaireOrganization(qo);
+                    questionnaireDataCollected.put(x.getKey(), qdc);
+
+                });
+
+
+                relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        AtomicInteger childrenNumber = new AtomicInteger();
+
+                        List<DataSnapshot> allquestionnaireAnwersDataSource = StreamSupport.stream(snapshot.getChildren().spliterator(), false)
+                                .collect(Collectors.toList());
+
+
+                        questionnaireDataCollected.forEach((qdckey, qdc) -> {
+                            if (qdc == null)
+                                return;
+                            List<QuestionnaireAnswers> allQuestionnaireAnswers = allquestionnaireAnwersDataSource
+                                    .stream()
+                                    .map(x -> x.getValue(QuestionnaireAnswers.class))
+                                    .filter(x ->{
+                                       Boolean res= qdckey.equals(x.getQuestionnaireId());
+                                        return res;
+                                    })
+                                    .collect(Collectors.toList());
+
+                            qdc.setPeopleParticipated(allQuestionnaireAnswers.size());
+
+
+                            List<UserAnswer> userAnswers = new ArrayList<>();
+                            allQuestionnaireAnswers.stream().map(x -> x.getAnswers()).forEach(x ->
+                                    {
+                                        userAnswers.addAll(x);
+                                    }
+                            );
+                            questions.forEach(question -> {
+                                UserAnswerData UAD1 = new UserAnswerData();
+                                UAD1.setQuestionId(question.getQuestion());
+                                userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
+                                        .forEach(x -> {
+                                            if(x==null || x.getOptionPicked()==null)
+                                                return;
+                                            UAD1.AddToOption(x.getOptionPicked(), 1);});
+                                qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
+                            });
+
+
+                        });
+
+                        ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected2 =questionnaireDataCollected;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        return null;
+
+    }
+
+
+    public ConcurrentMap<String, QuestionnaireDataCollected> getquestionnaireDataCollected() {
+        return questionnaireDataCollected;
+
     }
 
 

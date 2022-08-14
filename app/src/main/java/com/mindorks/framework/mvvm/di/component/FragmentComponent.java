@@ -8,6 +8,7 @@ import com.mindorks.framework.mvvm.ui.feed.blogs.BlogFragment;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceFragment;
 import com.mindorks.framework.mvvm.ui.home.HomeFragment;
 import com.mindorks.framework.mvvm.ui.notifications.NotificationsFragment;
+import com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsFragment;
 
 import dagger.Component;
 
@@ -21,4 +22,5 @@ public interface FragmentComponent {
     void inject(HomeFragment fragment);
     void inject(DashboardFragment fragment);
     void inject(NotificationsFragment fragment);
+    void inject(PersonalRatingsFragment fragment);
 }

@@ -76,5 +76,6 @@
 
     <string name="use_current_location">Perdor lokacionin e tanishem</string>
     <string name="login_as_ratee">Kyqu si profesor</string>
-    <string name="login_as_rater">Kyqu si student</string>
+    <string name="login_as_rater">Vazhdo si student</string>
+    <string name="professor_site_ratings">Vlerësimet</string>
 </resources>

@@ -6,6 +6,12 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
+        android:id="@+id/navigation_header_container"
+        android:name="com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsFragment"
+        android:label="@string/title_stats"
+        tools:layout="@layout/personal_ratings" />
+
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.mindorks.framework.mvvm.ui.home.HomeFragment"
         android:label="@string/title_stats"

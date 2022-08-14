@@ -39,6 +39,6 @@ public interface FirebaseHelper {
     public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization);
     public <T>boolean insertEntityIntoSet(T entity,String setName);
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
-    public MutableLiveData<QuestionnaireDataCollected> fetchQuestionnaireDataCollected (String userId);
-    public ConcurrentMap<String, QuestionnaireDataCollected> getquestionnaireDataCollected ();
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected (String userId);
+
 }

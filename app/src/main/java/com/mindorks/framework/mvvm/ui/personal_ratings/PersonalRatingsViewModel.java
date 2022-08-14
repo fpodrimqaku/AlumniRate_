@@ -15,16 +15,13 @@ import java.util.concurrent.ConcurrentMap;
 
 public class PersonalRatingsViewModel extends BaseViewModel<PersonalRatingsNavigator> {
 
-     ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected ;
+    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>  questionnaireDataCollected ;
 
     public PersonalRatingsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-        dataManager.fetchQuestionnaireDataCollected("asdasdasd");
-        questionnaireDataCollected =getDataManager().getquestionnaireDataCollected();
+
+        questionnaireDataCollected =getDataManager().fetchQuestionnaireDataCollected("");
     }
-
-
-
 
     public void onNavBackClick() {
         getNavigator().goBack();

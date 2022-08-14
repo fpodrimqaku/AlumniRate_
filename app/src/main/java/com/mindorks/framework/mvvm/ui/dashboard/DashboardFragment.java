@@ -89,17 +89,7 @@ int PERMISSION_ID = 101;
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
-        // super.onCreateView(inflater, container, savedInstanceState);
-        // View root = inflater.inflate(getLayoutId(), container, false);
-
-
         final EditText fvalue = (EditText) root.findViewById(R.id.editQuestionnaireOrganizationName);
-
-        // Log.d("blu3", "" + fvalue);
-        // Log.d("blu3", "" + qrCode_image);
-
-
 
         fvalue.addTextChangedListener(new TextWatcher() {
                                           public void afterTextChanged(Editable s) {

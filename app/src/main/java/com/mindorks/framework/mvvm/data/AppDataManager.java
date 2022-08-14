@@ -381,14 +381,11 @@ public class AppDataManager implements DataManager {
 
     }
 
-    public MutableLiveData<QuestionnaireDataCollected> fetchQuestionnaireDataCollected (String userId){
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (String userId){
         return firebaseHelper.fetchQuestionnaireDataCollected(userId);
 
     }
 
-    public ConcurrentMap<String, QuestionnaireDataCollected> getquestionnaireDataCollected (){
-        return firebaseHelper.getquestionnaireDataCollected();
 
-    }
 
 }

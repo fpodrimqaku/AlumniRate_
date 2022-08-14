@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
@@ -39,14 +38,14 @@ public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
         questionnaire_organization_collected_text.setText(questionnaireDataCollected.getQuestionnaireOrganization().getQuestionnaireName());
         questionnaire_organization_collected_attendees_num.setText(""+questionnaireDataCollected.getPeopleParticipated());
         String timePattern = "hh:mm";
-        String datePattern ="MM-dd-yyyy";
+        String datePattern ="dd-MM-yyyy";
         SimpleDateFormat simpleDateFormatTimeOnly = new SimpleDateFormat(timePattern);
         SimpleDateFormat simpleDateFormatDateOnly = new SimpleDateFormat(datePattern);
         String fromTime = simpleDateFormatTimeOnly.format(questionnaireDataCollected.getQuestionnaireOrganization().getFromDateTime());
         String toTime = simpleDateFormatTimeOnly.format(questionnaireDataCollected.getQuestionnaireOrganization().getToDateTime());
         String helalDate = simpleDateFormatDateOnly.format(questionnaireDataCollected.getQuestionnaireOrganization().getFromDateTime());
 
-        String period = "("+helalDate + ")Prej "+ fromTime + " deri" + toTime;
+        String period = "("+helalDate + ") Prej "+ fromTime + " deri " + toTime;
 
         questionnaire_organization_collected_period.setText(period);
 

@@ -277,9 +277,9 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questionnaireOrganizationMutableLiveData;
     }
 
-    ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
-
-    public MutableLiveData<QuestionnaireDataCollected> fetchQuestionnaireDataCollected(String userId) {
+   // ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
+   MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected =new MutableLiveData<>(new ConcurrentHashMap<>());
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected(String userId) {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
 
@@ -289,12 +289,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                questionnaireDataCollected.clear();
+                questionnaireDataCollected.getValue().clear();
                 snapshot.getChildren().forEach((x) -> {
                     QuestionnaireDataCollected qdc = new QuestionnaireDataCollected();
                     QuestionnaireOrganization qo = x.getValue(QuestionnaireOrganization.class);
                     qdc.setQuestionnaireOrganization(qo);
-                    questionnaireDataCollected.put(x.getKey(), qdc);
+                    questionnaireDataCollected.getValue().put(x.getKey(), qdc);
 
                 });
 
@@ -308,7 +308,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                 .collect(Collectors.toList());
 
 
-                        questionnaireDataCollected.forEach((qdckey, qdc) -> {
+                        questionnaireDataCollected.getValue().forEach((qdckey, qdc) -> {
                             if (qdc == null)
                                 return;
                             List<QuestionnaireAnswers> allQuestionnaireAnswers = allquestionnaireAnwersDataSource
@@ -343,7 +343,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
                         });
 
-                        ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected2 =questionnaireDataCollected;
+                        questionnaireDataCollected.setValue(questionnaireDataCollected.getValue());
                     }
 
                     @Override
@@ -362,15 +362,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         });
 
 
-        return null;
-
-    }
-
-
-    public ConcurrentMap<String, QuestionnaireDataCollected> getquestionnaireDataCollected() {
         return questionnaireDataCollected;
 
     }
+
+
+
 
 
 }

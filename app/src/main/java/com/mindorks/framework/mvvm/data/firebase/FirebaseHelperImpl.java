@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
@@ -60,12 +62,17 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    StorageReference storageReference;
 
     @Inject
-    public FirebaseHelperImpl(FirebaseAuth firebaseAuth, FirebaseDatabase firebaseDatabase, DatabaseReference databaseReference) {
+    public FirebaseHelperImpl(FirebaseAuth firebaseAuth,
+                              FirebaseDatabase firebaseDatabase,
+                              DatabaseReference databaseReference
+    ) {
         this.firebaseAuth = firebaseAuth;
         this.firebaseDatabase = firebaseDatabase;
         this.databaseReference = databaseReference;
+this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public FirebaseUser getCurrentLoggedInUser() {
@@ -86,6 +93,28 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                     }
                 });
     }
+
+
+     MutableLiveData <Boolean> passwordResetEmailSentSuccessfully  = new MutableLiveData<>(null);
+    public MutableLiveData <Boolean>  sendPasswordResetEmail(String email) {
+
+        firebaseAuth.sendPasswordResetEmail(email).
+                addOnCompleteListener(  new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            passwordResetEmailSentSuccessfully.setValue(Boolean.TRUE);
+                        } else {
+                            passwordResetEmailSentSuccessfully.setValue(Boolean.FALSE);
+                        }
+                    }
+
+
+                });
+        return passwordResetEmailSentSuccessfully;
+    }
+
+
 
 
     public void signUpWithNewUser(String email, String password, Action onSuccess, Action onFailure) {

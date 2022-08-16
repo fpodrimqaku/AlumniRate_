@@ -40,5 +40,6 @@ public interface FirebaseHelper {
     public <T>boolean insertEntityIntoSet(T entity,String setName);
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected (String userId);
+    public MutableLiveData <Boolean>  sendPasswordResetEmail(String email);
 
 }

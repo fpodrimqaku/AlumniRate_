@@ -76,7 +76,7 @@ public class LoginViewModelTest {
                 .when(mMockDataManager)
                 .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password));
 
-        mLoginViewModel.login(email, password);
+       // mLoginViewModel.login(email, password);//todo see this part though it is unneccessary
         mTestScheduler.triggerActions();
 
         verify(mLoginCallback).openMainActivity();

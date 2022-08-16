@@ -19,6 +19,7 @@ package com.mindorks.framework.mvvm.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mindorks.framework.mvvm.BR;
@@ -28,6 +29,10 @@ import com.mindorks.framework.mvvm.di.component.ActivityComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 import com.mindorks.framework.mvvm.ui.feed.FeedActivity;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
+
+import java.util.Observer;
+
+import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements LoginNavigator {
@@ -59,7 +64,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
         if (mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
-            mViewModel.login(email, password,loginAsRatee);
+            mViewModel.login(email, password, loginAsRatee);
         } else {
             Toast.makeText(this, getString(R.string.invalid_email_password), Toast.LENGTH_SHORT).show();
         }
@@ -82,5 +87,25 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     public void performDependencyInjection(ActivityComponent buildComponent) {
         buildComponent.inject(this);
+    }
+
+    public void sendResetPasswordEmail(View view) {
+        mViewModel.sendPasswordResetEmail();
+        mViewModel.getEmailSentToResetPwResult().observe(this, (res) -> {
+            if (res == Boolean.TRUE) {
+                Toast.makeText(this, "Request sent successuflly!", Toast.LENGTH_SHORT).show();
+                mViewModel.setEmailToResetPasswordTo("");
+                mViewModel.setLoginUIMode(true);
+            } else if (res == Boolean.FALSE) {
+                Toast.makeText(this, "Request failed!", Toast.LENGTH_SHORT).show();
+
+            } else {
+                //Kthehu TRUE  ti kthehu veten njeher ti
+                //te lutem mos ma le observerin nvetmi
+
+            }
+
+        });
+
     }
 }

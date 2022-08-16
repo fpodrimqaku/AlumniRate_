@@ -6,6 +6,7 @@ import android.app.Application;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.StorageReference;
 import com.mindorks.framework.mvvm.di.component.AppComponent;
 import com.mindorks.framework.mvvm.di.component.DaggerAppComponent;
 import com.mindorks.framework.mvvm.utils.AppLogger;
@@ -29,6 +30,7 @@ public class MvvmApp extends Application {
 
 
         FirebaseApp.initializeApp(this);
+
 
         appComponent = DaggerAppComponent.builder()
                 .application(this)

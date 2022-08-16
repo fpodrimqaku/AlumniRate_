@@ -387,5 +387,10 @@ public class AppDataManager implements DataManager {
     }
 
 
+    public MutableLiveData <Boolean>  sendPasswordResetEmail(String email){
+
+        return firebaseHelper.sendPasswordResetEmail(email);
+    }
+
 
 }

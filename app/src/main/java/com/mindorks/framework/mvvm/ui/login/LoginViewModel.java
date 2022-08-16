@@ -3,7 +3,12 @@ package com.mindorks.framework.mvvm.ui.login;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
 
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.api.LoginRequest;
@@ -11,11 +16,24 @@ import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
+import java.util.Observable;
+
+import butterknife.OnClick;
+
 
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
+
+
+
+    ObservableBoolean loginUIMode = new ObservableBoolean();
+    ObservableField<String> emailToResetPasswordTo =new ObservableField<>("");
+
+
+    MutableLiveData<Boolean> emailSentToResetPwResult = new MutableLiveData<>(null);
     public LoginViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
+        loginUIMode.set(true);
     }
 
     public boolean isEmailAndPasswordValid(String email, String password) {
@@ -150,4 +168,33 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     public void onServerLoginClick(boolean loginAsRatee) {
         getNavigator().login(loginAsRatee);
     }
+
+
+    public void  sendPasswordResetEmail(){
+        emailSentToResetPwResult =  getDataManager().sendPasswordResetEmail(getEmailToResetPasswordTo().get());
+    }
+
+    public ObservableField<String> getEmailToResetPasswordTo() {
+        return emailToResetPasswordTo;
+    }
+
+    public void setEmailToResetPasswordTo(String emailToResetPasswordTo) {
+        this.emailToResetPasswordTo.set(emailToResetPasswordTo);
+    }
+
+    public ObservableBoolean isLoginUIMode() {
+        return loginUIMode;
+    }
+
+
+    public MutableLiveData<Boolean> getEmailSentToResetPwResult() {
+        return emailSentToResetPwResult;
+    }
+
+
+    public void setLoginUIMode(boolean loginUIMode) {
+        this.loginUIMode.set(loginUIMode);
+    }
+
+
 }

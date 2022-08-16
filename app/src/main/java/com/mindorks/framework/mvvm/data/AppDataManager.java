@@ -17,6 +17,7 @@
 package com.mindorks.framework.mvvm.data;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.core.util.Consumer;
 import androidx.lifecycle.LiveData;
@@ -390,6 +391,11 @@ public class AppDataManager implements DataManager {
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email){
 
         return firebaseHelper.sendPasswordResetEmail(email);
+    }
+
+    public void createUserWithProfilePic (String email, String password, Uri mImageUri){
+         firebaseHelper.createUserWithProfilePic ( email,  password,  mImageUri);
+
     }
 
 

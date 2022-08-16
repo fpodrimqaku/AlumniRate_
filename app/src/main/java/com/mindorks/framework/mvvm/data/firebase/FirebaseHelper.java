@@ -1,5 +1,7 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -41,5 +43,6 @@ public interface FirebaseHelper {
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected (String userId);
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email);
+    public void createUserWithProfilePic (String email, String password, Uri mImageUri);
 
 }

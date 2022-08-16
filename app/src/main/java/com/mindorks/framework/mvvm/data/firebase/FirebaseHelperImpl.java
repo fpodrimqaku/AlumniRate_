@@ -1,10 +1,15 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
+import android.media.Image;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
@@ -31,6 +39,7 @@ import com.mindorks.framework.mvvm.utils.Action;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -114,9 +123,6 @@ this.storageReference = FirebaseStorage.getInstance().getReference();
         return passwordResetEmailSentSuccessfully;
     }
 
-
-
-
     public void signUpWithNewUser(String email, String password, Action onSuccess, Action onFailure) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -131,6 +137,64 @@ this.storageReference = FirebaseStorage.getInstance().getReference();
                     }
                 });
     }
+
+    public void storeImage(Uri mImageUri){
+
+
+
+
+
+        StorageReference filepath = storageReference.child("user_profile_pics").child(UUID.randomUUID().toString());
+        filepath.putFile(mImageUri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                if (progress == 100) {
+                    //  hideProgressDialog();
+
+                }
+                System.out.println("Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                /** Get Image Download Path**/
+                               /* Uri downloadUri = taskSnapshot.getDownloadUrl();
+
+                                // Converting Image Uri In String
+                                String imagerls;
+                                if (downloadUri != null) {
+                                    imagerls = downloadUri.toString();
+                                }
+                                */
+                //Add user data and image URL to firebase database
+            }
+
+        });
+    }
+
+
+
+public void createUserWithProfilePic (String email,String password,Uri mImageUri){
+
+    storeImage(mImageUri);
+
+}
+
+
+
+
+
 
 
     public User getCurrentUserSigned() {

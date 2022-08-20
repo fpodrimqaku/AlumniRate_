@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +50,8 @@ import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import kotlin.collections.AbstractMutableList;
+
 @Singleton
 public class FirebaseHelperImpl implements FirebaseHelper {
 
@@ -59,7 +62,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         final public static String QUESTIONNAIRE = "questionnaires";
         final public static String Questionnaire_Organizations = "questionnaireOrganizations";
         final public static String QUESTIONNAIRE_QUESTIONS = "questionnaireQuestions";
-
+        final public static String USERS = "users";
         final public static String PERSON_RATEE = "personRatee";
         final public static String ASPECT_TO_RATE = "aspectToRate";
         final public static String RATE_ORGANIZATION = "ratingOrganization";
@@ -81,7 +84,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         this.firebaseAuth = firebaseAuth;
         this.firebaseDatabase = firebaseDatabase;
         this.databaseReference = databaseReference;
-this.storageReference = FirebaseStorage.getInstance().getReference();
+        this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public FirebaseUser getCurrentLoggedInUser() {
@@ -104,11 +107,12 @@ this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
 
-     MutableLiveData <Boolean> passwordResetEmailSentSuccessfully  = new MutableLiveData<>(null);
-    public MutableLiveData <Boolean>  sendPasswordResetEmail(String email) {
+    MutableLiveData<Boolean> passwordResetEmailSentSuccessfully = new MutableLiveData<>(null);
+
+    public MutableLiveData<Boolean> sendPasswordResetEmail(String email) {
 
         firebaseAuth.sendPasswordResetEmail(email).
-                addOnCompleteListener(  new OnCompleteListener<Void>() {
+                addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -123,26 +127,38 @@ this.storageReference = FirebaseStorage.getInstance().getReference();
         return passwordResetEmailSentSuccessfully;
     }
 
-    public void signUpWithNewUser(String email, String password, Action onSuccess, Action onFailure) {
+    public void InsertUser(User user) {
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.USERS);
+        relativeDatabaseReference.push().setValue(user);
+
+    }
+
+    public void signUpWithNewUser(User user, String password, Action onSuccess, Action onFailure) {
+
+        firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            InsertUser(user);
+                            task.getResult().getUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(""+ user.getFirst()+" "+user.getLast())
+                                    .setPhotoUri(Uri.parse(user.getPhotoUrl()))
+                                    .build());
                             onSuccess.takeAction();
                         } else {
+
                             onFailure.takeAction();
+
                         }
                     }
                 });
     }
 
-    public void storeImage(Uri mImageUri){
 
-
-
-
+    MutableLiveData<String> user_photo =  new MutableLiveData<String>(null);
+    public MutableLiveData<String> storeImage(Uri mImageUri) {
 
         StorageReference filepath = storageReference.child("user_profile_pics").child(UUID.randomUUID().toString());
         filepath.putFile(mImageUri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -153,57 +169,45 @@ this.storageReference = FirebaseStorage.getInstance().getReference();
                     //  hideProgressDialog();
 
                 }
-                System.out.println("Upload is " + progress + "% done");
+
             }
         }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("Upload is paused");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                /** Get Image Download Path**/
-                               /* Uri downloadUri = taskSnapshot.getDownloadUrl();
+                user_photo.setValue( taskSnapshot.getStorage().getDownloadUrl().toString());
 
-                                // Converting Image Uri In String
-                                String imagerls;
-                                if (downloadUri != null) {
-                                    imagerls = downloadUri.toString();
-                                }
-                                */
-                //Add user data and image URL to firebase database
             }
 
         });
+        return user_photo;
     }
 
 
+    public void createUserWithProfilePic(String email, String password, Uri mImageUri) {
 
-public void createUserWithProfilePic (String email,String password,Uri mImageUri){
+        storeImage(mImageUri);
 
-    storeImage(mImageUri);
-
-}
-
-
-
-
-
+    }
 
 
     public User getCurrentUserSigned() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         User user = new User();
         if (firebaseUser != null) {
             user.setUsername(firebaseUser.getDisplayName());
             user.setEmail(firebaseUser.getEmail());
-            user.setPhotoUrl(firebaseUser.getPhotoUrl());
+            user.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
             user.setEmailVerified(firebaseUser.isEmailVerified());
             user.setUID(firebaseUser.getUid());
         }
@@ -370,8 +374,9 @@ public void createUserWithProfilePic (String email,String password,Uri mImageUri
         return questionnaireOrganizationMutableLiveData;
     }
 
-   // ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
-   MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected =new MutableLiveData<>(new ConcurrentHashMap<>());
+    // ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
+    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected(String userId) {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
@@ -407,8 +412,8 @@ public void createUserWithProfilePic (String email,String password,Uri mImageUri
                             List<QuestionnaireAnswers> allQuestionnaireAnswers = allquestionnaireAnwersDataSource
                                     .stream()
                                     .map(x -> x.getValue(QuestionnaireAnswers.class))
-                                    .filter(x ->{
-                                       Boolean res= qdckey.equals(x.getQuestionnaireId());
+                                    .filter(x -> {
+                                        Boolean res = qdckey.equals(x.getQuestionnaireId());
                                         return res;
                                     })
                                     .collect(Collectors.toList());
@@ -427,9 +432,10 @@ public void createUserWithProfilePic (String email,String password,Uri mImageUri
                                 UAD1.setQuestionId(question.getQuestion());
                                 userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
                                         .forEach(x -> {
-                                            if(x==null || x.getOptionPicked()==null)
+                                            if (x == null || x.getOptionPicked() == null)
                                                 return;
-                                            UAD1.AddToOption(x.getOptionPicked(), 1);});
+                                            UAD1.AddToOption(x.getOptionPicked(), 1);
+                                        });
                                 qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
                             });
 
@@ -458,9 +464,6 @@ public void createUserWithProfilePic (String email,String password,Uri mImageUri
         return questionnaireDataCollected;
 
     }
-
-
-
 
 
 }

@@ -42,4 +42,5 @@
     <color name="navy_blue_dark">#1C3A4E</color>
     <color name="blue_black_light">#516179</color>
     <color name="yellow">#fff44f</color>
+    <color name="white_op_10">#ccffffff</color>
 </resources>

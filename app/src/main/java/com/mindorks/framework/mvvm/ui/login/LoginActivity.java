@@ -1,18 +1,4 @@
-/*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      https://mindorks.com/license/apache-v2
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
+
 
 package com.mindorks.framework.mvvm.ui.login;
 
@@ -27,12 +13,7 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.ActivityLoginBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseActivity;
-import com.mindorks.framework.mvvm.ui.feed.FeedActivity;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
-
-import java.util.Observer;
-
-import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements LoginNavigator {
@@ -62,6 +43,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void login(boolean loginAsRatee) {
         String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
         String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
+        email = mActivityLoginBinding.etEmail.getText().toString();
+        password = mActivityLoginBinding.etPassword.getText().toString();
         if (mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
             mViewModel.login(email, password, loginAsRatee);
@@ -100,12 +83,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 Toast.makeText(this, "Request failed!", Toast.LENGTH_SHORT).show();
 
             } else {
-                //Kthehu TRUE  ti kthehu veten njeher ti
-                //te lutem mos ma le observerin nvetmi
+
 
             }
 
         });
 
     }
+
+    public void goToCreateAccount(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+
+    }
+
 }

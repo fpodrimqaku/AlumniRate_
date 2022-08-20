@@ -165,6 +165,8 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     }
 
 
+
+
     public void onServerLoginClick(boolean loginAsRatee) {
         getNavigator().login(loginAsRatee);
     }

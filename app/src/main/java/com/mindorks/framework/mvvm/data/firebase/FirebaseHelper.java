@@ -15,6 +15,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
+import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.utils.Action;
 
 import java.util.Dictionary;
@@ -30,7 +31,7 @@ public interface FirebaseHelper {
 
 
 
-    //public void signUpWithNewUser(String email, String password, Action onSuccess, Action onFailure);
+    public void signUpWithNewUser(User user, String password, Action onSuccess, Action onFailure);
 
     //public User getCurrentUserSigned() ;
 
@@ -44,5 +45,5 @@ public interface FirebaseHelper {
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected (String userId);
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email);
     public void createUserWithProfilePic (String email, String password, Uri mImageUri);
-
+    public MutableLiveData<String> storeImage(Uri mImageUri);
 }

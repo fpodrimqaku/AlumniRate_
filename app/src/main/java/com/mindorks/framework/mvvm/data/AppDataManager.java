@@ -344,6 +344,12 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void signUpWithNewUser(com.mindorks.framework.mvvm.data.model.firebase.User user, String password, Action onSuccess, Action onFailure) {
+        firebaseHelper.signUpWithNewUser(user, password, onSuccess, onFailure);
+    }
+
+
+    @Override
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType){
         return firebaseHelper.createQuestionnaireType(questionnaireType);
     }
@@ -395,8 +401,8 @@ public class AppDataManager implements DataManager {
 
     public void createUserWithProfilePic (String email, String password, Uri mImageUri){
          firebaseHelper.createUserWithProfilePic ( email,  password,  mImageUri);
-
     }
-
-
+    public MutableLiveData<String> storeImage(Uri mImageUri){
+        return  firebaseHelper.storeImage(mImageUri);
+    }
 }

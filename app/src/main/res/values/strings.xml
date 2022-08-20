@@ -22,7 +22,7 @@
     <string name="login_dummy">Login Dummy</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="password">Fjalekalimi</string>
 
     <!--Login Validation-->
     <string name="invalid_email_password">Please provide a valid email and password.</string>
@@ -85,5 +85,9 @@
     <string name="send_pw_reset_email">Dërgo</string>
     <string name="reset_password">Rikthe fjalëkalimin</string>
     <string name="go_back">Po te lutem qe ti te kthehesh prapa</string>
-
+    <string name="user_name">Emri</string>
+    <string name="user_last_name">Mbiemri</string>
+    <string name="create_account">Krijo Llogari</string>
+    <string name="confirm_password">Konfirmo Fjalekalimin</string>
+    <string name="professor_title">Titulli</string>
 </resources>

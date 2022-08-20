@@ -10,6 +10,7 @@ import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 import com.mindorks.framework.mvvm.ui.feed.FeedPagerAdapter;
 import com.mindorks.framework.mvvm.ui.feed.FeedViewModel;
 import com.mindorks.framework.mvvm.ui.login.LoginViewModel;
+import com.mindorks.framework.mvvm.ui.login.SignUpViewModel;
 import com.mindorks.framework.mvvm.ui.main.MainViewModel;
 import com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsViewModel;
 import com.mindorks.framework.mvvm.ui.splash.SplashViewModel;
@@ -61,6 +62,12 @@ public class ActivityModule {
         return new ViewModelProvider(activity, factory).get(SplashViewModel.class);
     }
 
+    @Provides
+    SignUpViewModel provideSignUpViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<SignUpViewModel> supplier = () -> new SignUpViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<SignUpViewModel> factory = new ViewModelProviderFactory<>(SignUpViewModel.class, supplier);
+        return new ViewModelProvider(activity, factory).get(SignUpViewModel.class);
+    }
 
 
 

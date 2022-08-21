@@ -44,6 +44,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
+import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
 import com.mindorks.framework.mvvm.data.remote.ApiHelper;
@@ -404,5 +405,13 @@ public class AppDataManager implements DataManager {
     }
     public MutableLiveData<String> storeImage(Uri mImageUri){
         return  firebaseHelper.storeImage(mImageUri);
+    }
+
+    public com.mindorks.framework.mvvm.data.model.firebase.User getCurrentUserSigned(){
+        return  firebaseHelper.getCurrentUserSigned();
+    }
+
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData(){
+        return firebaseHelper.fetchRateeRankingsData();
     }
 }

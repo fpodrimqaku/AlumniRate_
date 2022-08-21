@@ -31,6 +31,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
+import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
@@ -143,7 +144,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                         if (task.isSuccessful()) {
 
                             InsertUser(user);
-                            task.getResult().getUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(""+ user.getFirst()+" "+user.getLast())
+                            task.getResult().getUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName("" + user.getFirst() + " " + user.getLast())
                                     .setPhotoUri(Uri.parse(user.getPhotoUrl()))
                                     .build());
                             onSuccess.takeAction();
@@ -157,7 +158,8 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-    MutableLiveData<String> user_photo =  new MutableLiveData<String>(null);
+    MutableLiveData<String> user_photo = new MutableLiveData<String>(null);
+
     public MutableLiveData<String> storeImage(Uri mImageUri) {
 
         StorageReference filepath = storageReference.child("user_profile_pics").child(UUID.randomUUID().toString());
@@ -184,7 +186,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                user_photo.setValue( taskSnapshot.getStorage().getDownloadUrl().toString());
+                user_photo.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
 
             }
 
@@ -374,7 +376,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questionnaireOrganizationMutableLiveData;
     }
 
-    // ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollected = new ConcurrentHashMap<>();
+
     MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
 
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected(String userId) {
@@ -383,14 +385,19 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
         DatabaseReference relativeDatabaseReference_QO = databaseReference.child(FirebaseReferences.Questionnaire_Organizations)
                 .orderByChild("questionnaireId").getRef();
-
+        String currentUserEmail = getCurrentLoggedInUser().getEmail();
         relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 questionnaireDataCollected.getValue().clear();
                 snapshot.getChildren().forEach((x) -> {
+
                     QuestionnaireDataCollected qdc = new QuestionnaireDataCollected();
                     QuestionnaireOrganization qo = x.getValue(QuestionnaireOrganization.class);
+
+                    if (qo.getRateeId() == null || !qo.getRateeId().equals(currentUserEmail))
+                        return;
+
                     qdc.setQuestionnaireOrganization(qo);
                     questionnaireDataCollected.getValue().put(x.getKey(), qdc);
 
@@ -462,6 +469,125 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
 
         return questionnaireDataCollected;
+
+    }
+
+
+    MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {
+
+        DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        DatabaseReference relativeDatabaseReference_U = databaseReference.child(FirebaseReferences.USERS);
+        DatabaseReference relativeDatabaseReference_QO = databaseReference.child(FirebaseReferences.Questionnaire_Organizations)
+                .orderByChild("questionnaireId").getRef();
+
+
+        relativeDatabaseReference_U.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                snapshot.getChildren().forEach((userFetched) -> {
+                    RateeRankingsData rateeRankingsData = new RateeRankingsData();
+                    User user = userFetched.getValue(User.class);
+                    fetchRateeRankingsDataCollected.getValue().put(user.getEmail(), rateeRankingsData);
+                    fetchRateeRankingsDataCollected.getValue().get(user.getEmail()).setUser(user);
+                });
+
+
+                relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                        snapshot.getChildren().forEach((x) -> {
+                            QuestionnaireDataCollected qdc = new QuestionnaireDataCollected();
+                            QuestionnaireOrganization qo = x.getValue(QuestionnaireOrganization.class);
+                            qdc.setQuestionnaireOrganization(qo);
+
+
+                            //  questionnaireDataCollected.getValue().put(x.getKey(), qdc);
+
+                            RateeRankingsData userRatingsData = fetchRateeRankingsDataCollected.getValue().get(qo.getRateeId());
+                            if(userRatingsData!=null)
+                                userRatingsData.getQuestionnaireDataCollectedList().put(x.getKey(), qdc);
+                        });
+
+
+                        relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                AtomicInteger childrenNumber = new AtomicInteger();
+
+                                List<DataSnapshot> allquestionnaireAnwersDataSource = StreamSupport.stream(snapshot.getChildren().spliterator(), false)
+                                        .collect(Collectors.toList());
+
+
+                                fetchRateeRankingsDataCollected.getValue().values().stream().forEach(allUserRatings -> {
+                                    ConcurrentMap<String, QuestionnaireDataCollected> questionnaireDataCollectedf1 = allUserRatings.getQuestionnaireDataCollectedList();
+                                    questionnaireDataCollectedf1.forEach((qdckey, qdc) -> {
+                                        if (qdc == null)
+                                            return;
+                                        List<QuestionnaireAnswers> allQuestionnaireAnswers = allquestionnaireAnwersDataSource
+                                                .stream()
+                                                .map(x -> x.getValue(QuestionnaireAnswers.class))
+                                                .filter(x -> {
+                                                    Boolean res = qdckey.equals(x.getQuestionnaireId());
+                                                    return res;
+                                                })
+                                                .collect(Collectors.toList());
+
+                                        qdc.setPeopleParticipated(allQuestionnaireAnswers.size());
+
+
+                                        List<UserAnswer> userAnswers = new ArrayList<>();
+                                        allQuestionnaireAnswers.stream().map(x -> x.getAnswers()).forEach(x ->
+                                                {
+                                                    userAnswers.addAll(x);
+                                                }
+                                        );
+                                        questions.forEach(question -> {
+                                            UserAnswerData UAD1 = new UserAnswerData();
+                                            UAD1.setQuestionId(question.getQuestion());
+                                            userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
+                                                    .forEach(x -> {
+                                                        if (x == null || x.getOptionPicked() == null)
+                                                            return;
+                                                        UAD1.AddToOption(x.getOptionPicked(), 1);
+                                                    });
+                                            qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
+                                        });
+
+
+                                    });
+
+                                });
+
+                                //
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return fetchRateeRankingsDataCollected;
 
     }
 

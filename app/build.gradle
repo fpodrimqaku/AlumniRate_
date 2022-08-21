@@ -34,6 +34,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -111,6 +112,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
 }
 apply plugin: 'com.google.gms.google-services'
 

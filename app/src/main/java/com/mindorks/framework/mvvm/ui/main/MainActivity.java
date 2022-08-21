@@ -176,6 +176,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mActivityMainBinding = getViewDataBinding();
         mViewModel.setNavigator(this);
         setUp();
+
     }
 
 

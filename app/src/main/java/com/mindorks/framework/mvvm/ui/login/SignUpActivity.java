@@ -124,7 +124,6 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
     }
 
     public void startImageCropper(String ImagePath) {
-
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setClassName("com.android.camera", "com.android.camera.CropImage");
         File file = new File(ImagePath);
@@ -138,7 +137,6 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
         intent.putExtra("noFaceDetection", true);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, RESULT_OK_GALLERY_PHOTO_CROPPED);
-
     }
 
 

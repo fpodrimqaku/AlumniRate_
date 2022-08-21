@@ -15,6 +15,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
+import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.utils.Action;
 
@@ -33,7 +34,7 @@ public interface FirebaseHelper {
 
     public void signUpWithNewUser(User user, String password, Action onSuccess, Action onFailure);
 
-    //public User getCurrentUserSigned() ;
+    public User getCurrentUserSigned() ;
 
 
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType);
@@ -46,4 +47,5 @@ public interface FirebaseHelper {
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email);
     public void createUserWithProfilePic (String email, String password, Uri mImageUri);
     public MutableLiveData<String> storeImage(Uri mImageUri);
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData();
 }

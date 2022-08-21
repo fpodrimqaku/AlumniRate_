@@ -37,4 +37,11 @@ public QuestionnaireDataCollected(){
     public void setUserAnswerData(Map<String,UserAnswerData> userAnswerData) {
         this.userAnswerData = userAnswerData;
     }
+
+    public double getAverageUserAnswer(){
+    if(userAnswerData.values().stream().count()==0)
+        return 0.0;
+    else
+        return 0.0;
+    }
 }

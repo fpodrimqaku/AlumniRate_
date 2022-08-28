@@ -186,7 +186,13 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                user_photo.setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
+                taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        user_photo.setValue(task.getResult().toString());
+                    }
+                });
+
 
             }
 

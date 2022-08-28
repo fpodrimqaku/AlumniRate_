@@ -1,17 +1,13 @@
 
 package com.mindorks.framework.mvvm.ui.feed.blogs;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.api.BlogResponse;
-import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 
 public class BlogViewModel extends BaseViewModel<BlogNavigator> {
@@ -22,11 +18,7 @@ public class BlogViewModel extends BaseViewModel<BlogNavigator> {
                          SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         blogListLiveData = new MutableLiveData<>();
-        rateesRankingsData = getDataManager().fetchRateeRankingsData();
         fetchBlogs();
-
-
-
     }
 
     public void fetchBlogs() {
@@ -49,8 +41,4 @@ public class BlogViewModel extends BaseViewModel<BlogNavigator> {
     public LiveData<List<BlogResponse.Blog>> getBlogListLiveData() {
         return blogListLiveData;
     }
-
-    private final MutableLiveData<ConcurrentMap<String, RateeRankingsData>> rateesRankingsData;
-
-
 }

@@ -90,4 +90,5 @@
     <string name="create_account">Krijo Llogari</string>
     <string name="confirm_password">Konfirmo Fjalekalimin</string>
     <string name="professor_title">Titulli</string>
+    <string name="ratee_overall_ratings">Vlerësimet e Përgjithshme</string>
 </resources>

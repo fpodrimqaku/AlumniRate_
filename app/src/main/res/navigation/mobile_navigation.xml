@@ -34,5 +34,9 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_blog" />
 
-
+    <fragment
+        android:id="@+id/navigation_overall_ratee_stats"
+        android:name="com.mindorks.framework.mvvm.ui.overall_ratee_stats.OverallRateeStatsFragment"
+        android:label="@string/ratee_overall_ratings"
+        tools:layout="@layout/fragment_ratee_overall_ratings" />
 </navigation>

@@ -27,7 +27,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
         mText = new MutableLiveData<>();
         mText.setValue("This is dashboard fragment");
         getDataManager().getQuestions();
-getDataManager().fetchRateeRankingsData();
+
     }
 
     public LiveData<String> getText() {

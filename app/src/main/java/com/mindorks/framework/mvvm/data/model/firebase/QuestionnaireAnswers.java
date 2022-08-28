@@ -10,13 +10,14 @@ public class QuestionnaireAnswers {
     private String rateeId;
     private List<UserAnswer> answers;
 
+
     public String getQuestionnaireId() {
         return questionnaireId;
     }
 
     public void setQuestionnaireId(String questionnaireId) {
         this.questionnaireId = questionnaireId;
-        this.answers=new ArrayList<>(12);
+
     }
 
     public String getUserId() {

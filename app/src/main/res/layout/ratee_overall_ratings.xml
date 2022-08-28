@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mindorks.framework.mvvm.ui.feed.blogs.BlogItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@color/white"
+            android:onClick="@{() -> viewModel.onItemClick()}"
+            android:orientation="vertical"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="4dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="start"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="120dp"
+                        app:cardElevation="6dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/user_profileImage"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+
+                            android:scaleType="centerCrop"
+
+
+                            tools:src="@drawable/ic_rabbit" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/rate_overall_data_name_lastname"
+                        style="@style/TextStyle.Heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        app:layout_constraintStart_toEndOf="@+id/cardView"
+                        app:layout_constraintTop_toTopOf="@+id/cardView"
+                        tools:text="Android MVP Architecture" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="@+id/rate_overall_data_name_lastname"
+                        app:layout_constraintTop_toBottomOf="@+id/rate_overall_data_name_lastname">
+
+                        <TextView
+                            android:id="@+id/ratee_title"
+                            style="@style/TextStyle.Title.Sub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            tools:text="Amit Shekhar" />
+                    </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <lecho.lib.hellocharts.view.ColumnChartView
+
+                    android:id="@+id/user_overall_data_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+</layout>

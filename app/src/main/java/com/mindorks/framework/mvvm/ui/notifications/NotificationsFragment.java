@@ -1,12 +1,10 @@
 package com.mindorks.framework.mvvm.ui.notifications;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.LifecycleOwner;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,15 +19,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.mindorks.framework.mvvm.HomeActivity;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.databinding.FragmentNotificationsBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
-
-import java.io.DataOutputStream;
+import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
 public class NotificationsFragment extends BaseFragment<FragmentNotificationsBinding, NotificationsViewModel> implements QuestionnaireListNavigator {
 
@@ -96,7 +91,7 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
 
                     if (x != null && x.get_QRCode() != null) {
 
-                        HomeActivity homeActivity  = (HomeActivity) this.getContext();
+                        MainActivity homeActivity  = (MainActivity) this.getContext();
                         mViewModel.setCurrentFormScannedUID(intentResult.getContents());
 
                         BottomNavigationView bottomNavigationView;

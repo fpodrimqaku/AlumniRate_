@@ -4,6 +4,7 @@ import com.mindorks.framework.mvvm.di.module.ActivityModule;
 import com.mindorks.framework.mvvm.di.scope.ActivityScope;
 import com.mindorks.framework.mvvm.ui.feed.FeedActivity;
 import com.mindorks.framework.mvvm.ui.login.LoginActivity;
+import com.mindorks.framework.mvvm.ui.login.SignUpActivity;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
 import com.mindorks.framework.mvvm.ui.splash.SplashActivity;
 
@@ -22,5 +23,5 @@ public interface ActivityComponent {
     void inject(MainActivity activity);
 
     void inject(SplashActivity splashActivity);
-
+    void inject(SignUpActivity splashActivity);
 }

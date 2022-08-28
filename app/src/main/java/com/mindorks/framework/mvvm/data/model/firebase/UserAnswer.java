@@ -6,6 +6,11 @@ public class UserAnswer {
     private String questionId;
     private Integer optionPicked;
 
+    public UserAnswer() {
+
+
+    }
+
 
     public UserAnswer(String questionId) {
         this.questionId = questionId;

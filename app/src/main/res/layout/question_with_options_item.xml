@@ -37,9 +37,9 @@
             android:layout_width="367dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/question_text"
-            app:layout_constraintStart_toStartOf="@+id/question_text"
-            app:layout_constraintTop_toBottomOf="@+id/question_text">
+            app:layout_constraintEnd_toEndOf="@+id/questionnaire_organization_collected_text"
+            app:layout_constraintStart_toStartOf="@+id/questionnaire_organization_collected_text"
+            app:layout_constraintTop_toBottomOf="@+id/questionnaire_organization_collected_text">
 
             <RadioButton
                 android:id="@+id/question_answer_1"
@@ -49,9 +49,9 @@
                 android:minHeight="48dp"
                 android:text="@string/question_one_rate"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/question_text"
-                app:layout_constraintStart_toStartOf="@+id/question_text"
-                app:layout_constraintTop_toBottomOf="@+id/question_text" />
+                app:layout_constraintEnd_toEndOf="@+id/questionnaire_organization_collected_text"
+                app:layout_constraintStart_toStartOf="@+id/questionnaire_organization_collected_text"
+                app:layout_constraintTop_toBottomOf="@+id/questionnaire_organization_collected_text" />
 
             <RadioButton
                 android:id="@+id/question_answer_2"

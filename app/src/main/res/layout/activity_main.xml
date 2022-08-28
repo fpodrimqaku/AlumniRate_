@@ -1,18 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
-  ~
-  ~  Licensed under the Apache License, Version 2.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~  You may obtain a copy of the License at
-  ~
-  ~      https://mindorks.com/license/apache-v2
-  ~
-  ~  Unless required by applicable law or agreed to in writing, software
-  ~  distributed under the License is distributed on an "AS IS" BASIS,
-  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~  See the License for the specific language governing permissions and
-  ~  limitations under the License
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,16 +15,14 @@
     </data>
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.drawerlayout.widget.DrawerLayout
 
             android:id="@+id/drawerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            tools:openDrawer="start"
+            >
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/clRootView"
@@ -104,16 +88,18 @@
                     android:text="@{viewModel.appVersion}" />
             </com.google.android.material.navigation.NavigationView>
 
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/address_looking_up"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
         </androidx.drawerlayout.widget.DrawerLayout>
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/address_looking_up"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
-    </FrameLayout>
+
+
 
 </layout>

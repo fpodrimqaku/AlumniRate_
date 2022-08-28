@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
 

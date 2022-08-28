@@ -17,7 +17,7 @@ public class QuestionnaireOrganization {
     }
 
     public void setQuestionnaireName(String questionnaireName) {
-        questionnaireName = questionnaireName;
+        this.questionnaireName = questionnaireName;
     }
 
     public String get_QRCode() {

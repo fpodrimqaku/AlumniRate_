@@ -9,6 +9,8 @@ import android.content.Context;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mindorks.framework.mvvm.BuildConfig;
@@ -132,6 +134,12 @@ public class AppModule {
 
 
         return FirebaseAuth.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    FirebaseStorage provideStorageReference(FirebaseStorage firebaseStorage) {
+        return firebaseStorage;
     }
 
     @Provides

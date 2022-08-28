@@ -34,6 +34,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -60,6 +61,7 @@ dependencies {
     // database
     implementation "androidx.room:room-rxjava2:$rootProject.roomDatabaseVersion"
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.firebase:firebase-storage:20.0.1'
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomDatabaseVersion"
 
     // font
@@ -110,6 +112,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
 }
 apply plugin: 'com.google.gms.google-services'
 

@@ -17,6 +17,7 @@
 package com.mindorks.framework.mvvm.data;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.core.util.Consumer;
 import androidx.lifecycle.LiveData;
@@ -40,8 +41,10 @@ import com.mindorks.framework.mvvm.data.model.db.Option;
 import com.mindorks.framework.mvvm.data.model.db.Question;
 import com.mindorks.framework.mvvm.data.model.db.User;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
+import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.others.QuestionCardData;
 import com.mindorks.framework.mvvm.data.remote.ApiHeader;
 import com.mindorks.framework.mvvm.data.remote.ApiHelper;
@@ -52,6 +55,7 @@ import com.mindorks.framework.mvvm.utils.CommonUtils;
 import java.lang.reflect.Type;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -199,6 +203,17 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void setCurrentLoginUserMode(boolean loginAsRatee) {
+        mPreferencesHelper.setCurrentLoginUserMode(loginAsRatee);
+    }
+
+    @Override
+    public Boolean getCurrentLoginUserMode() {
+        return mPreferencesHelper.getCurrentLoginUserMode();
+    }
+
+
+    @Override
     public Single<OpenSourceResponse> getOpenSourceApiCall() {
         return mApiHelper.getOpenSourceApiCall();
     }
@@ -330,6 +345,12 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void signUpWithNewUser(com.mindorks.framework.mvvm.data.model.firebase.User user, String password, Action onSuccess, Action onFailure) {
+        firebaseHelper.signUpWithNewUser(user, password, onSuccess, onFailure);
+    }
+
+
+    @Override
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType){
         return firebaseHelper.createQuestionnaireType(questionnaireType);
     }
@@ -368,4 +389,29 @@ public class AppDataManager implements DataManager {
 
     }
 
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (String userId){
+        return firebaseHelper.fetchQuestionnaireDataCollected(userId);
+
+    }
+
+
+    public MutableLiveData <Boolean>  sendPasswordResetEmail(String email){
+
+        return firebaseHelper.sendPasswordResetEmail(email);
+    }
+
+    public void createUserWithProfilePic (String email, String password, Uri mImageUri){
+         firebaseHelper.createUserWithProfilePic ( email,  password,  mImageUri);
+    }
+    public MutableLiveData<String> storeImage(Uri mImageUri){
+        return  firebaseHelper.storeImage(mImageUri);
+    }
+
+    public com.mindorks.framework.mvvm.data.model.firebase.User getCurrentUserSigned(){
+        return  firebaseHelper.getCurrentUserSigned();
+    }
+
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData(){
+        return firebaseHelper.fetchRateeRankingsData();
+    }
 }

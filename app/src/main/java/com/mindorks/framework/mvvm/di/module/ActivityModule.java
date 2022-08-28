@@ -10,7 +10,10 @@ import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 import com.mindorks.framework.mvvm.ui.feed.FeedPagerAdapter;
 import com.mindorks.framework.mvvm.ui.feed.FeedViewModel;
 import com.mindorks.framework.mvvm.ui.login.LoginViewModel;
+import com.mindorks.framework.mvvm.ui.login.SignUpViewModel;
 import com.mindorks.framework.mvvm.ui.main.MainViewModel;
+import com.mindorks.framework.mvvm.ui.overall_ratee_stats.OverallRateeStatsViewModel;
+import com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsViewModel;
 import com.mindorks.framework.mvvm.ui.splash.SplashViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
@@ -59,5 +62,21 @@ public class ActivityModule {
         ViewModelProviderFactory<SplashViewModel> factory = new ViewModelProviderFactory<>(SplashViewModel.class, supplier);
         return new ViewModelProvider(activity, factory).get(SplashViewModel.class);
     }
+
+    @Provides
+    SignUpViewModel provideSignUpViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<SignUpViewModel> supplier = () -> new SignUpViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<SignUpViewModel> factory = new ViewModelProviderFactory<>(SignUpViewModel.class, supplier);
+        return new ViewModelProvider(activity, factory).get(SignUpViewModel.class);
+    }
+
+
+    @Provides
+    OverallRateeStatsViewModel provideOverallRateeStatsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<OverallRateeStatsViewModel> supplier = () -> new OverallRateeStatsViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<OverallRateeStatsViewModel> factory = new ViewModelProviderFactory<>(OverallRateeStatsViewModel.class, supplier);
+        return new ViewModelProvider(activity, factory).get(OverallRateeStatsViewModel.class);
+    }
+
 
 }

@@ -8,11 +8,12 @@ public class User {
     private String First;
     private String Last;
     private String Username;
-    private Uri photoUrl;
-    private String email;
     private Boolean isEmailVerified;
-    private String UID;
 
+    private String Title;
+    private String photoUri;
+    private String email;
+    private String UID;
 
 
     public Boolean getEmailVerified() {
@@ -21,6 +22,14 @@ public class User {
 
     public void setEmailVerified(Boolean emailVerified) {
         isEmailVerified = emailVerified;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
     }
 
     public String getUID() {
@@ -55,12 +64,12 @@ public class User {
         Username = username;
     }
 
-    public Uri getPhotoUrl() {
-        return photoUrl;
+    public String getPhotoUrl() {
+        return photoUri;
     }
 
-    public void setPhotoUrl(Uri photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhotoUrl(String photoUri) {
+        this.photoUri = photoUri;
     }
 
     public String getEmail() {

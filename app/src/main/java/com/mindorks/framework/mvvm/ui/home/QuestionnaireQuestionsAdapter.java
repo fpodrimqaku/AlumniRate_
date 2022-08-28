@@ -46,6 +46,7 @@ public class QuestionnaireQuestionsAdapter extends RecyclerView.Adapter<Question
         Question question = items.get(position);
 
         UserAnswer userAnswer = new UserAnswer(question.getQuestion());//todo changelater
+
         viewModel.getQuestionnaireAswers().getAnswers().add(userAnswer);
         holder.setUserAnswerSlot(userAnswer);
         holder.initiateItem(question);

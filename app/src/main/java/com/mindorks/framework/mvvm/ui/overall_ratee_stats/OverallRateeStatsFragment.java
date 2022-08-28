@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
+import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.databinding.FragmentRateeOverallRatingsBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -91,6 +93,7 @@ public class OverallRateeStatsFragment extends BaseFragment<FragmentRateeOverall
             @Override
             public void onChanged(ConcurrentMap<String, RateeRankingsData> stringQuestionnaireDataCollectedConcurrentMap) {
                 adapter.updateData(stringQuestionnaireDataCollectedConcurrentMap.values().stream().collect(Collectors.toList()));
+
             }
         });
 

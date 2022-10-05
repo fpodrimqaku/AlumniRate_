@@ -64,7 +64,23 @@ public class NotificationsFragment extends BaseFragment<FragmentNotificationsBin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        IntentIntegrator.forSupportFragment(this).setOrientationLocked(false).initiateScan();
+       /* IntentIntegrator
+                .forSupportFragment(this)
+                .setPrompt("Scan the QR code!")
+                .setCameraId(0)
+             .setCaptureActivity(this.getActivity().getClass())
+                .setOrientationLocked(false)
+                .initiateScan();*/
+
+        IntentIntegrator cameraScanner  = new IntentIntegrator(this.getActivity());
+        cameraScanner
+                //.forSupportFragment(this)
+                .setPrompt("Scan the QR code!")
+                .setCameraId(0)
+                //.setCaptureActivity(this.getActivity().getClass())
+                .setOrientationLocked(true)
+                .initiateScan();
+
 
     }
 

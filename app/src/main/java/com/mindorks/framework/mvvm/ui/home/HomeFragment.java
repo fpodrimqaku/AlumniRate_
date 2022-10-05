@@ -115,5 +115,9 @@ root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickL
 
     }
 
+
+
+
+
     //qr scanner
 }

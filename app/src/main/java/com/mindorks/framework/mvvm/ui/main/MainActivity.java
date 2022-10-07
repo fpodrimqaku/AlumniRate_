@@ -1,18 +1,3 @@
-/*
- *  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      https://mindorks.com/license/apache-v2
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 
 package com.mindorks.framework.mvvm.ui.main;
 
@@ -25,7 +10,9 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -33,6 +20,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -40,9 +29,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.databinding.ActivityMainBinding;
 import com.mindorks.framework.mvvm.databinding.NavHeaderMainBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -97,7 +89,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main, menu);
+        if(mViewModel.getDataManager().getCurrentLoginUserMode())
+        getMenuInflater().inflate(R.menu.ratee_main_menu, menu);
+        else
+            getMenuInflater().inflate(R.menu.rater_main_menu, menu);
         return true;
     }
 
@@ -122,14 +117,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             ((Animatable) drawable).start();
         }
         switch (item.getItemId()) {
-            case R.id.action_cut:
-                return true;
-            case R.id.action_copy:
-                return true;
-            case R.id.action_share:
-                return true;
-            case R.id.action_delete:
-                return true;
+            case R.id.scan_qr_code: {
+            startScanningActivity();
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -308,4 +298,66 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
     }
+
+
+    public void startScanningActivity() {
+
+        IntentIntegrator cameraScanner  = new IntentIntegrator(this);
+        cameraScanner
+                //.forSupportFragment(this)
+                .setPrompt("Scan the QR code!")
+                .setCameraId(0)
+                //.setCaptureActivity(this.getActivity().getClass())
+                .setOrientationLocked(true)
+                .initiateScan();
+
+
+    }
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        // if the intentResult is null then
+        // toast a message as "cancelled"
+        if (intentResult != null) {
+            if (intentResult.getContents() == null) {
+
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                // if the intentResult is not null we'll set
+                // the content and format of scan message
+                MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = mViewModel.CheckIfOrganizedQestionnaireExists(intentResult.getContents());
+                questionnaireOrganizationMutableLiveData.observe((LifecycleOwner) this, (x) -> {
+
+                    if (x != null && x.get_QRCode() != null) {
+
+                        MainActivity homeActivity  = (MainActivity) this;
+                        mViewModel.setCurrentFormScannedUID(intentResult.getContents());
+
+                        BottomNavigationView bottomNavigationView;
+                        bottomNavigationView = (BottomNavigationView) homeActivity.findViewById(R.id.nav_view);
+                        //bottomNavigationView.setOnNavigationItemSelectedListener(myNavigationItemListener);
+                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+
+                    } else {
+                        Toast.makeText(this, "Questionnaire Not Found", Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                });
+                Toast.makeText(this, intentResult.getContents(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+
 }

@@ -87,4 +87,5 @@
     <string name="professor_title">Titulli</string>
     <string name="ratee_overall_ratings">Vlerësimet e Përgjithshme</string>
     <string name="scan_questionnaire_qr_code">Skano QR Kodin</string>
+    <string name="please_fill_all_questions_before_submitting">Të gjitha pyetjet nga formulari duhet të kenë përgjigje!</string>
 </resources>

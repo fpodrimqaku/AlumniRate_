@@ -279,7 +279,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-    List<Question> questions = new ArrayList<>();
+    public MutableLiveData<List<Question>> getQuestions() {
+        initiatequestions();
+        return questions;
+    }
+
+    MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
 
 
     public void initiatequestions() {
@@ -296,7 +301,9 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                     Question item = ds.getValue(Question.class);
                     items.add(item);
                 }
-                questions = items;
+                questions.getValue().clear();
+                questions.getValue().addAll(items);
+                questions.setValue(questions.getValue());
 
 
             }
@@ -309,13 +316,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
 
     }
-
-    public List<Question> getQuestions() {
-        initiatequestions();
-        return questions;
-    }
-
-    ;
 
     public void insertQuestions() {
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
@@ -440,7 +440,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                         userAnswers.addAll(x);
                                     }
                             );
-                            questions.forEach(question -> {
+                            questions.getValue().forEach(question -> {
                                 UserAnswerData UAD1 = new UserAnswerData();
                                 UAD1.setQuestionId(question.getQuestion());
                                 userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
@@ -499,6 +499,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                     fetchRateeRankingsDataCollected.getValue().get(user.getEmail()).setUser(user);
                 });
 
+                fetchRateeRankingsDataCollected.setValue(fetchRateeRankingsDataCollected.getValue());
 
                 relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -551,7 +552,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                                     userAnswers.addAll(x);
                                                 }
                                         );
-                                        questions.forEach(question -> {
+                                        questions.getValue().forEach(question -> {
                                             UserAnswerData UAD1 = new UserAnswerData();
                                             UAD1.setQuestionId(question.getQuestion());
                                             userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
@@ -599,41 +600,3 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
 
 }
-
-
-
-
-/*    private <T>void bindOnChangeValue(DatabaseReference relativeDatabaseReference,Consumer<T> consumerFunction, Consumer<DatabaseError> consumerOnError){
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                consumerFunction.accept( dataSnapshot.getValue(Class <List<T>> objectsrEC ));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-             consumerOnError.accept(databaseError);
-            }
-
-
-        };
-        relativeDatabaseReference.addValueEventListener(postListener);
-    }*/
-
-/*
-
-    ValueEventListener postListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            // Get Post object and use the values to update the UI
-            Post post = dataSnapshot.getValue(Post.class);
-            // ..
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-            // Getting Post failed, log a message
-            Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-        }
-    };
-mPostReference.addValueEventListener(postListener);*/

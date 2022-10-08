@@ -47,4 +47,8 @@ public class QuestionnaireAnswers {
     public void setRateeId(String rateeId) {
         this.rateeId = rateeId;
     }
+
+    public boolean isValid(){
+        return !answers.stream().anyMatch(item->item.getOptionPicked()==null);
+    }
 }

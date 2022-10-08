@@ -1,29 +1,26 @@
 package com.mindorks.framework.mvvm.ui.home;
 
-import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.bumptech.glide.load.engine.Resource;
+import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
-import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Dictionary;
-import java.util.List;
 
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
     private MutableLiveData<Dictionary<Integer, String>> questions;
-
+    private MutableLiveData<Integer> errorTxt = new MutableLiveData<>();
     public LiveData<String> getText() {
         return mText;
     }
@@ -45,7 +42,18 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
     public void saveMyRatingAnswers() {
-        getDataManager().insertEntityIntoSet(questionnaireAnswers, FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        if(!questionnaireAnswers.isValid()){
+            errorTxt.setValue(R.string.please_fill_all_questions_before_submitting);
+            return;
+        }
+        boolean successful = getDataManager().insertEntityIntoSet(questionnaireAnswers, FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        if (successful) {
+            getDataManager().setCurrentFormUID(null);
+            this.questionnaireAnswers = new QuestionnaireAnswers();
+        } else {
+
+        }
+
     }
 
     public QuestionnaireAnswers getQuestionnaireAswers() {
@@ -53,13 +61,16 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
 
-
     public MutableLiveData<QuestionnaireOrganization> CheckIfOrganizedQestionnaireExists(String qrCode) {
         MutableLiveData<QuestionnaireOrganization> questionnaireOrganization = getDataManager().fetchQuestionnaireByQrCode(qrCode);
         return questionnaireOrganization;
     }
 
-    public void setCurrentFormScannedUID(String currentFormUID){
+    public void setCurrentFormScannedUID(String currentFormUID) {
         getDataManager().setCurrentFormUID(currentFormUID);
+    }
+
+    public MutableLiveData<Integer> getErrorTxt() {
+        return errorTxt;
     }
 }

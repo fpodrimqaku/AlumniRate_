@@ -7,8 +7,6 @@ public class UserAnswer {
     private Integer optionPicked;
 
     public UserAnswer() {
-
-
     }
 
 

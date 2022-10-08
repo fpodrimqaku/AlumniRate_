@@ -365,7 +365,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public List<com.mindorks.framework.mvvm.data.model.firebase.Question> getQuestions(){
+    public MutableLiveData<List<com.mindorks.framework.mvvm.data.model.firebase.Question>> getQuestions(){
         return firebaseHelper.getQuestions();
     };
 

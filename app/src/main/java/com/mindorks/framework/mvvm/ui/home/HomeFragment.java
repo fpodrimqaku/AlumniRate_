@@ -1,6 +1,7 @@
 package com.mindorks.framework.mvvm.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.DataManager;
+import com.mindorks.framework.mvvm.data.local.prefs.AppPreferencesHelper;
+import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
+import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.databinding.FragmentHomeBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.generated.callback.OnClickListener;
@@ -31,6 +36,7 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import com.mindorks.placeholderview.annotations.Click;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.OnClick;
 //Author of below saying->LAURIT HAFIZI
@@ -67,14 +73,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View root = inflater.inflate(getLayoutId(), container, false);
-root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickListener(){
-    @Override
-    public void onClick(View view) {
-        Toast.makeText(getContext(),"loop daddy",Toast.LENGTH_SHORT).show();
-        mViewModel.saveMyRatingAnswers();
+        root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mViewModel.saveMyRatingAnswers();
+            }
+        });
+
+        mViewModel.getErrorTxt().observe(this.getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer textIdInResources) {
+                if(textIdInResources!=null)
+                Toast.makeText(getActivity(),getResources().getString(textIdInResources),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return root;
     }
-});
-        return root; }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -92,16 +108,25 @@ root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickL
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 this.getActivity());
 
-        // RecyclerViewLayoutManager = linearLayoutManager;
 
         questionnaireRecyclerView.setLayoutManager(
                 linearLayoutManager);
         QuestionnaireQuestionsAdapter adapter = new QuestionnaireQuestionsAdapter(new ArrayList<>(), mViewModel);
 
+       super.mViewModel.getDataManager().getQuestions();
 
-        //TODO INVESTIGATE THE ABOVE ROWS LATER
+        super.mViewModel.getDataManager().getQuestions().observe(getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(List<Question> questions) {
+                mViewModel.getQuestionnaireAswers().getAnswers().clear();
+                questions.forEach(question->{
+                    UserAnswer userAnswer = new UserAnswer(question.getQuestion());//todo changelater
+                    mViewModel.getQuestionnaireAswers().getAnswers().add(userAnswer);
 
-        adapter.updateData(super.mViewModel.getDataManager().getQuestions());
+                });
+                adapter.updateData(questions);
+            }
+        });
         questionnaireRecyclerView.setLayoutManager(linearLayoutManager);
 
         questionnaireRecyclerView.setAdapter(adapter);
@@ -118,15 +143,15 @@ root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickL
     }
 
 
-    public void saveMyRatingAnswers(){
-        Toast.makeText(getContext(),"loop daddy",Toast.LENGTH_SHORT).show();
+    public void saveMyRatingAnswers() {
+
         mViewModel.saveMyRatingAnswers();
 
     }
 
 
-    public void startScanner(){
-        IntentIntegrator cameraScanner  = new IntentIntegrator(this.getActivity());
+    public void startScanner() {
+        IntentIntegrator cameraScanner = new IntentIntegrator(this.getActivity());
         cameraScanner
                 //.forSupportFragment(this)
                 .setPrompt("Scan the QR code!")
@@ -137,50 +162,4 @@ root.findViewById(R.id.submitRatingAnswers).setOnClickListener(new View.OnClickL
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        // if the intentResult is null then
-        // toast a message as "cancelled"
-        if (intentResult != null) {
-            if (intentResult.getContents() == null) {
-
-                Toast.makeText(getContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-            } else {
-                // if the intentResult is not null we'll set
-                // the content and format of scan message
-                MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = mViewModel.CheckIfOrganizedQestionnaireExists(intentResult.getContents());
-                questionnaireOrganizationMutableLiveData.observe((LifecycleOwner) getContext(), (x) -> {
-
-                    if (x != null && x.get_QRCode() != null) {
-
-                        MainActivity homeActivity  = (MainActivity) this.getContext();
-                        mViewModel.setCurrentFormScannedUID(intentResult.getContents());
-
-                        BottomNavigationView bottomNavigationView;
-                        bottomNavigationView = (BottomNavigationView) homeActivity.findViewById(R.id.nav_view);
-                        //bottomNavigationView.setOnNavigationItemSelectedListener(myNavigationItemListener);
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
-
-                    } else {
-                        Toast.makeText(getContext(), "Questionnaire Not Found", Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                });
-                Toast.makeText(getContext(), intentResult.getContents(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-
-
-
-
-    //qr scanner
 }

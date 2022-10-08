@@ -50,8 +50,6 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
                    case R.id.question_answer_5:
                        userAnswer.setOptionPicked(5);
                        break;
-
-
             }
             }
         });

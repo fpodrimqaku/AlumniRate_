@@ -10,6 +10,9 @@ public class QuestionnaireAnswers {
     private String rateeId;
     private List<UserAnswer> answers;
 
+    public QuestionnaireAnswers() {
+        answers = new ArrayList<UserAnswer>();
+    }
 
     public String getQuestionnaireId() {
         return questionnaireId;
@@ -29,6 +32,7 @@ public class QuestionnaireAnswers {
     }
 
     public List<UserAnswer> getAnswers() {
+        int o = 10 ;//todo delete later
         return answers;
     }
 

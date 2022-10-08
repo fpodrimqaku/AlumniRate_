@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class UserAnswerData {
     private String questionId;
-    private Map<Integer,Integer> optionsPickedStats;
+    private Map<Integer, Integer> optionsPickedStats;
 
-    public UserAnswerData (){
+    public UserAnswerData() {
 
         optionsPickedStats = new HashMap<>();
         initiateOptionPickedStats();
@@ -29,18 +29,27 @@ public class UserAnswerData {
     public void setOptionsPickedStats(Map<Integer, Integer> optionsPickedStats) {
         this.optionsPickedStats = optionsPickedStats;
     }
-    public void initiateOptionPickedStats (){
-        optionsPickedStats.put(1,0);
-        optionsPickedStats.put(2,0);
-        optionsPickedStats.put(3,0);
-        optionsPickedStats.put(4,0);
-        optionsPickedStats.put(5,0);    }
 
-    public void AddToOption (int optionId,int valueToAdd){
-        int value = optionsPickedStats.get(optionId);
-        optionsPickedStats.put(optionId,value+valueToAdd);
+    public void initiateOptionPickedStats() {
+        optionsPickedStats.put(1, 0);
+        optionsPickedStats.put(2, 0);
+        optionsPickedStats.put(3, 0);
+        optionsPickedStats.put(4, 0);
+        optionsPickedStats.put(5, 0);
     }
 
+    public void AddToOption(int optionId, int valueToAdd) {
+        int value = optionsPickedStats.get(optionId);
+        optionsPickedStats.put(optionId, value + valueToAdd);
+    }
+
+    public void AddToOptions(UserAnswerData valuesToAdd) {
+        valuesToAdd.getOptionsPickedStats().keySet().stream().forEach(x -> {
+            AddToOption(x, valuesToAdd.getOptionsPickedStats().get(x));
+
+        });
+
+    }
 
 
 }

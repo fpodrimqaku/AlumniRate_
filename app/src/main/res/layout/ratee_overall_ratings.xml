@@ -69,7 +69,7 @@
                         android:layout_marginLeft="20dp"
                         app:layout_constraintStart_toEndOf="@+id/cardView"
                         app:layout_constraintTop_toTopOf="@+id/cardView"
-                        tools:text="Android MVP Architecture" />
+                        tools:text="Faton Podrimcakue" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            tools:text="Amit Shekhar" />
+                            tools:text="Dr.Pr. Arkitektura e kompjuterve" />
                     </RelativeLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

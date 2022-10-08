@@ -9,6 +9,7 @@ import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
@@ -51,4 +52,14 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         return questionnaireAnswers;
     }
 
+
+
+    public MutableLiveData<QuestionnaireOrganization> CheckIfOrganizedQestionnaireExists(String qrCode) {
+        MutableLiveData<QuestionnaireOrganization> questionnaireOrganization = getDataManager().fetchQuestionnaireByQrCode(qrCode);
+        return questionnaireOrganization;
+    }
+
+    public void setCurrentFormScannedUID(String currentFormUID){
+        getDataManager().setCurrentFormUID(currentFormUID);
+    }
 }

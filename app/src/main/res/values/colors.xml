@@ -43,4 +43,11 @@
     <color name="blue_black_light">#516179</color>
     <color name="yellow">#fff44f</color>
     <color name="white_op_10">#ccffffff</color>
+
+
+    <!--login photo colors-->
+    <color name="login_warm_orange">#FF731D</color>
+    <color name="login_warm_skin">#FFF7E9</color>
+    <color name="login_janablue">#5F9DF7</color>
+    <color name="login_warm_blue">#1746A2</color>
 </resources>

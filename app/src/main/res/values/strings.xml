@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MvvmApp</string>
+    <string name="app_name">EduRate</string>
 
     <!--Toolbar menus-->
     <string name="cut">Cut</string>
@@ -78,8 +78,10 @@
     <string name="pw_change_request_succ">Kërkesa u dërgua me sukses</string>
     <string name="pw_change_request_fail">Kërkesa dështoi!</string>
     <string name="send_pw_reset_email">Dërgo</string>
+    <string name="login_login">Kyqu</string>
+    <string name="login_the_login">Kyqja në llogari</string>
     <string name="reset_password">Rikthe fjalëkalimin</string>
-    <string name="go_back">Po te lutem qe ti te kthehesh prapa</string>
+    <string name="go_back_to_login">Kthehu tek Kyqja</string>
     <string name="user_name">Emri</string>
     <string name="user_last_name">Mbiemri</string>
     <string name="create_account">Krijo Llogari</string>
@@ -90,4 +92,7 @@
     <string name="please_fill_all_questions_before_submitting">Të gjitha pyetjet nga formulari duhet të kenë përgjigje!</string>
     <string name="menu_botom_nav_overall_ratings">Vlerësimet</string>
     <string name="menu_botom_nav_questionnaire">Pyetsori</string>
+    <string name="menu_botom_nav_stats">Statistika</string>
+    <string name="menu_botom_nav_create">Krijo</string>
+    <string name="restore_pw">Rikthe fjalëkalimin</string>
 </resources>

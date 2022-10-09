@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
+        android:windowSoftInputMode="adjustPan"
         >
 
 
@@ -25,14 +25,14 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
             >
 
         </activity>
         <activity android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
             >
 
         </activity>
@@ -41,7 +41,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,7 +56,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
             >
 
 
@@ -76,7 +76,7 @@
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
             >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

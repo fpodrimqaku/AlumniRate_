@@ -1,6 +1,8 @@
 
 package com.mindorks.framework.mvvm.data;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
 import com.mindorks.framework.mvvm.data.local.prefs.PreferencesHelper;
@@ -48,4 +50,5 @@ public interface DataManager extends DbHelper, PreferencesHelper, ApiHelper, Fir
             return mType;
         }
     }
+    public MutableLiveData<String> getCurrentBarcodeScanned();
 }

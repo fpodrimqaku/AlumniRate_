@@ -344,6 +344,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         try {
             DatabaseReference relativeDatabaseReference = databaseReference.child(setName);
             relativeDatabaseReference.push().setValue(entity);
+
         } catch (Exception exception) {
             return false;
 
@@ -367,6 +368,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                     questionnaireOrganizationMutableLiveData.setValue(dummyQuestionnaireOrganization);
                 } else
                     questionnaireOrganizationMutableLiveData.setValue(questionnaireOrganization);
+                relativeDatabaseReference.removeEventListener(this);
             }
 
             @Override

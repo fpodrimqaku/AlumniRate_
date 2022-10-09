@@ -67,8 +67,8 @@
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            tools:replace="android:screenOrientation"
-            android:windowSoftInputMode="adjustResize"
+
+
             />
         <activity
             android:name=".ui.feed.FeedActivity"

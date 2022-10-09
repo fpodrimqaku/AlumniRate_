@@ -14,6 +14,7 @@ import com.mindorks.framework.mvvm.ui.feed.blogs.BlogViewModel;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceAdapter;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceViewModel;
 import com.mindorks.framework.mvvm.ui.home.HomeViewModel;
+import com.mindorks.framework.mvvm.ui.home.scan_form.ScanViewModel;
 import com.mindorks.framework.mvvm.ui.notifications.NotificationsViewModel;
 import com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
@@ -99,5 +100,13 @@ public class FragmentModule {
         ViewModelProviderFactory<PersonalRatingsViewModel> factory = new ViewModelProviderFactory<>(PersonalRatingsViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(PersonalRatingsViewModel.class);
     }
+
+    @Provides
+    ScanViewModel provideScanViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<ScanViewModel> supplier = () -> new ScanViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<ScanViewModel> factory = new ViewModelProviderFactory<>(ScanViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ScanViewModel.class);
+    }
+
 
 }

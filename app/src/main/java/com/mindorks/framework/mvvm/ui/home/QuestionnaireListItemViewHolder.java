@@ -56,6 +56,25 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
 
     }
 
+    public void checkOption(int optionId){
+        switch (optionId){
+            case 1:
+                a1.setChecked(true);
+                break;
+            case 2:
+                a2.setChecked(true);
+                break;
+            case 3:
+                a3.setChecked(true);
+                break;
+            case 4:
+                a4.setChecked(true);
+                break;
+            case 5:
+                a5.setChecked(true);
+                break;
+        }
+    }
 
     @Override
     public void onBind(int position) {
@@ -68,10 +87,16 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
         this.userAnswer.setQuestionId(item.getQuestion());
     }
 
-
-
     public void setUserAnswerSlot(UserAnswer userAnswer) {
         this.userAnswer = userAnswer;
+        /*if(userAnswer.getOptionPicked()==null){
+            radioGroup_finalAnswer.clearCheck();
+        }else {
+            radioGroup_finalAnswer.clearCheck();
+            checkOption(userAnswer.getOptionPicked());
+        }*/
+
     }
+
 
 }

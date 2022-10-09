@@ -15,6 +15,7 @@ import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +50,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     private RecyclerView questionnaireRecyclerView;
     private MutableLiveData<String> mText;
-
+    NavController navController;
 
     @Override
     public int getBindingVariable() {
@@ -65,7 +66,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel.setNavigator(this);
-
+        navController = ((MainActivity) this.getActivity()).getNavController();
     }
 
 
@@ -77,15 +78,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onClick(View view) {
 
-                mViewModel.saveMyRatingAnswers();
+                boolean successful = mViewModel.saveMyRatingAnswers();
+                if (successful) {
+                    navController.navigate(R.id.navigation_scan_form_fragment);
+                }
             }
         });
 
         mViewModel.getErrorTxt().observe(this.getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer textIdInResources) {
-                if(textIdInResources!=null)
-                Toast.makeText(getActivity(),getResources().getString(textIdInResources),Toast.LENGTH_LONG).show();
+                if (textIdInResources != null)
+                    Toast.makeText(getActivity(), getResources().getString(textIdInResources), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -113,13 +117,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 linearLayoutManager);
         QuestionnaireQuestionsAdapter adapter = new QuestionnaireQuestionsAdapter(new ArrayList<>(), mViewModel);
 
-       super.mViewModel.getDataManager().getQuestions();
+        super.mViewModel.getDataManager().getQuestions();
 
         super.mViewModel.getDataManager().getQuestions().observe(getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(List<Question> questions) {
                 mViewModel.getQuestionnaireAswers().getAnswers().clear();
-                questions.forEach(question->{
+                questions.forEach(question -> {
                     UserAnswer userAnswer = new UserAnswer(question.getQuestion());//todo changelater
                     mViewModel.getQuestionnaireAswers().getAnswers().add(userAnswer);
 

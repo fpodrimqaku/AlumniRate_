@@ -7,13 +7,16 @@
         android:icon="@drawable/ic_ratings_statistics"
         android:title="@string/title_profile" />
 -->
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_generate" />
+
     <item
         android:id="@+id/navigation_overall_ratee_stats"
-        android:icon="@drawable/ic_person_rater"
-        android:title="@string/title_profile" />
+        android:icon="@drawable/ic_ratings_statistics"
+        android:title="@string/menu_botom_nav_overall_ratings" />
+    <item
+        android:id="@+id/navigation_scan_form_fragment"
+        android:icon="@drawable/ic_baseline_form"
+        android:title="@string/menu_botom_nav_questionnaire" />
+
+
 
 </menu>

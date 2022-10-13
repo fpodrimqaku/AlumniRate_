@@ -1,5 +1,6 @@
 package com.mindorks.framework.mvvm.ui.dashboard;
 
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +13,7 @@ import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -19,6 +21,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
 
     private MutableLiveData<String> mText;
     private QuestionnaireOrganization questionnaireOrganization;
+    private MutableLiveData<Integer> error = new MutableLiveData<>();
 
     public DashboardViewModel(DataManager dataManager,
                               SchedulerProvider schedulerProvider) {
@@ -41,6 +44,11 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
 
     public void  insertQuestionnaireOrganization() {
         questionnaireOrganization.setRateeId(getDataManager().getCurrentUserEmail());
+        List<Integer> errorList = questionnaireOrganization.isValid();
+        if(errorList.stream().count() > 0){
+            getError().setValue(errorList.get(0));
+            return;
+        }
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization);
     }
 
@@ -74,4 +82,11 @@ public void setQuestionnaireLocation (boolean isLocationRequired ,String locatio
 
     }
 
+    public MutableLiveData<Integer> getError() {
+        return error;
+    }
+
+    public void setError(Integer errorNum) {
+        this.error.setValue(errorNum);
+    }
 }

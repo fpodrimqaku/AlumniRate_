@@ -33,7 +33,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.databinding.Observable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -109,6 +111,15 @@ int PERMISSION_ID = 101;
 
         );
 
+        mViewModel.getError().observe(this.getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer value) {
+                if(value!=null){
+                    Toast.makeText(getContext(),getResources().getString(value), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         return root;
     }
 
@@ -176,21 +187,11 @@ int PERMISSION_ID = 101;
 
     public void initiateThings(View root) {
 
-       // Button buton = root.findViewById(R.id.buttonSaveQuestionnaireOrganization);
-
-        //Uncomment the below line of code for 24 hour view
 }
 
 
 
-/*
-        changetime.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                textview1.setText(getCurrentTime());
-            }
-        });
-*/
+
 
 
 

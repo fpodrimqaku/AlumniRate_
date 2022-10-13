@@ -16,6 +16,7 @@ import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.Dictionary;
+import java.util.List;
 
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
@@ -46,8 +47,9 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
     public boolean saveMyRatingAnswers() {
-        if (!questionnaireAnswers.isValid()) {
-            errorTxt.setValue(R.string.please_fill_all_questions_before_submitting);
+        List<Integer> errorList =  questionnaireAnswers.isValid();
+        if (errorList.stream().count()>0) {
+            errorTxt.setValue(errorList.get(0));
             return false;
         }
         boolean successful = getDataManager().insertEntityIntoSet(questionnaireAnswers, FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);

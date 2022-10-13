@@ -1,5 +1,7 @@
 package com.mindorks.framework.mvvm.data.model.firebase;
 
+import com.mindorks.framework.mvvm.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,21 @@ public class QuestionnaireAnswers {
         this.rateeId = rateeId;
     }
 
-    public boolean isValid(){
-        return !answers.stream().anyMatch(item->item.getOptionPicked()==null);
+    public  List<Integer> isValid(){
+        List<Integer> errorList = new ArrayList<>();
+        if(questionnaireId == null)
+        {   errorList.add(R.string.model_qa_no_user_for_form);
+        return errorList;}
+        if(userId==null)
+        {  errorList.add(R.string.model_qa_no_user_for_form);
+        return errorList;}
+        if(rateeId==null)
+        {errorList.add(R.string.model_qa_no_user_for_form);
+        return errorList;}
+
+        if(answers.stream().anyMatch(item->item.getOptionPicked()==null))
+        { errorList.add(R.string.model_qa_please_fill_all_questions_before_submitting);
+        return errorList;}
+        return errorList;
     }
 }

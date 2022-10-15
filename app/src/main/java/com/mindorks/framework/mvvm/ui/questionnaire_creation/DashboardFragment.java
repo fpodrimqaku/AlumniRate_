@@ -29,9 +29,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -70,6 +73,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, Da
     UUID uuid = UUID.randomUUID();
     WindowManager manager;
     FusedLocationProviderClient mFusedLocationClient;
+
 int PERMISSION_ID = 101;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -183,9 +187,7 @@ int PERMISSION_ID = 101;
 
 
     public void initiateThings(View root) {
-if(hasLocationPermissionsGranted()){
-    requestPermissions();
-}
+
 }
 
 
@@ -216,8 +218,7 @@ if(hasLocationPermissionsGranted()){
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
             {
-                //  hour = selectedHour;
-                //  minute = selectedMinute;
+
 
                 Date date = new Date();
                 LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -267,12 +268,10 @@ if(hasLocationPermissionsGranted()){
 
 
     public boolean hasLocationPermissionsGranted (){
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-            return false;
-        }
-        else return true;
-
+        if (ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {return true;}
+        return false;
 
     }
 
@@ -281,16 +280,9 @@ if(hasLocationPermissionsGranted()){
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         requestNewLocationData();
-        // check if permissions are given
         if (checkLocationPermissions()) {
-
-            // check if location is enabled
             if (isLocationEnabled()) {
 
-                // getting last
-                // location from
-                // FusedLocationClient
-                // object
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -298,10 +290,6 @@ if(hasLocationPermissionsGranted()){
                         if (location == null) {
                             requestNewLocationData();
                         } else {
-                          //  latitudeTextView.setText(location.getLatitude() + "");
-                          //  longitTextView.setText(location.getLongitude() + "");
-                           // Location mLastLocation = locationResult.getLastLocation();
-
                             StringBuilder locationStringBuilder = new StringBuilder("");
                             locationStringBuilder.append(location.getLatitude());
                             locationStringBuilder.append(",");
@@ -321,8 +309,6 @@ if(hasLocationPermissionsGranted()){
                 startActivity(intent);
             }
         } else {
-            // if permissions aren't available,
-            // request for permissions
             requestPermissions();
         }
     }
@@ -340,16 +326,13 @@ if(hasLocationPermissionsGranted()){
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 
-        // Initializing LocationRequest
-        // object with appropriate methods
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(5);
         mLocationRequest.setFastestInterval(0);
         mLocationRequest.setNumUpdates(1);
 
-        // setting LocationRequest
-        // on FusedLocationClient
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
     }
@@ -375,6 +358,39 @@ if(hasLocationPermissionsGranted()){
     public void setQuestionnaireLocation(boolean isLocationRequired, String location){
     getViewDataBinding().getViewModel().setQuestionnaireLocation(isLocationRequired,location);
     }
+
+
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+
+
+                } else {
+
+                    snackShowLong(getResources().getString(R.string.permission_location_request));
+
+                }
+            });
+
+
+    public void checkIfAppHasLocationPermissionAndRequestIt(){
+
+        if (ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+
+        }else if (shouldShowRequestPermissionRationale(getResources().getString(R.string.permission_location_request))){
+
+        }
+        else {
+            requestPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+    }
+
+
 
 
 }

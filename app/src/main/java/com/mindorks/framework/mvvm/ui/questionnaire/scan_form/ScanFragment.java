@@ -1,17 +1,23 @@
 package com.mindorks.framework.mvvm.ui.questionnaire.scan_form;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
@@ -29,6 +35,7 @@ import java.util.List;
 public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanViewModel> implements ScanNavigator {
 
     NavController navController ;
+
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -57,6 +64,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         startScanningActivity(view, savedInstanceState);
+        checkIfAppHasCameraPermissionAndRequestIt();
         listenForFormUIDFromScanner();
     }
 
@@ -142,12 +150,31 @@ List<String> blackListedQrs  = new ArrayList<String>();
         super.onPause();
     }
 
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    scannerPause(false);
+                } else {
+                    scannerPause(true);
+                    snackShowLong(getResources().getString(R.string.permission_camera_request));
 
+                }
+            });
 
 
     public void checkIfAppHasCameraPermissionAndRequestIt(){
 
+        if (ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED) {
 
+        }
+        else {
+            // You can directly ask for the permission.
+            // The registered ActivityResultCallback gets the result of this request.
+            requestPermissionLauncher.launch(
+                    Manifest.permission.CAMERA);
+        }
 
     }
 

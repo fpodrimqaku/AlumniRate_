@@ -77,6 +77,30 @@ public void setQuestionnaireLocation (boolean isLocationRequired ,String locatio
 
     }
 
+
+    public void setQuestionnaireLocationRequired (Boolean locationRequired){
+        this.questionnaireOrganization.setLocationRequired(locationRequired);
+
+
+    }
+
+    public boolean getQuestionnaireLocationRequired(){
+       return this.questionnaireOrganization.getLocationRequired();
+
+    }
+
+
+    public void setQuestionnaireLocation (String locationRequired){
+        this.questionnaireOrganization.setLocation(locationRequired);
+    }
+
+    public String getQuestionnaireLocation(Boolean locationRequired){
+        return this.questionnaireOrganization.getLocation();
+
+
+    }
+
+
     public MutableLiveData<Integer> getError() {
         return error;
     }

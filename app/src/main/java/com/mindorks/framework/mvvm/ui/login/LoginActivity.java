@@ -31,6 +31,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public int getLayoutId() {
+
         return R.layout.activity_login;
     }
 

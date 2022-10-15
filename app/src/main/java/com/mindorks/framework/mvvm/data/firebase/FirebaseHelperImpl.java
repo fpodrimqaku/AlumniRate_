@@ -51,7 +51,7 @@ import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import kotlin.collections.AbstractMutableList;
+
 
 @Singleton
 public class FirebaseHelperImpl implements FirebaseHelper {

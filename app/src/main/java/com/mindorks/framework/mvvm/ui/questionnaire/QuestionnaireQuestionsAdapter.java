@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.ui.home;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,11 +1,8 @@
-package com.mindorks.framework.mvvm.ui.home;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 import androidx.databinding.ObservableField;
 
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
-
-import io.reactivex.Observable;
-import io.reactivex.internal.operators.observable.ObservableAll;
 
 public class QuestionViewModel {
 

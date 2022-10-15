@@ -103,6 +103,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                         } else {
                             onFailure.takeAction();
                         }
+
                     }
                 });
     }
@@ -453,6 +454,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                         });
                                 qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
                             });
+
 
 
                         });

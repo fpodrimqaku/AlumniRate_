@@ -24,7 +24,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization
 import com.mindorks.framework.mvvm.databinding.FragmentNotificationsBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
 public class NotificationsFragment extends BaseFragment<FragmentNotificationsBinding, NotificationsViewModel> implements QuestionnaireListNavigator {

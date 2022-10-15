@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.ui.dashboard;
+package com.mindorks.framework.mvvm.ui.questionnaire_creation;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +32,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.databinding.Observable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -50,9 +48,8 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.FragmentDashboardBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -186,7 +183,9 @@ int PERMISSION_ID = 101;
 
 
     public void initiateThings(View root) {
-
+if(hasLocationPermissionsGranted()){
+    requestPermissions();
+}
 }
 
 
@@ -331,10 +330,6 @@ int PERMISSION_ID = 101;
     private boolean checkLocationPermissions() {
         return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     private boolean isLocationEnabled() {

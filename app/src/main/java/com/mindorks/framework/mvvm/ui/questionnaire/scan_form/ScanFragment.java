@@ -1,10 +1,7 @@
-package com.mindorks.framework.mvvm.ui.home.scan_form;
+package com.mindorks.framework.mvvm.ui.questionnaire.scan_form;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,29 +11,19 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
-import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
-import com.mindorks.framework.mvvm.databinding.FragmentHomeBinding;
 import com.mindorks.framework.mvvm.databinding.FragmentScanFormQrBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.home.HomeViewModel;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanViewModel> implements ScanNavigator {
@@ -153,6 +140,15 @@ List<String> blackListedQrs  = new ArrayList<String>();
     public void onPause() {
         scannerPause(true);
         super.onPause();
+    }
+
+
+
+
+    public void checkIfAppHasCameraPermissionAndRequestIt(){
+
+
+
     }
 
 }

@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.mindorks.framework.mvvm.ui.home.scan_form.ScanViewModel" />
+            type="com.mindorks.framework.mvvm.ui.questionnaire.scan_form.ScanViewModel" />
 
     </data>
 

@@ -1,21 +1,16 @@
-package com.mindorks.framework.mvvm.ui.dashboard;
+package com.mindorks.framework.mvvm.ui.questionnaire_creation;
 
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.Date;
 import java.util.List;
-
-import butterknife.OnClick;
 
 public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 

@@ -1,13 +1,8 @@
-package com.mindorks.framework.mvvm.ui.home;
-
-import android.widget.Toast;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.navigation.NavController;
 
-import com.bumptech.glide.load.engine.Resource;
-import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;

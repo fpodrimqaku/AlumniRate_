@@ -1,9 +1,6 @@
-package com.mindorks.framework.mvvm.ui.home;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,34 +9,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.framework.mvvm.R;
-import com.mindorks.framework.mvvm.data.DataManager;
-import com.mindorks.framework.mvvm.data.local.prefs.AppPreferencesHelper;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.databinding.FragmentHomeBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
-import com.mindorks.framework.mvvm.generated.callback.OnClickListener;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
-import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
-import com.mindorks.placeholderview.annotations.Click;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 //Author of below saying->LAURIT HAFIZI
 /*
  * pjesa e viti i ri kinezt-bomba berthamore

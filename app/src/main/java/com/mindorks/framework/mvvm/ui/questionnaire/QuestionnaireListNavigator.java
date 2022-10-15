@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.ui.home;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 public interface QuestionnaireListNavigator {
     void goBack();

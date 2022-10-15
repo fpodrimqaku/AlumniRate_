@@ -14,7 +14,7 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 
 import javax.inject.Singleton;
 

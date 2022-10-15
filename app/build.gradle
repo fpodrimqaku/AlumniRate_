@@ -51,7 +51,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // android support libraries
-    implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
+    implementation "androidx.appcompat:appcompat:1.4.1"
     implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
     implementation "androidx.cardview:cardview:$rootProject.cardViewVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
@@ -69,7 +69,10 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomDatabaseVersion"
 
     // font
-    implementation "uk.co.chrisjenx:calligraphy:$rootProject.calligraphyVersion"
+
+
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
 
     // image
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"

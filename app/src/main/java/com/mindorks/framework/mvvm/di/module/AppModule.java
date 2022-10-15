@@ -36,7 +36,8 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
 
 
 @Module

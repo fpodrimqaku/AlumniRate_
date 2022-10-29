@@ -24,13 +24,12 @@ import butterknife.OnClick;
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
 
-
-
     ObservableBoolean loginUIMode = new ObservableBoolean();
-    ObservableField<String> emailToResetPasswordTo =new ObservableField<>("");
+    ObservableField<String> emailToResetPasswordTo = new ObservableField<>("");
 
 
     MutableLiveData<Boolean> emailSentToResetPwResult = new MutableLiveData<>(null);
+
     public LoginViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         loginUIMode.set(true);
@@ -50,28 +49,15 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         return true;
     }
 
-    public void login(String email, String password,boolean loginAsRatee) {
+    public void login(String email, String password, boolean loginAsRatee) {
 
-        /*getCompositeDisposable().add(getDataManager()
-                .doServerLoginApiCall(new LoginRequest.ServerLoginRequest(email, password))
-                .doOnSuccess(response -> getDataManager()
-                        .updateUserInfo(
-                                response.getAccessToken(),
-                                response.getUserId(),
-                                DataManager.LoggedInMode.LOGGED_IN_MODE_SERVER,
-                                response.getUserName(),
-                                response.getUserEmail(),
-                                response.getGoogleProfilePicUrl()))
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(response -> {
-                    setIsLoading(false);
-                    getNavigator().openMainActivity();
-                }, throwable -> {
-                    setIsLoading(false);
-                    getNavigator().handleError(throwable);
-                }));*/
+        if (!loginAsRatee) {
+            getNavigator().openMainActivity();
+            return;
+        }
+
         setIsLoading(true);
+
         getDataManager().signInWithEmailAndPassword(email, password, () -> {
 
             getNavigator().openMainActivity();
@@ -80,7 +66,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                     .updateUserInfo(
                             null,
                             null,
-                            DataManager.LoggedInMode.LOGGED_IN_MODE_GOOGLE,
+                            DataManager.LoggedInMode.LOGGED_IN_MODE_SERVER,
                             null,
                             email,
                             email);
@@ -165,15 +151,13 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     }
 
 
-
-
     public void onServerLoginClick(boolean loginAsRatee) {
         getNavigator().login(loginAsRatee);
     }
 
 
-    public void  sendPasswordResetEmail(){
-        emailSentToResetPwResult =  getDataManager().sendPasswordResetEmail(getEmailToResetPasswordTo().get());
+    public void sendPasswordResetEmail() {
+        emailSentToResetPwResult = getDataManager().sendPasswordResetEmail(getEmailToResetPasswordTo().get());
     }
 
     public ObservableField<String> getEmailToResetPasswordTo() {

@@ -106,5 +106,6 @@
     <string name="model_qo_end_questionnaire_created_successfully">Formulari u krijua me sukses!</string>
     <string name="permission_camera_request">Për skanimin e QR kodit të pytsorit ,lejoni qasjen në kamerë!</string>
     <string name="permission_location_request">Për validim me lokacion, lejoni qasjen!</string>
+    <string name="questionnaire_name">Emri i Pytsorit</string>
 
 </resources>

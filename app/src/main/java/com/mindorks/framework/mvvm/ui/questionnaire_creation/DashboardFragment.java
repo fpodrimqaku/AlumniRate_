@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.Observable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -63,6 +64,7 @@ import java.util.UUID;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, DashboardViewModel> implements QuestionnaireListNavigator {
@@ -80,6 +82,7 @@ int PERMISSION_ID = 101;
         super.onCreate(savedInstanceState);
         //  mViewModel.setNavigator(this);
         mViewModel.setNavigator(this);
+
 
     }
 
@@ -167,7 +170,9 @@ int PERMISSION_ID = 101;
         super.onViewCreated(view, savedInstanceState);
           ButterKnife.bind(this, view);
         initiateQrCode(view);
-        initiateThings(view);
+
+
+
     }
 
     @Override
@@ -186,16 +191,6 @@ int PERMISSION_ID = 101;
     }
 
 
-    public void initiateThings(View root) {
-
-}
-
-
-
-
-
-
-
     @Override
     public void goBack() {
 
@@ -206,6 +201,18 @@ int PERMISSION_ID = 101;
     public void buttonSaveQuestionnaireOrganization_clicked() {
         dashboardViewModel.insertQuestionnaireOrganization();
     }
+
+
+    @OnCheckedChanged(R.id.questionnaireOrganizationLocationRequired)
+    public void questionnaireOrganizationLocationRequired_clicked() {
+       if(mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true){
+           checkIfAppHasLocationPermissionAndRequestIt();
+       }
+       else if (mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false){
+           mViewModel.setQuestionnaireLocation(null,null);
+       }
+    }
+
 
 @OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
     public void initiateTimeFromOrTimeTo(View view){
@@ -258,11 +265,6 @@ int PERMISSION_ID = 101;
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
-
-    }
-    @OnClick({R.id.questionnaireOrganizationLocationRequired})
-    public void locationRequiredCheckboxChanged (View view){
-        getLastLocation();
 
     }
 
@@ -364,7 +366,7 @@ int PERMISSION_ID = 101;
     private ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-
+                   // getLastLocation();
 
                 } else {
 
@@ -379,6 +381,8 @@ int PERMISSION_ID = 101;
         if (ContextCompat.checkSelfPermission(
                 getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
+
+            getLastLocation();
 
         }else if (shouldShowRequestPermissionRationale(getResources().getString(R.string.permission_location_request))){
 

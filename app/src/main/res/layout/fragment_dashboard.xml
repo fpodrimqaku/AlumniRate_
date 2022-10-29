@@ -32,50 +32,72 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Emri i Pytsorit"
-        android:inputType="textPersonName"
-
-
+        android:hint="@string/questionnaire_name"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_qr_code" />
 
-    <TextView
-        android:id="@+id/questionnaireTimeFrom"
-        android:layout_width="183dp"
-
-        android:layout_height="67dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="Ora Prej:"
-        android:textSize="18sp"
-        android:inputType="time"
-        android:timePickerMode="clock"
-        app:layout_constraintStart_toStartOf="@+id/editQuestionnaireOrganizationName"
-        app:layout_constraintTop_toBottomOf="@+id/editQuestionnaireOrganizationName" />
-
-    <TextView
-        android:id="@+id/qestionnaireTimeTo"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="170dp"
         android:layout_height="70dp"
-        android:ems="10"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/editQuestionnaireOrganizationName"
+        app:layout_constraintTop_toBottomOf="@+id/editQuestionnaireOrganizationName"
         android:timePickerMode="clock"
-        android:hint="Ora Deri"
-        android:textSize="18sp"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="@+id/questionnaireTimeFrom"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/questionnaireTimeFrom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:hint="Ora Prej:"
+            android:inputType="time"
+            android:textSize="18sp"
+            android:timePickerMode="clock"
+            android:cursorVisible="false"
+            android:focusable="false"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="170dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@+id/editQuestionnaireOrganizationName"
-        app:layout_constraintTop_toTopOf="@+id/questionnaireTimeFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/editQuestionnaireOrganizationName"
+        android:timePickerMode="clock"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/qestionnaireTimeTo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="Ora Deri"
+            android:inputType="time"
+            android:textSize="18sp"
+            android:timePickerMode="clock"
+            android:cursorVisible="false"
+            android:focusable="false"
+
+
+            app:layout_constraintEnd_toEndOf="@+id/editQuestionnaireOrganizationName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/questionnaireOrganizationLocationRequired"
         android:layout_width="333dp"
         android:layout_height="33dp"
         android:layout_marginTop="20dp"
-        android:checked="@{viewModel.questionnaireOrganization.locationRequired}"
+        android:checked="@={viewModel.questionnaireLocationRequired}"
         android:text="@string/use_current_location"
-        app:layout_constraintStart_toStartOf="@+id/questionnaireTimeFrom"
-        app:layout_constraintTop_toBottomOf="@+id/questionnaireTimeFrom" />
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonSaveQuestionnaireOrganization"

@@ -1,5 +1,6 @@
 package com.mindorks.framework.mvvm.ui.questionnaire_creation;
 
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,6 +18,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
     private MutableLiveData<String> mText;
     private QuestionnaireOrganization questionnaireOrganization;
     private MutableLiveData<Integer> error = new MutableLiveData<>();
+
 
     public DashboardViewModel(DataManager dataManager,
                               SchedulerProvider schedulerProvider) {
@@ -47,7 +49,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization);
     }
 
-public void setQuestionnaireLocation (boolean isLocationRequired ,String location){
+public void setQuestionnaireLocation (Boolean isLocationRequired ,String location){
        this.questionnaireOrganization.setLocationRequired(isLocationRequired);
         this.questionnaireOrganization.setLocation(location);
 
@@ -77,28 +79,26 @@ public void setQuestionnaireLocation (boolean isLocationRequired ,String locatio
 
     }
 
-
-    public void setQuestionnaireLocationRequired (Boolean locationRequired){
-        this.questionnaireOrganization.setLocationRequired(locationRequired);
-
-
-    }
-
-    public boolean getQuestionnaireLocationRequired(){
-       return this.questionnaireOrganization.getLocationRequired();
-
-    }
-
-
     public void setQuestionnaireLocation (String locationRequired){
         this.questionnaireOrganization.setLocation(locationRequired);
     }
 
-    public String getQuestionnaireLocation(Boolean locationRequired){
+    public String getQuestionnaireLocation(){
         return this.questionnaireOrganization.getLocation();
 
 
     }
+
+    public void setQuestionnaireLocationRequired (Boolean locationRequired){
+        this.questionnaireOrganization.setLocationRequired(locationRequired);
+    }
+
+    public Boolean getQuestionnaireLocationRequired(){
+        return this.questionnaireOrganization.getLocationRequired();
+
+    }
+
+
 
 
     public MutableLiveData<Integer> getError() {

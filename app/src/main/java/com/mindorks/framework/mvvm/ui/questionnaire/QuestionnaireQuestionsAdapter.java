@@ -40,12 +40,15 @@ public class QuestionnaireQuestionsAdapter extends RecyclerView.Adapter<Question
 
     @Override
     public void onBindViewHolder(@NonNull QuestionnaireListItemViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
 if(viewModel.getQuestionnaireAswers().getAnswers().stream().count() ==0)
     return;
         Question question = items.get(position);
         UserAnswer userAnswer = viewModel.getQuestionnaireAswers().getAnswers().stream().filter(item->question.getQuestion().equals(item.getQuestionId())).findFirst().get();
         holder.setUserAnswerSlot(userAnswer);
         holder.initiateItem(question);
+
+        holder.initChecks();
     }
 
     public void updateData(List<Question> newItems) {

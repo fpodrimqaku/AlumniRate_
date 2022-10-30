@@ -23,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -171,7 +173,7 @@ int PERMISSION_ID = 101;
           ButterKnife.bind(this, view);
         initiateQrCode(view);
 
-
+        initVariablesAndEvents(view);
 
     }
 
@@ -203,15 +205,28 @@ int PERMISSION_ID = 101;
     }
 
 
-    @OnCheckedChanged(R.id.questionnaireOrganizationLocationRequired)
-    public void questionnaireOrganizationLocationRequired_clicked() {
-       if(mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true){
-           checkIfAppHasLocationPermissionAndRequestIt();
-       }
-       else if (mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false){
-           mViewModel.setQuestionnaireLocation(null,null);
-       }
+    public void initVariablesAndEvents(View rootView) {
+        CheckBox locationRequired  = rootView.findViewById(R.id.questionnaireOrganizationLocationRequired);
+        locationRequired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)//mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true)
+                         {
+                        checkIfAppHasLocationPermissionAndRequestIt();
+                    }
+                    else //mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false)
+                         {
+                        mViewModel.setQuestionnaireLocation(null,null);
+                    }
+            }
+        });
+
+
+
     }
+
+
+
 
 
 @OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
@@ -366,7 +381,7 @@ int PERMISSION_ID = 101;
     private ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                   // getLastLocation();
+                    getLastLocation();
 
                 } else {
 

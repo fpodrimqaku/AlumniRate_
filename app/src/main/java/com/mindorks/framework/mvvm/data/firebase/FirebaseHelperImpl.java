@@ -86,7 +86,10 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         this.firebaseDatabase = firebaseDatabase;
         this.databaseReference = databaseReference;
         this.storageReference = FirebaseStorage.getInstance().getReference();
+        initiatequestions();
     }
+
+
 
     public FirebaseUser getCurrentLoggedInUser() {
         return firebaseAuth.getCurrentUser();
@@ -281,7 +284,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
 
     public MutableLiveData<List<Question>> getQuestions() {
-        initiatequestions();
+
         return questions;
     }
 

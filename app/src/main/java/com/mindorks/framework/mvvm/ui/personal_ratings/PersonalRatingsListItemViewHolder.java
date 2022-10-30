@@ -1,13 +1,10 @@
 package com.mindorks.framework.mvvm.ui.personal_ratings;
 
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
-import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
-import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
 

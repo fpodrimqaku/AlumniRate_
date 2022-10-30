@@ -1,7 +1,6 @@
 package com.mindorks.framework.mvvm.ui.overall_ratee_stats;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,15 +20,11 @@ import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SubcolumnValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.ColumnChartView;
-import lecho.lib.hellocharts.view.LineChartView;
 
 public class OverallRateeStatsViewHolder extends BaseViewHolder {
 

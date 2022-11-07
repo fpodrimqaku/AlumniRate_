@@ -52,6 +52,17 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
     public void login(String email, String password, boolean loginAsRatee) {
 
         if (!loginAsRatee) {
+            getDataManager().setCurrentLoginUserMode(loginAsRatee);
+            getDataManager()
+                    .updateUserInfo(
+                            null,
+                            null,
+                            DataManager.LoggedInMode.LOGGED_IN_MODE_SERVER,
+                            null,
+                            null,
+                            null);
+
+
             getNavigator().openMainActivity();
             return;
         }

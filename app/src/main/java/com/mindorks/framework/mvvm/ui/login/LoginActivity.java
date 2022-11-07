@@ -44,12 +44,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void login(boolean loginAsRatee) {
         String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
         String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
-       // String email = mActivityLoginBinding.etEmail.getText().toString();
-       // String password = mActivityLoginBinding.etPassword.getText().toString();
-        if (mViewModel.isEmailAndPasswordValid(email, password)) {
+        if (loginAsRatee == true && mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
             mViewModel.login(email, password, loginAsRatee);
-        } else {
+        }
+        else if (loginAsRatee == false){
+            hideKeyboard();
+            mViewModel.login(email, password, loginAsRatee);
+        }
+        else {
             Toast.makeText(this, getString(R.string.invalid_email_password), Toast.LENGTH_SHORT).show();
         }
     }

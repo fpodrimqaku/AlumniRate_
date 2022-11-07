@@ -3,6 +3,7 @@ package com.mindorks.framework.mvvm.ui.questionnaire;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
@@ -13,6 +14,11 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import java.util.Dictionary;
 import java.util.List;
 
+import android.app.Application;
+import android.provider.Settings.Secure;
+
+
+
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
@@ -22,8 +28,7 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public LiveData<String> getText() {
         return mText;
     }
-
-
+    private String android_id = MvvmApp.DeviceId;
 
     public QuestionnaireAnswers questionnaireAnswers;
 
@@ -31,10 +36,10 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         super(dataManager, schedulerProvider);
 
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
         this.questionnaireAnswers = new QuestionnaireAnswers();
         this.questionnaireAnswers.setQuestionnaireId(getDataManager().getCurrentFormUID());
-        this.questionnaireAnswers.setUserId(getDataManager().getCurrentFormUID());//todo replace value
+        this.questionnaireAnswers.setDeviceId(android_id);
+       // this.questionnaireAnswers.setRateeId();
     }
 
     public void onNavBackClick() {

@@ -23,6 +23,9 @@ public final class AppConstants {
 
     public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss";
 
+    public static final int CAMERA_PERMISSION_CODE = 101;
+    public static final int LOCATION_PERMISSION_CODE = 102;
+    public static final int LOCAL_STORAGE_PERMISSION_CODE = 103;
     private AppConstants() {
         // This utility class is not publicly instantiable
     }

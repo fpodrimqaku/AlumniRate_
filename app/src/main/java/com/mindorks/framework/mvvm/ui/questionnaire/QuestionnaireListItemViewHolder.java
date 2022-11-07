@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.ui.home;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 import android.view.View;
 import android.widget.RadioButton;
@@ -50,11 +50,49 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
                    case R.id.question_answer_5:
                        userAnswer.setOptionPicked(5);
                        break;
-
-
             }
             }
         });
+
+    }
+
+    public void checkOption(int optionId){
+        switch (optionId){
+            case 1:
+                a1.setChecked(true);
+                break;
+            case 2:
+                a2.setChecked(true);
+                break;
+            case 3:
+                a3.setChecked(true);
+                break;
+            case 4:
+                a4.setChecked(true);
+                break;
+            case 5:
+                a5.setChecked(true);
+                break;
+        }
+    }
+    public void clearTheChecks(){
+
+        a1.setChecked(false);
+        a2.setChecked(false);
+        a3.setChecked(false);
+        a4.setChecked(false);
+        a5.setChecked(false);
+
+    }
+
+    public void initChecks(){
+        if(userAnswer.getOptionPicked()!=null){
+
+            checkOption(userAnswer.getOptionPicked());
+        }else {
+            clearTheChecks();
+
+        }
 
     }
 
@@ -70,10 +108,11 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
         this.userAnswer.setQuestionId(item.getQuestion());
     }
 
-
-
     public void setUserAnswerSlot(UserAnswer userAnswer) {
         this.userAnswer = userAnswer;
     }
+
+
+
 
 }

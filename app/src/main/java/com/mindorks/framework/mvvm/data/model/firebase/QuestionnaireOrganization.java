@@ -1,6 +1,10 @@
 package com.mindorks.framework.mvvm.data.model.firebase;
 
+import com.mindorks.framework.mvvm.R;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class QuestionnaireOrganization {
 
@@ -65,5 +69,26 @@ public class QuestionnaireOrganization {
 
     public void setRateeId(String rateeId) {
         this.rateeId = rateeId;
+    }
+
+    public List<Integer> isValid(){
+
+        List<Integer> errorList = new ArrayList<>();
+        if(_QRCode == null)
+        {   errorList.add(R.string.model_qa_no_user_for_form);
+            return errorList;}
+        if(fromDateTime==null)
+        {  errorList.add(R.string.model_qo_pick_date_from);
+            return errorList;}
+        if(toDateTime==null)
+        {errorList.add(R.string.model_qo_pick_date_to);
+            return errorList;}
+        if(questionnaireName==null)
+        {errorList.add(R.string.model_qo_type_questionnaire_org_name);
+            return errorList;}
+        if(getToDateTime().compareTo(getFromDateTime()) < 0)
+        {errorList.add(R.string.model_qo_end_date_smaller_than_startdate);
+            return errorList;}
+        return errorList;
     }
 }

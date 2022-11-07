@@ -1,7 +1,6 @@
 package com.mindorks.framework.mvvm.data.model.firebase;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class QuestionnaireDataCollected {
@@ -36,6 +35,26 @@ public QuestionnaireDataCollected(){
 
     public void setUserAnswerData(Map<String,UserAnswerData> userAnswerData) {
         this.userAnswerData = userAnswerData;
+    }
+
+    public Map<String, UserAnswerData> getUserAnswerDataCollectedForQuestionnaire() {
+
+        Map<String, UserAnswerData> userAnswerDataMap = new HashMap<>();
+
+
+        userAnswerData.values().stream().forEach((x) -> {
+            UserAnswerData uad = userAnswerDataMap.get(x.getQuestionId());
+            if (uad == null) {
+                uad = new UserAnswerData();
+                uad.setQuestionId(x.getQuestionId());
+                userAnswerDataMap.put(uad.getQuestionId(), new UserAnswerData());
+            }
+            userAnswerDataMap.get(x.getQuestionId()).AddToOptions(x);
+
+        });
+
+        return userAnswerDataMap;
+
     }
 
 

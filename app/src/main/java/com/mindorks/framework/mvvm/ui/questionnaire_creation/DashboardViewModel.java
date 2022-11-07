@@ -1,24 +1,24 @@
-package com.mindorks.framework.mvvm.ui.dashboard;
+package com.mindorks.framework.mvvm.ui.questionnaire_creation;
 
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.Date;
-
-import butterknife.OnClick;
+import java.util.List;
 
 public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
     private QuestionnaireOrganization questionnaireOrganization;
+    private MutableLiveData<Integer> error = new MutableLiveData<>();
+
 
     public DashboardViewModel(DataManager dataManager,
                               SchedulerProvider schedulerProvider) {
@@ -41,10 +41,15 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
 
     public void  insertQuestionnaireOrganization() {
         questionnaireOrganization.setRateeId(getDataManager().getCurrentUserEmail());
+        List<Integer> errorList = questionnaireOrganization.isValid();
+        if(errorList.stream().count() > 0){
+            getError().setValue(errorList.get(0));
+            return;
+        }
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization);
     }
 
-public void setQuestionnaireLocation (boolean isLocationRequired ,String location){
+public void setQuestionnaireLocation (Boolean isLocationRequired ,String location){
        this.questionnaireOrganization.setLocationRequired(isLocationRequired);
         this.questionnaireOrganization.setLocation(location);
 
@@ -74,4 +79,33 @@ public void setQuestionnaireLocation (boolean isLocationRequired ,String locatio
 
     }
 
+    public void setQuestionnaireLocation (String locationRequired){
+        this.questionnaireOrganization.setLocation(locationRequired);
+    }
+
+    public String getQuestionnaireLocation(){
+        return this.questionnaireOrganization.getLocation();
+
+
+    }
+
+    public void setQuestionnaireLocationRequired (Boolean locationRequired){
+        this.questionnaireOrganization.setLocationRequired(locationRequired);
+    }
+
+    public Boolean getQuestionnaireLocationRequired(){
+        return this.questionnaireOrganization.getLocationRequired();
+
+    }
+
+
+
+
+    public MutableLiveData<Integer> getError() {
+        return error;
+    }
+
+    public void setError(Integer errorNum) {
+        this.error.setValue(errorNum);
+    }
 }

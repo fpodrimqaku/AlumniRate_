@@ -16,10 +16,8 @@ import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollecte
 import com.mindorks.framework.mvvm.databinding.PersonalRatingsBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireQuestionsAdapter;
 
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 

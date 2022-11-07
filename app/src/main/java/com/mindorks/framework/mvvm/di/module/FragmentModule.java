@@ -8,12 +8,13 @@ import com.mindorks.framework.mvvm.ViewModelProviderFactory;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.ui.about.AboutViewModel;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.dashboard.DashboardViewModel;
+import com.mindorks.framework.mvvm.ui.questionnaire_creation.DashboardViewModel;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogAdapter;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogViewModel;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceAdapter;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceViewModel;
-import com.mindorks.framework.mvvm.ui.home.HomeViewModel;
+import com.mindorks.framework.mvvm.ui.questionnaire.HomeViewModel;
+import com.mindorks.framework.mvvm.ui.questionnaire.scan_form.ScanViewModel;
 import com.mindorks.framework.mvvm.ui.notifications.NotificationsViewModel;
 import com.mindorks.framework.mvvm.ui.personal_ratings.PersonalRatingsViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
@@ -99,5 +100,13 @@ public class FragmentModule {
         ViewModelProviderFactory<PersonalRatingsViewModel> factory = new ViewModelProviderFactory<>(PersonalRatingsViewModel.class, supplier);
         return new ViewModelProvider(fragment, factory).get(PersonalRatingsViewModel.class);
     }
+
+    @Provides
+    ScanViewModel provideScanViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        Supplier<ScanViewModel> supplier = () -> new ScanViewModel(dataManager, schedulerProvider);
+        ViewModelProviderFactory<ScanViewModel> factory = new ViewModelProviderFactory<>(ScanViewModel.class, supplier);
+        return new ViewModelProvider(fragment, factory).get(ScanViewModel.class);
+    }
+
 
 }

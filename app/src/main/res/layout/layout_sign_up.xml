@@ -32,7 +32,7 @@
                 android:layout_marginTop="80dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="80dp"
-                app:cardBackgroundColor="@color/white_op_10"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="7dp"
                 app:cardElevation="22dp">
 

@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|top"
                     android:layout_marginTop="60dp"
-                    android:text="@string/login_dummy"
+                    android:text="@string/login_the_login"
                     android:textAllCaps="true"
                     android:textSize="20sp"
                     android:visibility="@{viewModel.isLoginUIMode ? View.VISIBLE : View.GONE}" />
@@ -135,6 +135,7 @@
                             android:layout_weight="1"
                             android:onClick="@{() -> viewModel.onServerLoginClick(false)}"
                             android:padding="10dp"
+                            android:height="60dp"
                             android:text="@string/login_as_rater"
                             android:textSize="16dp" />
 
@@ -145,6 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="15dp"
+                            android:height="60dp"
                             android:layout_weight="1"
                             android:onClick="@{() -> viewModel.onServerLoginClick(true)}"
                             android:padding="10dp"
@@ -164,6 +166,19 @@
                         android:layout_marginTop="5dp"
                         android:onClick="goToCreateAccount"
                         android:text="@string/SIGN_UP" />
+                    <Button
+                        android:id="@+id/button6"
+                        style="@style/Button.Primary"
+                        android:layout_width="111dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:onClick="goToCreateAccount"
+                        android:text="@string/SIGN_UP" />
+
+
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -214,7 +229,7 @@
 
                         android:onClick="sendResetPasswordEmail"
                         android:padding="10dp"
-                        android:text="@string/send_pw_reset_email"
+                        android:text="@string/reset_password"
                         android:textSize="16dp" />
 
 
@@ -250,15 +265,27 @@
                 </LinearLayout>
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="@string/go_back"
-                    style="@style/Button.Primary"
+                    android:text="@string/go_back_to_login"
+                    style="@style/Button.Action.Positive"
                     android:onClick="@{()->viewModel.setLoginUIMode(true)}"
                     android:visibility="@{viewModel.isLoginUIMode ? View.GONE : View.VISIBLE}"
                     >
                 </Button>
+
+                <Button
+                    style="@style/Button.Action.Positive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="bottom"
+                    android:onClick="@{()->viewModel.setLoginUIMode(false)}"
+                    android:text="@string/restore_pw"
+                    android:visibility="@{viewModel.isLoginUIMode ? View.VISIBLE : View.GONE}"></Button>
+
+
 
             </androidx.cardview.widget.CardView>
 

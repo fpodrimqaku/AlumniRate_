@@ -10,9 +10,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -20,8 +18,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,11 +26,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.databinding.ActivityMainBinding;
 import com.mindorks.framework.mvvm.databinding.NavHeaderMainBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -52,7 +46,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private ActivityMainBinding mActivityMainBinding;
     private SwipePlaceHolderView mCardsContainerView;
     private DrawerLayout mDrawer;
-
+    NavController navController;
     private NavigationView mNavigationView;
     private Toolbar mToolbar;
 
@@ -89,8 +83,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        if(mViewModel.getDataManager().getCurrentLoginUserMode())
-        getMenuInflater().inflate(R.menu.ratee_main_menu, menu);
+        if (mViewModel.getDataManager().getCurrentLoginUserMode())
+            getMenuInflater().inflate(R.menu.ratee_main_menu, menu);
         else
             getMenuInflater().inflate(R.menu.rater_main_menu, menu);
         return true;
@@ -117,9 +111,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             ((Animatable) drawable).start();
         }
         switch (item.getItemId()) {
-            case R.id.scan_qr_code: {
-            startScanningActivity();
-            }
+           /* case R.id.scan_qr_code: {
+                startScanningActivity();
+            }*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -144,7 +138,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_rater);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         if (getViewDataBinding().getViewModel().getDataManager().getCurrentLoginUserMode() == true) {
             navView.inflateMenu(R.menu.ratee_nav_menu);
@@ -155,12 +149,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_profile)
+                R.id.navigation_scan_form_fragment,R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_profile,R.id.navigation_home)
                 .build();
 
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
         NavigationUI.setupWithNavController(navView, navController);
 
         mActivityMainBinding = getViewDataBinding();
@@ -299,16 +294,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
-
     public void startScanningActivity() {
 
-        IntentIntegrator cameraScanner  = new IntentIntegrator(this);
+        IntentIntegrator cameraScanner = new IntentIntegrator(this);
         cameraScanner
-                //.forSupportFragment(this)
                 .setPrompt("Scan the QR code!")
                 .setCameraId(0)
-                //.setCaptureActivity(this.getActivity().getClass())
-                .setOrientationLocked(true)
+                .setOrientationLocked(false)
                 .initiateScan();
 
 
@@ -316,48 +308,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        // if the intentResult is null then
-        // toast a message as "cancelled"
-        if (intentResult != null) {
-            if (intentResult.getContents() == null) {
-
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
-            } else {
-                // if the intentResult is not null we'll set
-                // the content and format of scan message
-                MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = mViewModel.CheckIfOrganizedQestionnaireExists(intentResult.getContents());
-                questionnaireOrganizationMutableLiveData.observe((LifecycleOwner) this, (x) -> {
-
-                    if (x != null && x.get_QRCode() != null) {
-
-                        MainActivity homeActivity  = (MainActivity) this;
-                        mViewModel.setCurrentFormScannedUID(intentResult.getContents());
-
-                        BottomNavigationView bottomNavigationView;
-                        bottomNavigationView = (BottomNavigationView) homeActivity.findViewById(R.id.nav_view);
-                        //bottomNavigationView.setOnNavigationItemSelectedListener(myNavigationItemListener);
-                        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
-
-                    } else {
-                        Toast.makeText(this, "Questionnaire Not Found", Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                });
-                Toast.makeText(this, intentResult.getContents(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        mViewModel.getDataManager().setCurrentFormUID(null);
     }
 
 
+
+    public NavController getNavController(){
+        return navController;
+    }
 
 }

@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mindorks.framework.mvvm.MvvmApp;
+import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.di.component.DaggerFragmentComponent;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.di.module.FragmentModule;
@@ -126,4 +129,20 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     public void initialize() {
     }
 
+
+    public void snackShowLong(String Text ){
+        Snackbar snackbar = Snackbar
+                .make(getView(), Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.login_janablue));
+        snackbar.show();
+    }
+
+    public void snackShowShort(String Text ){
+        Snackbar snackbar = Snackbar
+                .make(getView(), Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.login_janablue));
+        snackbar.show();
+    }
 }

@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvvm.ui.dashboard;
+package com.mindorks.framework.mvvm.ui.questionnaire_creation;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -23,17 +23,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.Observable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,9 +54,8 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.FragmentDashboardBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.home.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -61,6 +66,7 @@ import java.util.UUID;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, DashboardViewModel> implements QuestionnaireListNavigator {
@@ -71,12 +77,14 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, Da
     UUID uuid = UUID.randomUUID();
     WindowManager manager;
     FusedLocationProviderClient mFusedLocationClient;
+
 int PERMISSION_ID = 101;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  mViewModel.setNavigator(this);
         mViewModel.setNavigator(this);
+
 
     }
 
@@ -108,6 +116,15 @@ int PERMISSION_ID = 101;
                                       }
 
         );
+
+        mViewModel.getError().observe(this.getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer value) {
+                if(value!=null){
+                    Toast.makeText(getContext(),getResources().getString(value), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return root;
     }
@@ -155,7 +172,9 @@ int PERMISSION_ID = 101;
         super.onViewCreated(view, savedInstanceState);
           ButterKnife.bind(this, view);
         initiateQrCode(view);
-        initiateThings(view);
+
+        initVariablesAndEvents(view);
+
     }
 
     @Override
@@ -174,26 +193,6 @@ int PERMISSION_ID = 101;
     }
 
 
-    public void initiateThings(View root) {
-
-       // Button buton = root.findViewById(R.id.buttonSaveQuestionnaireOrganization);
-
-        //Uncomment the below line of code for 24 hour view
-}
-
-
-
-/*
-        changetime.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                textview1.setText(getCurrentTime());
-            }
-        });
-*/
-
-
-
     @Override
     public void goBack() {
 
@@ -204,6 +203,31 @@ int PERMISSION_ID = 101;
     public void buttonSaveQuestionnaireOrganization_clicked() {
         dashboardViewModel.insertQuestionnaireOrganization();
     }
+
+
+    public void initVariablesAndEvents(View rootView) {
+        CheckBox locationRequired  = rootView.findViewById(R.id.questionnaireOrganizationLocationRequired);
+        locationRequired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)//mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true)
+                         {
+                        checkIfAppHasLocationPermissionAndRequestIt();
+                    }
+                    else //mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false)
+                         {
+                        mViewModel.setQuestionnaireLocation(null,null);
+                    }
+            }
+        });
+
+
+
+    }
+
+
+
+
 
 @OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
     public void initiateTimeFromOrTimeTo(View view){
@@ -216,8 +240,7 @@ int PERMISSION_ID = 101;
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
             {
-                //  hour = selectedHour;
-                //  minute = selectedMinute;
+
 
                 Date date = new Date();
                 LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -259,20 +282,13 @@ int PERMISSION_ID = 101;
         timePickerDialog.show();
 
     }
-    @OnClick({R.id.questionnaireOrganizationLocationRequired})
-    public void locationRequiredCheckboxChanged (View view){
-        getLastLocation();
-
-    }
 
 
     public boolean hasLocationPermissionsGranted (){
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-            return false;
-        }
-        else return true;
-
+        if (ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {return true;}
+        return false;
 
     }
 
@@ -281,16 +297,9 @@ int PERMISSION_ID = 101;
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         requestNewLocationData();
-        // check if permissions are given
         if (checkLocationPermissions()) {
-
-            // check if location is enabled
             if (isLocationEnabled()) {
 
-                // getting last
-                // location from
-                // FusedLocationClient
-                // object
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -298,10 +307,6 @@ int PERMISSION_ID = 101;
                         if (location == null) {
                             requestNewLocationData();
                         } else {
-                          //  latitudeTextView.setText(location.getLatitude() + "");
-                          //  longitTextView.setText(location.getLongitude() + "");
-                           // Location mLastLocation = locationResult.getLastLocation();
-
                             StringBuilder locationStringBuilder = new StringBuilder("");
                             locationStringBuilder.append(location.getLatitude());
                             locationStringBuilder.append(",");
@@ -321,8 +326,6 @@ int PERMISSION_ID = 101;
                 startActivity(intent);
             }
         } else {
-            // if permissions aren't available,
-            // request for permissions
             requestPermissions();
         }
     }
@@ -330,10 +333,6 @@ int PERMISSION_ID = 101;
     private boolean checkLocationPermissions() {
         return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     private boolean isLocationEnabled() {
@@ -344,16 +343,13 @@ int PERMISSION_ID = 101;
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 
-        // Initializing LocationRequest
-        // object with appropriate methods
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(5);
         mLocationRequest.setFastestInterval(0);
         mLocationRequest.setNumUpdates(1);
 
-        // setting LocationRequest
-        // on FusedLocationClient
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
     }
@@ -379,6 +375,41 @@ int PERMISSION_ID = 101;
     public void setQuestionnaireLocation(boolean isLocationRequired, String location){
     getViewDataBinding().getViewModel().setQuestionnaireLocation(isLocationRequired,location);
     }
+
+
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    getLastLocation();
+
+                } else {
+
+                    snackShowLong(getResources().getString(R.string.permission_location_request));
+
+                }
+            });
+
+
+    public void checkIfAppHasLocationPermissionAndRequestIt(){
+
+        if (ContextCompat.checkSelfPermission(
+                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+
+            getLastLocation();
+
+        }else if (shouldShowRequestPermissionRationale(getResources().getString(R.string.permission_location_request))){
+
+        }
+        else {
+            requestPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+    }
+
+
 
 
 }

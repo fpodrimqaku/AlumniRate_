@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MvvmApp</string>
+    <string name="app_name">EduRate</string>
 
     <!--Toolbar menus-->
     <string name="cut">Cut</string>
@@ -78,8 +78,10 @@
     <string name="pw_change_request_succ">Kërkesa u dërgua me sukses</string>
     <string name="pw_change_request_fail">Kërkesa dështoi!</string>
     <string name="send_pw_reset_email">Dërgo</string>
+    <string name="login_login">Kyqu</string>
+    <string name="login_the_login">Kyqja në llogari</string>
     <string name="reset_password">Rikthe fjalëkalimin</string>
-    <string name="go_back">Po te lutem qe ti te kthehesh prapa</string>
+    <string name="go_back_to_login">Kthehu tek Kyqja</string>
     <string name="user_name">Emri</string>
     <string name="user_last_name">Mbiemri</string>
     <string name="create_account">Krijo Llogari</string>
@@ -87,4 +89,24 @@
     <string name="professor_title">Titulli</string>
     <string name="ratee_overall_ratings">Vlerësimet e Përgjithshme</string>
     <string name="scan_questionnaire_qr_code">Skano QR Kodin</string>
+    <string name="please_fill_all_questions_before_submitting">Të gjitha pyetjet nga formulari duhet të kenë përgjigje!</string>
+    <string name="menu_botom_nav_overall_ratings">Vlerësimet</string>
+    <string name="menu_botom_nav_questionnaire">Pytësori</string>
+    <string name="menu_botom_nav_stats">Statistika</string>
+    <string name="menu_botom_nav_create">Krijo</string>
+    <string name="restore_pw">Rikthe fjalëkalimin</string>
+    <string name="model_qa_no_user_for_form">Formulari nuk i përket asnj pytësori!</string>
+    <string name="model_qa_unk_user">Përdorues i panjohur ju lutemi rikyuni!</string>
+    <string name="model_qa_please_fill_all_questions_before_submitting">Të gjitha pyetjet e formularit duhet të kenë përgjigje!</string>
+    <string name="model_qo_qr_code_missing">Qr kodi i formularit jo valid!</string>
+    <string name="model_qo_pick_date_from">Plotesoni orën prej!</string>
+    <string name="model_qo_pick_date_to">Plotesoni orën deri!</string>
+    <string name="model_qo_type_questionnaire_org_name">Plotësoni emrin e pytësorit!</string>
+    <string name="model_qo_end_date_smaller_than_startdate">Ora prej nuk mund të jetë më e vonshme se ora deri!</string>
+    <string name="model_qo_end_questionnaire_created_successfully">Formulari u krijua me sukses!</string>
+
+    <string name="permission_camera_request">Për skanimin e QR kodit të pytsorit ,lejoni qasjen në kamerë!</string>
+    <string name="permission_location_request">Për validim me lokacion, lejoni qasjen!</string>
+    <string name="questionnaire_name">Emri i Pytsorit</string>
+
 </resources>

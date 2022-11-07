@@ -81,6 +81,8 @@ public class AppDataManager implements DataManager {
 
     private final FirebaseHelper firebaseHelper;
 
+    private final MutableLiveData<String> currentBarcodeScanned = new MutableLiveData<>();
+
     @Inject
     public AppDataManager(Context context, DbHelper dbHelper, PreferencesHelper preferencesHelper, ApiHelper apiHelper, Gson gson, FirebaseHelperImpl firebaseAccess) {
         mContext = context;
@@ -365,7 +367,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public List<com.mindorks.framework.mvvm.data.model.firebase.Question> getQuestions(){
+    public MutableLiveData<List<com.mindorks.framework.mvvm.data.model.firebase.Question>> getQuestions(){
         return firebaseHelper.getQuestions();
     };
 
@@ -414,4 +416,9 @@ public class AppDataManager implements DataManager {
     public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData(){
         return firebaseHelper.fetchRateeRankingsData();
     }
+
+    public MutableLiveData<String> getCurrentBarcodeScanned(){
+        return currentBarcodeScanned;
+    }
+
 }

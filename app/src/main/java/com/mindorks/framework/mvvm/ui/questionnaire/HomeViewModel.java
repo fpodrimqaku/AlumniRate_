@@ -1,32 +1,34 @@
-package com.mindorks.framework.mvvm.ui.home;
-
-import android.util.Log;
+package com.mindorks.framework.mvvm.ui.questionnaire;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
-import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
-import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Dictionary;
 import java.util.List;
+
+import android.app.Application;
+import android.provider.Settings.Secure;
+
+
 
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
     private MutableLiveData<String> mText;
     private MutableLiveData<Dictionary<Integer, String>> questions;
+    private MutableLiveData<Integer> errorTxt = new MutableLiveData<>();
 
     public LiveData<String> getText() {
         return mText;
     }
+    private String android_id = MvvmApp.DeviceId;
 
     public QuestionnaireAnswers questionnaireAnswers;
 
@@ -34,18 +36,31 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         super(dataManager, schedulerProvider);
 
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
         this.questionnaireAnswers = new QuestionnaireAnswers();
         this.questionnaireAnswers.setQuestionnaireId(getDataManager().getCurrentFormUID());
-        this.questionnaireAnswers.setUserId(getDataManager().getCurrentFormUID());//todo replace value
+        this.questionnaireAnswers.setDeviceId(android_id);
+       // this.questionnaireAnswers.setRateeId();
     }
 
     public void onNavBackClick() {
         getNavigator().goBack();
     }
 
-    public void saveMyRatingAnswers() {
-        getDataManager().insertEntityIntoSet(questionnaireAnswers, FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+    public boolean saveMyRatingAnswers() {
+        List<Integer> errorList =  questionnaireAnswers.isValid();
+        if (errorList.stream().count()>0) {
+            errorTxt.setValue(errorList.get(0));
+            return false;
+        }
+        boolean successful = getDataManager().insertEntityIntoSet(questionnaireAnswers, FirebaseHelperImpl.FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        if (successful) {
+            getDataManager().setCurrentFormUID(null);
+            this.questionnaireAnswers = new QuestionnaireAnswers();
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public QuestionnaireAnswers getQuestionnaireAswers() {
@@ -53,13 +68,16 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     }
 
 
-
     public MutableLiveData<QuestionnaireOrganization> CheckIfOrganizedQestionnaireExists(String qrCode) {
         MutableLiveData<QuestionnaireOrganization> questionnaireOrganization = getDataManager().fetchQuestionnaireByQrCode(qrCode);
         return questionnaireOrganization;
     }
 
-    public void setCurrentFormScannedUID(String currentFormUID){
+    public void setCurrentFormScannedUID(String currentFormUID) {
         getDataManager().setCurrentFormUID(currentFormUID);
+    }
+
+    public MutableLiveData<Integer> getErrorTxt() {
+        return errorTxt;
     }
 }

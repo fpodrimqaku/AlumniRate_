@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_overall_ratee_stats"
+        android:icon="@drawable/ic_ratings_statistics"
+        android:title="@string/menu_botom_nav_stats" />
 
     <item
         android:id="@+id/navigation_header_container"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_baseline_bubble_char"
         android:title="@string/professor_site_ratings" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_notifications" />
+        android:icon="@drawable/ic_baseline_create_24"
+        android:title="@string/menu_botom_nav_create" />
 
-    <item
-        android:id="@+id/navigation_overall_ratee_stats"
-        android:icon="@drawable/ic_person_rater"
-        android:title="@string/title_profile" />
+
 </menu>

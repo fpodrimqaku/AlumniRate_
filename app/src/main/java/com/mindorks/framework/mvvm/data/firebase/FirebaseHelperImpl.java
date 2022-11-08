@@ -76,6 +76,11 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference storageReference;
+    MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+    MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
+    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
+
 
     @Inject
     public FirebaseHelperImpl(FirebaseAuth firebaseAuth,
@@ -288,7 +293,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questions;
     }
 
-    MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
 
 
     public void initiatequestions() {
@@ -356,7 +360,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return true;
     }
 
-    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
 
     public void addListenerToGetQuestionnaireByQrCode(String qrCode) {
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations).child(qrCode);
@@ -388,10 +391,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questionnaireOrganizationMutableLiveData;
     }
 
-
-    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
-
-    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected(String userId) {
+    public void initiatefetchingQuestionnaireDataCollected(String userId) {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
 
@@ -481,14 +481,15 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         });
 
 
-        return questionnaireDataCollected;
+
 
     }
 
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected() {
+        return questionnaireDataCollected;
 
-    MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
-
-    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {
+    }
+    public void initiatefetchRateeRankingsData() {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
         DatabaseReference relativeDatabaseReference_U = databaseReference.child(FirebaseReferences.USERS);
@@ -577,6 +578,8 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                 });
 
                                 //
+
+                                fetchRateeRankingsDataCollected.setValue(fetchRateeRankingsDataCollected.getValue());
                             }
 
                             @Override
@@ -601,6 +604,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
             }
         });
+
+
+    }
+
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {
+
         return fetchRateeRankingsDataCollected;
 
     }

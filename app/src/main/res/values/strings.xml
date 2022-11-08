@@ -104,9 +104,12 @@
     <string name="model_qo_type_questionnaire_org_name">Plotësoni emrin e pytësorit!</string>
     <string name="model_qo_end_date_smaller_than_startdate">Ora prej nuk mund të jetë më e vonshme se ora deri!</string>
     <string name="model_qo_end_questionnaire_created_successfully">Formulari u krijua me sukses!</string>
-
     <string name="permission_camera_request">Për skanimin e QR kodit të pytsorit ,lejoni qasjen në kamerë!</string>
     <string name="permission_location_request">Për validim me lokacion, lejoni qasjen!</string>
     <string name="questionnaire_name">Emri i Pytsorit</string>
+    <string name="questionnaire_far_from_spot">Jeni jasht perimetrit për vlerësim!</string>
+    <string name="questionnaire_found">Pyetësori u gjet!</string>
+    <string name="questionnaire_not_found">Pyetësori nuk u gjet!</string>
+    <string name="scan_to_go">Skanoni QR code të pytësorit!</string>
 
 </resources>

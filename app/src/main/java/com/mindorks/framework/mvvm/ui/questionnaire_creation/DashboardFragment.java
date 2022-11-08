@@ -232,8 +232,8 @@ int PERMISSION_ID = 101;
 @OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
     public void initiateTimeFromOrTimeTo(View view){
 
-        int hour=5;
-        int minute=5;
+        int hour=12;
+        int minute=0;
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
         {
 
@@ -284,13 +284,7 @@ int PERMISSION_ID = 101;
     }
 
 
-    public boolean hasLocationPermissionsGranted (){
-        if (ContextCompat.checkSelfPermission(
-                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED) {return true;}
-        return false;
 
-    }
 
 
 

@@ -391,10 +391,19 @@ public class AppDataManager implements DataManager {
 
     }
 
-    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (String userId){
-        return firebaseHelper.fetchQuestionnaireDataCollected(userId);
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (){
+        return firebaseHelper.fetchQuestionnaireDataCollected();
 
     }
+
+    public void initiatefetchRateeRankingsData(){
+        firebaseHelper.initiatefetchRateeRankingsData();
+    }
+    public void initiatefetchingQuestionnaireDataCollected(String userId){
+
+        firebaseHelper.initiatefetchingQuestionnaireDataCollected(userId);
+    }
+
 
 
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email){

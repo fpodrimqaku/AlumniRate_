@@ -19,8 +19,8 @@ public class PersonalRatingsViewModel extends BaseViewModel<PersonalRatingsNavig
 
     public PersonalRatingsViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
-
-        questionnaireDataCollected =getDataManager().fetchQuestionnaireDataCollected("");
+getDataManager().initiatefetchingQuestionnaireDataCollected("");
+        questionnaireDataCollected =getDataManager().fetchQuestionnaireDataCollected();
     }
 
     public void onNavBackClick() {

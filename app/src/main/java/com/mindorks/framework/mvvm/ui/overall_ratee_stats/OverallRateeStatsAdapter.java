@@ -1,6 +1,5 @@
 package com.mindorks.framework.mvvm.ui.overall_ratee_stats;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

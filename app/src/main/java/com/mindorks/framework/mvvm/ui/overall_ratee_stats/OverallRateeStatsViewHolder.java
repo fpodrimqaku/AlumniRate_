@@ -10,6 +10,7 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
+import com.mindorks.framework.mvvm.utils.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Map;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
@@ -82,11 +84,14 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
         Map<String, UserAnswerData> userAnswerDataa = rateeRankingsData.getUserAnswerDataCollectedForUser();
 
-            userAnswerDataa.values().stream().forEach(userData->{
+            userAnswerDataa.keySet().stream().forEach(key->{
+                UserAnswerData userData = userAnswerDataa.get(key);
                 List<SubcolumnValue> values;
                 values = new ArrayList<SubcolumnValue>();
                 for (int j = 1; j <= numSubcolumns; ++j) {
-                    values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j) , getChartColumnColorBasedOnRating(j)));
+                    String label="";
+                     label = "Pyetja "+key.split("")[0]+ "; Vlerësuar -("+ context.getResources().getString(AppConstants.answersWordified.get(j))+") nga " + userData.getOptionsPickedStats().get(j) + " person/a";
+                    values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j) , getChartColumnColorBasedOnRating(j)).setLabel(label));
                 }
 
                 Column column = new Column(values);
@@ -106,8 +111,10 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
+               // axisX.setValues(new ArrayList<AxisValue>());
                 axisX.setName("Pyetja");
                 axisY.setName("Nr. Studentëve");
+                axisY.setHasLines(false);
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

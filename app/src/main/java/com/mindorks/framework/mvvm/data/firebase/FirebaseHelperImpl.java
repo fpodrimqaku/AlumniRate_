@@ -614,12 +614,18 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         String DeviceId = MvvmApp.getDeviceId();
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
 
-
         relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String,QuestionnaireAnswers> questionnaireAnswers = (Map<String,QuestionnaireAnswers>)snapshot.getValue();
-                questionnairesFilledByUser.setValue(questionnaireAnswers);
+                Map<String,QuestionnaireAnswers> questionnaireAnswersMapInternal = new HashMap<>();
+                 snapshot.getChildren().forEach(item  -> {
+                     QuestionnaireAnswers questionnaireAnswersInstance = item.getValue(QuestionnaireAnswers.class);
+                     if(!questionnaireAnswersInstance.getDeviceId().equals(DeviceId))
+                         return;
+                     String key = item.getKey();
+                     questionnaireAnswersMapInternal.put(key,questionnaireAnswersInstance);
+                });
+                questionnairesFilledByUser.setValue(questionnaireAnswersMapInternal);
             }
 
             @Override

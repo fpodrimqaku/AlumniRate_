@@ -268,10 +268,9 @@ int PERMISSION_ID = 101;
                     dashboardViewModel.setQuestionnaireDateTo(calendarDate.getTime());
 
                 String time="";
-                time = selectedHour+":"+selectedMinute;
+                time = String.format("%02d", selectedHour)+":"+String.format("%02d", selectedMinute);
                 ((TextView)view).setText(time);
-              //  timepicker.setHour(selectedHour);
-              //  timepicker.setMinute(selectedMinute);
+
             }
         };
 

@@ -28,7 +28,7 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public LiveData<String> getText() {
         return mText;
     }
-    private String android_id = MvvmApp.DeviceId;
+    private String android_id = MvvmApp.getDeviceId();
 
     public QuestionnaireAnswers questionnaireAnswers;
 

@@ -251,13 +251,14 @@ int PERMISSION_ID = 101;
                 Calendar calendarDate = Calendar.getInstance();
 
                 calendarDate.set(Calendar.DATE,day);
-                calendarDate.set(Calendar.HOUR, selectedHour);
+                calendarDate.set(Calendar.HOUR_OF_DAY, selectedHour);
                 calendarDate.set(Calendar.MINUTE, selectedMinute);
                 calendarDate.set(Calendar.SECOND, 0);
                 calendarDate.set(Calendar.MILLISECOND, 0);
-                calendarDate.set(Calendar.MONTH, month);
+                calendarDate.set(Calendar.MONTH, month-1);//se ata mretat qe morin rrog per ket pune ->JANARIN E KAN LAN 0
                 calendarDate.set(Calendar.YEAR, year);
                 calendarDate.setTimeZone(TimeZone.getDefault());
+
 
 
 

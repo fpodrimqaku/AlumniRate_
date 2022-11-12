@@ -26,7 +26,7 @@ public final class AppConstants {
 
     public static final String STATUS_CODE_SUCCESS = "success";
 
-    public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String TIMESTAMP_FORMAT = "yyyyMMdd_kkmmss";
 
     public static final int CAMERA_PERMISSION_CODE = 101;
     public static final int LOCATION_PERMISSION_CODE = 102;

@@ -11,11 +11,16 @@ public class ScanViewModel extends BaseViewModel<ScanNavigator> {
 
     public ScanViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager,schedulerProvider);
+        getDataManager().fetchQuestionnairesFilledByUserPreviously();
     }
 
     public MutableLiveData<QuestionnaireOrganization> CheckIfOrganizedQestionnaireExists(String qrCode) {
         MutableLiveData<QuestionnaireOrganization> questionnaireOrganization = getDataManager().fetchQuestionnaireByQrCode(qrCode);
         return questionnaireOrganization;
+    }
+
+    public boolean UserHasFilledThequestionnaireBefore (String questionnaireQrId){
+       return getDataManager().userHasFilledTheQuestionnaireBefore( questionnaireQrId);
     }
 
 }

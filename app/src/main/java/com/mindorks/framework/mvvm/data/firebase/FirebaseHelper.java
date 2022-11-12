@@ -12,6 +12,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
+import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
@@ -21,6 +22,7 @@ import com.mindorks.framework.mvvm.utils.Action;
 
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
@@ -50,4 +52,6 @@ public interface FirebaseHelper {
     public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData();
     public void initiatefetchingQuestionnaireDataCollected(String userId);
     public void initiatefetchRateeRankingsData();
+    public MutableLiveData<Map<String,QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice ();
+    public void fetchQuestionnairesFilledByUserPreviously();
 }

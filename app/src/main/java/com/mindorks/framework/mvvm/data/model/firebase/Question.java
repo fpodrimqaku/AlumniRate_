@@ -15,5 +15,4 @@ public class Question {
         this.question = question;
     }
 
-
 }

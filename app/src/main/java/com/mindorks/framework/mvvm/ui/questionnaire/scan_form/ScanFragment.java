@@ -1,7 +1,5 @@
 package com.mindorks.framework.mvvm.ui.questionnaire.scan_form;
 
-import static java.lang.Thread.sleep;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -35,7 +33,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
@@ -48,13 +45,12 @@ import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanViewModel> implements ScanNavigator {
@@ -124,13 +120,27 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
                 if (qrCodeScanned != null && !qrCodeScanned.equals(x.get_QRCode())) {
                     return;
                 }
-                if (x.getLocationRequired() == true) {
+                Date currentDateTime  = new Date();
+
+                if(mViewModel.UserHasFilledThequestionnaireBefore(x.get_QRCode())){
+                    snackShowLong(getResources().getString(R.string.questionnaire_filled_before));
+                    return;
+                }
+
+
+                if(!(currentDateTime.after(x.getFromDateTime()) && currentDateTime.before(x.getToDateTime()))){
+
+                    snackShowLong(getResources().getString(R.string.questionnaire_org_out_of_time));
+                    return;
+                }
+
+                 if (x.getLocationRequired() == true) {
                     String[] coo = x.getLocation().split(",");
                     double latitude = Double.parseDouble(coo[0]);
                     double longitude = Double.parseDouble(coo[1]);
 
 
-                    if (getDistanceBetweenTwoCordinates(currentLatitude, latitude, currentLongitude, longitude) > 200) {
+                    if (getDistanceBetweenTwoCordinates(currentLatitude, latitude, currentLongitude, longitude) > 300) {
                         snackShowLong(getResources().getString(R.string.questionnaire_far_from_spot));
                     } else {
                         mViewModel.getDataManager().setCurrentFormUID(qrCodeScanned);
@@ -356,7 +366,6 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
                 /*for responsing at maint thread*/
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s->{
-
                     scannerPause(false);
                 });
 

@@ -111,5 +111,7 @@
     <string name="questionnaire_found">Pyetësori u gjet!</string>
     <string name="questionnaire_not_found">Pyetësori nuk u gjet!</string>
     <string name="scan_to_go">Skanoni QR code të pytësorit!</string>
+    <string name="questionnaire_org_out_of_time">Pyetësorit i ka skaduar koha!</string>
+    <string name="questionnaire_filled_before">Keni plotësuar më herët të njëjtin pytësor!</string>
 
 </resources>

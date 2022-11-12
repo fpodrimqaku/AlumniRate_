@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
@@ -61,8 +62,6 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
         userTitle.setText(rateeRankingsData.getUser().getTitle());
 
 
-
-
         chartView.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
 
 
@@ -81,40 +80,47 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
         int numColumns = 10;
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
-
+        List<AxisValue> axisXValues = new ArrayList<AxisValue>();;
         Map<String, UserAnswerData> userAnswerDataa = rateeRankingsData.getUserAnswerDataCollectedForUser();
 
-            userAnswerDataa.keySet().stream().forEach(key->{
-                UserAnswerData userData = userAnswerDataa.get(key);
-                List<SubcolumnValue> values;
-                values = new ArrayList<SubcolumnValue>();
-                for (int j = 1; j <= numSubcolumns; ++j) {
-                    String label="";
-                     label = "Pyetja "+key.split("")[0]+ "; Vlerësuar -("+ context.getResources().getString(AppConstants.answersWordified.get(j))+") nga " + userData.getOptionsPickedStats().get(j) + " person/a";
-                    values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j) , getChartColumnColorBasedOnRating(j)).setLabel(label));
-                }
+        userAnswerDataa.keySet().stream().sorted().forEach(key -> {
 
-                Column column = new Column(values);
+                axisXValues.add(new AxisValue(1+Integer.parseInt(key.split("\\.")[0])).setLabel("Pyetja"+key.split("\\.")[0]));
 
-                column.setHasLabels(hasLabels);
-                column.setHasLabelsOnlyForSelected(hasLabelForSelected);
-                columns.add(column);
+            UserAnswerData userData = userAnswerDataa.get(key);
+            List<SubcolumnValue> values;
+            values = new ArrayList<SubcolumnValue>();
+            for (int j = 1; j <= numSubcolumns; ++j) {
+                String label = "";
+                label = "Pyetja " + key.split("\\.")[0] + "; Vlerësuar (" + context.getResources().getString(AppConstants.answersWordified.get(j)) + ")- " + userData.getOptionsPickedStats().get(j) + " person/a";
+                values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j), getChartColumnColorBasedOnRating(j)).setLabel(label));
+            }
+
+            Column column = new Column(values);
+
+            column.setHasLabels(hasLabels);
+            column.setHasLabelsOnlyForSelected(hasLabelForSelected);
+            columns.add(column);
 
 
-            });
-
+        });
 
 
         data = new ColumnChartData(columns);
-       // data.setStacked(true);
+
+        // data.setStacked(true);
         if (hasAxes) {
             Axis axisX = new Axis();
             Axis axisY = new Axis().setHasLines(true);
             if (hasAxesNames) {
-               // axisX.setValues(new ArrayList<AxisValue>());
+                // axisX.setValues(new ArrayList<AxisValue>());
                 axisX.setName("Pyetja");
                 axisY.setName("Nr. Studentëve");
                 axisY.setHasLines(false);
+
+                axisX.setFormatter(new SimpleAxisValueFormatter().setDecimalDigitsNumber(0));
+                axisY.setFormatter(new SimpleAxisValueFormatter().setDecimalDigitsNumber(0));
+                axisX.setValues(axisXValues);
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);
@@ -127,7 +133,8 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
         //Setting behavioral properties to support zooming, sliding, and Translation
         chart.setInteractive(true);
         chart.setZoomType(ZoomType.HORIZONTAL);
-        chart.setMaxZoom((float) 10);//Maximum method ratio
+        chart.setMaxZoom((float) 5);//Maximum method ratio
+        chart.setZoomLevel(0,10,(float) 5);//Maximum method ratio
         chart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         chart.setColumnChartData(data);
         chart.setVisibility(View.VISIBLE);
@@ -136,12 +143,8 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
          */
         Viewport v = new Viewport(chart.getMaximumViewport());
         v.left = 0;
-        v.right = 7;
-        chart.setCurrentViewport(v);
-
-
-
-
+        v.right = 10;
+       // chart.setCurrentViewport(v);
 
 
     }
@@ -149,7 +152,7 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
     public int getChartColumnColorBasedOnRating(int rating) {
         int color[] = {ChartUtils.COLOR_RED, ChartUtils.COLOR_ORANGE, ChartUtils.COLOR_BLUE, ChartUtils.COLOR_VIOLET, ChartUtils.COLOR_GREEN};
-        return color[rating -1 ];
+        return color[rating - 1];
     }
 }
 
@@ -157,8 +160,6 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
 
 /*
-
-
     private void generateDefaultData(ColumnChartView chart, RateeRankingsData rateeRankingsData) {
         boolean hasAxes = true;
         boolean hasLabels = true;

@@ -4,6 +4,7 @@ import android.media.Image;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.lifecycle.MutableLiveData;
 
@@ -15,17 +16,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
@@ -38,9 +42,11 @@ import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.utils.Action;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -50,7 +56,6 @@ import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 
 
 @Singleton
@@ -80,7 +85,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
     MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
     MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
-
+    MutableLiveData<Map<String,QuestionnaireAnswers>> questionnairesFilledByUser = new MutableLiveData<>();
 
     @Inject
     public FirebaseHelperImpl(FirebaseAuth firebaseAuth,
@@ -93,7 +98,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         this.storageReference = FirebaseStorage.getInstance().getReference();
         initiatequestions();
     }
-
 
 
     public FirebaseUser getCurrentLoggedInUser() {
@@ -294,7 +298,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-
     public void initiatequestions() {
 
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS);
@@ -459,7 +462,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                             });
 
 
-
                         });
 
                         questionnaireDataCollected.setValue(questionnaireDataCollected.getValue());
@@ -481,14 +483,13 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         });
 
 
-
-
     }
 
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected() {
         return questionnaireDataCollected;
 
     }
+
     public void initiatefetchRateeRankingsData() {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
@@ -523,7 +524,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                             //  questionnaireDataCollected.getValue().put(x.getKey(), qdc);
 
                             RateeRankingsData userRatingsData = fetchRateeRankingsDataCollected.getValue().get(qo.getRateeId());
-                            if(userRatingsData!=null)
+                            if (userRatingsData != null)
                                 userRatingsData.getQuestionnaireDataCollectedList().put(x.getKey(), qdc);
                         });
 
@@ -606,6 +607,33 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         });
 
 
+    }
+
+
+    public void fetchQuestionnairesFilledByUserPreviously() {
+        String DeviceId = MvvmApp.getDeviceId();
+        DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+
+
+        relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String,QuestionnaireAnswers> questionnaireAnswers = (Map<String,QuestionnaireAnswers>)snapshot.getValue();
+                questionnairesFilledByUser.setValue(questionnaireAnswers);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+
+    public MutableLiveData<Map<String,QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice (){
+        return questionnairesFilledByUser;
     }
 
     public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {

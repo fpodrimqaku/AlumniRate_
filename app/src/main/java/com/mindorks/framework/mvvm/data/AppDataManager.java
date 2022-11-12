@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
@@ -55,6 +56,7 @@ import com.mindorks.framework.mvvm.utils.CommonUtils;
 import java.lang.reflect.Type;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.inject.Inject;
@@ -430,4 +432,19 @@ public class AppDataManager implements DataManager {
         return currentBarcodeScanned;
     }
 
+    public MutableLiveData<Map<String,QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice (){
+        return firebaseHelper.getQuestionnairesAnsweredByTheCurrentUserIdDevice();
+    };
+    public void fetchQuestionnairesFilledByUserPreviously(){
+        firebaseHelper.fetchQuestionnairesFilledByUserPreviously();
+    }
+
+    public boolean userHasFilledTheQuestionnaireBefore(String QuestionnaireQrId){
+        String DeviceId = MvvmApp.getDeviceId();
+        return getQuestionnairesAnsweredByTheCurrentUserIdDevice().getValue().values().stream().anyMatch(x->
+           x.getQuestionnaireId()!=null && x.getDeviceId()!=null && x.getQuestionnaireId().equals(QuestionnaireQrId) && x.getDeviceId().equals(DeviceId)
+
+        );
+
+    }
 }

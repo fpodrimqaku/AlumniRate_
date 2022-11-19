@@ -42,6 +42,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void login(boolean loginAsRatee) {
+       // String email = mActivityLoginBinding.etEmail.getText().toString();
+      //  String password =mActivityLoginBinding.etPassword.getText().toString();
         String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
         String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
         if (loginAsRatee == true && mViewModel.isEmailAndPasswordValid(email, password)) {

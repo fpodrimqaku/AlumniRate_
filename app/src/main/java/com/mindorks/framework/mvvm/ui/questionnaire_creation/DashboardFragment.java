@@ -93,7 +93,7 @@ String qrCode  = uuid.toString();
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  mViewModel.setNavigator(this);
-        mViewModel.setNavigator(this);
+        //mViewModel.setNavigator(this);
 
     }
 
@@ -318,7 +318,7 @@ try{
                             locationStringBuilder.append("Latitude: " + location.getLatitude() + "      ");
                             locationStringBuilder.append("Longitude: " + location.getLongitude() + "");
 
-                            Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -370,6 +370,7 @@ try{
             StringBuilder locationStringBuilder = new StringBuilder("");
             locationStringBuilder.append("Latitude: " + mLastLocation.getLatitude() + "      ");
             locationStringBuilder.append("Longitude: " + mLastLocation.getLongitude() + "");
+            if(locationStringBuilder!=null)
             Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
         }
     };

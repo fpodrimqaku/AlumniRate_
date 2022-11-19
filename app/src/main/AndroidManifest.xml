@@ -73,16 +73,16 @@ android:exported="false"
         <activity
             android:name=".ui.feed.FeedActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity"
+
             android:screenOrientation="portrait"
             tools:replace="android:screenOrientation"
             android:exported="false"
             >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
+           <!-- <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.main.MainActivity" />
+                android:value=".ui.main.MainActivity" /> -->
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />

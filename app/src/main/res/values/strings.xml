@@ -116,4 +116,7 @@
     <string name="questionnaire_inserted_successfully">Pytësori u organizua!</string>
     <string name="questionnaire_inserted_UNsuccessfully">Organizimi i pytësorit dështoi!</string>
 
+    <string name="questionnaire_share">Shpërndaj</string>
+    <string name="action_close">Mbyll</string>
+
 </resources>

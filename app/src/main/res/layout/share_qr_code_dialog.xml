@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_baseline_share_24"
-            android:text="@string/share"
+            android:text="@string/questionnaire_share"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -47,10 +47,10 @@
             style="@style/Button.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:drawableLeft="@drawable/ic_baseline_close"
             android:layout_marginStart="30dp"
             android:layout_toRightOf="@id/okay_text"
-            android:text="Cancel"
+            android:text="@string/action_close"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

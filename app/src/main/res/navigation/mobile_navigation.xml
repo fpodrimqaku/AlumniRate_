@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.mindorks.framework.mvvm.ui.questionnaire_creation.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_questionnaire_organization"
         tools:layout="@layout/fragment_questionnaire_creation" />
 
     <fragment

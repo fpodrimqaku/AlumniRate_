@@ -96,8 +96,8 @@ public class FeedActivity extends BaseActivity<ActivityFeedBinding, FeedViewMode
     private void setUp() {
         //setSupportActionBar(mActivityFeedBinding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+           getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+          //  getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
         mPagerAdapter.setCount(2);

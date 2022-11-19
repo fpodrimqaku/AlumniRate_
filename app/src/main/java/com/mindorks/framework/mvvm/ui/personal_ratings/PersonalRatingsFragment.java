@@ -67,7 +67,7 @@ public class PersonalRatingsFragment extends BaseFragment<PersonalRatingsBinding
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel.setNavigator(this);
+       // mViewModel.setNavigator(this);
 
         try{
             ClearCacheImprovised();

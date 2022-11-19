@@ -126,13 +126,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
 
-    protected void onCreatesss(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mActivityMainBinding = getViewDataBinding();
-        mViewModel.setNavigator(this);
-        setUp();
-    }
 
 
     @Override
@@ -294,20 +287,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
     }
-
-    public void startScanningActivity() {
-
-        IntentIntegrator cameraScanner = new IntentIntegrator(this);
-        cameraScanner
-                .setPrompt("Scan the QR code!")
-                .setCameraId(0)
-                .setOrientationLocked(false)
-                .initiateScan();
-
-
-    }
-
-
 
     @Override
     protected void onDestroy() {

@@ -31,6 +31,7 @@ public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
     TextView questionnaire_organization_collected_attendees_num;
     TextView questionnaire_organization_collected_period;
      Chart chartView;
+private String qrCode = "";
 
 
     public PersonalRatingsListItemViewHolder(View view) {
@@ -49,6 +50,7 @@ public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
 
 
     public void initiateItem(QuestionnaireDataCollected questionnaireDataCollected) {
+        qrCode = questionnaireDataCollected.getQuestionnaireOrganization().get_QRCode();
         questionnaire_organization_collected_text.setText(questionnaireDataCollected.getQuestionnaireOrganization().getQuestionnaireName());
         questionnaire_organization_collected_attendees_num.setText(""+questionnaireDataCollected.getPeopleParticipated());
         String timePattern = "hh:mm";
@@ -154,6 +156,7 @@ try {
         return color[rating -1 ];
     }
 
-
-
+    public String getQrCode() {
+        return qrCode;
+    }
 }

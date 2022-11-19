@@ -42,7 +42,7 @@ public interface FirebaseHelper {
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType);
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError);
     public MutableLiveData<List<Question>> getQuestions();
-    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization);
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization,Action actionOnSuccess,Action actionOnFailure);
     public <T>boolean insertEntityIntoSet(T entity,String setName);
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected ();

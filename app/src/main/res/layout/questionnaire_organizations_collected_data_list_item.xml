@@ -23,12 +23,11 @@
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="151dp"
-            android:layout_height="53dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="130dp"
+            android:layout_height="37dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/questionnaire_organization_collected_text">
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -42,15 +41,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    tools:srcCompat="@drawable/ic_person_rater" />
+                    app:srcCompat="@drawable/ic_person_rater"
+                    tools:src="@drawable/ic_person_rater" />
 
                 <TextView
                     android:id="@+id/questionnaire_organization_collected_attendees_num"
-                    android:layout_width="30dp"
+                    android:layout_width="34dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="56" />
+
+                    android:text="999" />
             </LinearLayout>
 
             <LinearLayout
@@ -61,10 +62,10 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageViewShowQrCode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_ratings_statistics" />
+                    app:srcCompat="@drawable/ic_baseline_qr_code" />
             </LinearLayout>
         </LinearLayout>
 

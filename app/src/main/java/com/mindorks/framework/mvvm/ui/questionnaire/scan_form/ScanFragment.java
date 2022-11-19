@@ -134,7 +134,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
                     return;
                 }
 
-                 if (x.getLocationRequired() == true) {
+                 if (x.getLocationRequired() != null && x.getLocationRequired() == true) {
                     String[] coo = x.getLocation().split(",");
                     double latitude = Double.parseDouble(coo[0]);
                     double longitude = Double.parseDouble(coo[1]);

@@ -8,6 +8,7 @@ import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireOrganization;
 import com.mindorks.framework.mvvm.ui.base.BaseViewModel;
 import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
+import com.mindorks.framework.mvvm.utils.Action;
 import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 import java.util.Date;
@@ -39,14 +40,17 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
         return questionnaireOrganization;
     }
 
-    public void  insertQuestionnaireOrganization() {
+    public void  insertQuestionnaireOrganization(Action actionOnSuccess, Action actionOnFailure) {
         questionnaireOrganization.setRateeId(getDataManager().getCurrentUserEmail());
         List<Integer> errorList = questionnaireOrganization.isValid();
         if(errorList.stream().count() > 0){
             getError().setValue(errorList.get(0));
             return;
         }
-        getDataManager().insertQuestionnaireOrganization(questionnaireOrganization);
+        getDataManager().insertQuestionnaireOrganization(questionnaireOrganization,
+                actionOnSuccess,
+                actionOnFailure
+                );
     }
 
 public void setQuestionnaireLocation (Boolean isLocationRequired ,String location){

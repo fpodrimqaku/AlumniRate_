@@ -373,8 +373,8 @@ public class AppDataManager implements DataManager {
         return firebaseHelper.getQuestions();
     };
 
-    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
-        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization);
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization,Action actionOnSuccess,Action actionOnFailure){
+        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization,actionOnSuccess,actionOnFailure);
 
     }
     //not for direct use rather here to suppress overriding rules

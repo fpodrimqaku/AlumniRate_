@@ -4,6 +4,7 @@ import static android.content.Context.WINDOW_SERVICE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -31,13 +33,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.Observable;
+import androidx.core.content.FileProvider;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -51,11 +55,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.zxing.WriterException;
 import com.mindorks.framework.mvvm.R;
-import com.mindorks.framework.mvvm.databinding.FragmentDashboardBinding;
+import com.mindorks.framework.mvvm.databinding.FragmentQuestionnaireCreationBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
+import com.mindorks.framework.mvvm.ui.main.MainActivity;
 import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -66,10 +73,9 @@ import java.util.UUID;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, DashboardViewModel> implements QuestionnaireListNavigator {
+public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreationBinding, DashboardViewModel> implements QuestionnaireListNavigator {
 
 
     private DashboardViewModel dashboardViewModel;
@@ -78,13 +84,16 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding, Da
     WindowManager manager;
     FusedLocationProviderClient mFusedLocationClient;
 
-int PERMISSION_ID = 101;
+    int defaultHourOnPicker = 12;
+    int defaultMinuteOnPicker = 0;
+
+    int PERMISSION_ID = 101;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  mViewModel.setNavigator(this);
         mViewModel.setNavigator(this);
-
 
     }
 
@@ -95,7 +104,7 @@ int PERMISSION_ID = 101;
 
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View root = inflater.inflate(R.layout.fragment_questionnaire_creation, container, false);
 
         final EditText fvalue = (EditText) root.findViewById(R.id.editQuestionnaireOrganizationName);
 
@@ -120,8 +129,8 @@ int PERMISSION_ID = 101;
         mViewModel.getError().observe(this.getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer value) {
-                if(value!=null){
-                    Toast.makeText(getContext(),getResources().getString(value), Toast.LENGTH_SHORT).show();
+                if (value != null) {
+                    Toast.makeText(getContext(), getResources().getString(value), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -129,14 +138,11 @@ int PERMISSION_ID = 101;
         return root;
     }
 
-    public void initiateQrCode (View root){
+    public void initiateQrCode(View root) {
         final ImageView qrCode_image = (ImageView) root.findViewById(R.id.imageView_qr_code);
         String fvalue_string = "";
-                                            /*  if (count > 0)
-                                                  fvalue_string = fvalue.getText().toString();
-                                              else fvalue_string = "empty";
-                                              //  String svalue_string = svalue.getText().toString();*/
-        fvalue_string= uuid.toString();
+
+        fvalue_string = uuid.toString();
         getViewDataBinding().getViewModel().setQuestionnaireQrCode(fvalue_string);
 
         Display display = manager.getDefaultDisplay();
@@ -157,6 +163,9 @@ int PERMISSION_ID = 101;
             // the bitmap is set inside our image
             // view using .setimagebitmap method.
             qrCode_image.setImageBitmap(bitmap);
+           Uri imageToShareUri= storeImageIntoCacheAndReturnUri(bitmap,fvalue_string,"jpeg");
+            shareQrCode(imageToShareUri);
+
         } catch (WriterException e) {
             // this method is called for
             // exception handling.
@@ -170,11 +179,14 @@ int PERMISSION_ID = 101;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-          ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
         initiateQrCode(view);
 
         initVariablesAndEvents(view);
+try{
+    ClearCacheImprovised();
 
+}catch(Exception exe ){}
     }
 
     @Override
@@ -189,7 +201,7 @@ int PERMISSION_ID = 101;
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_dashboard;
+        return R.layout.fragment_questionnaire_creation;
     }
 
 
@@ -199,93 +211,88 @@ int PERMISSION_ID = 101;
     }
 
 
-@OnClick(R.id.buttonSaveQuestionnaireOrganization)
+    @OnClick(R.id.buttonSaveQuestionnaireOrganization)
     public void buttonSaveQuestionnaireOrganization_clicked() {
-        dashboardViewModel.insertQuestionnaireOrganization();
+        dashboardViewModel.insertQuestionnaireOrganization(
+                ()->{
+                    toastShowLong(getString(R.string.questionnaire_inserted_successfully));
+                },
+                ()->{
+                    toastShowLong(getString(R.string.questionnaire_inserted_UNsuccessfully));
+                }
+        );
     }
 
 
     public void initVariablesAndEvents(View rootView) {
-        CheckBox locationRequired  = rootView.findViewById(R.id.questionnaireOrganizationLocationRequired);
+        CheckBox locationRequired = rootView.findViewById(R.id.questionnaireOrganizationLocationRequired);
         locationRequired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked)//mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true)
-                         {
-                        checkIfAppHasLocationPermissionAndRequestIt();
-                    }
-                    else //mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false)
-                         {
-                        mViewModel.setQuestionnaireLocation(null,null);
-                    }
+                if (isChecked)//mViewModel.getQuestionnaireLocationRequired() !=null &&  mViewModel.getQuestionnaireLocationRequired() == true)
+                {
+                    checkIfAppHasLocationPermissionAndRequestIt();
+                } else //mViewModel.getQuestionnaireLocationRequired() !=null && mViewModel.getQuestionnaireLocationRequired() == false)
+                {
+                    mViewModel.setQuestionnaireLocation(null, null);
+                }
             }
         });
-
 
 
     }
 
 
+    @OnClick({R.id.questionnaireTimeFrom, R.id.qestionnaireTimeTo})
+    public void initiateTimeFromOrTimeTo(View view) {
 
 
-
-@OnClick({R.id.questionnaireTimeFrom,R.id.qestionnaireTimeTo})
-    public void initiateTimeFromOrTimeTo(View view){
-
-        int hour=12;
-        int minute=0;
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
-        {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
             @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
-            {
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                setDefaultHourOnPicker(selectedHour);
+                setDefaultMinuteOnPicker(selectedMinute);
 
 
                 Date date = new Date();
                 LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                int year  = localDate.getYear();
+                int year = localDate.getYear();
                 int month = localDate.getMonthValue();
-                int day   = localDate.getDayOfMonth();
+                int day = localDate.getDayOfMonth();
 
                 Calendar calendarDate = Calendar.getInstance();
 
-                calendarDate.set(Calendar.DATE,day);
+                calendarDate.set(Calendar.DATE, day);
                 calendarDate.set(Calendar.HOUR_OF_DAY, selectedHour);
                 calendarDate.set(Calendar.MINUTE, selectedMinute);
                 calendarDate.set(Calendar.SECOND, 0);
                 calendarDate.set(Calendar.MILLISECOND, 0);
-                calendarDate.set(Calendar.MONTH, month-1);//se ata mretat qe morin rrog per ket pune ->JANARIN E KAN LAN 0
+                calendarDate.set(Calendar.MONTH, month - 1);//se ata mretat qe morin rrog per ket pune ->JANARIN E KAN LAN 0
                 calendarDate.set(Calendar.YEAR, year);
                 calendarDate.setTimeZone(TimeZone.getDefault());
 
 
-
-
-                if(view.getId() == R.id.questionnaireTimeFrom)
-                dashboardViewModel.setQuestionnaireDateFrom(calendarDate.getTime());
+                if (view.getId() == R.id.questionnaireTimeFrom)
+                    dashboardViewModel.setQuestionnaireDateFrom(calendarDate.getTime());
                 else
                     dashboardViewModel.setQuestionnaireDateTo(calendarDate.getTime());
 
-                String time="";
-                time = String.format("%02d", selectedHour)+":"+String.format("%02d", selectedMinute);
-                ((TextView)view).setText(time);
+                String time = "";
+                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute);
+                ((TextView) view).setText(time);
 
             }
         };
 
-     //   int style = AlertDialog.THEME_HOLO_DARK;
+        //   int style = AlertDialog.THEME_HOLO_DARK;
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), /*style,*/ onTimeSetListener, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), /*style,*/ onTimeSetListener, getDefaultHourOnPicker(), getDefaultMinuteOnPicker(), true);
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
 
     }
-
-
-
-
 
 
     @SuppressLint("MissingPermission")
@@ -305,12 +312,12 @@ int PERMISSION_ID = 101;
                             locationStringBuilder.append(location.getLatitude());
                             locationStringBuilder.append(",");
                             locationStringBuilder.append(location.getLongitude());
-                            setQuestionnaireLocation(true,locationStringBuilder.toString());
+                            setQuestionnaireLocation(true, locationStringBuilder.toString());
 
                             locationStringBuilder.append("Latitude: " + location.getLatitude() + "      ");
                             locationStringBuilder.append("Longitude: " + location.getLongitude() + "");
 
-                            Toast.makeText( getActivity(),locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -362,14 +369,13 @@ int PERMISSION_ID = 101;
             StringBuilder locationStringBuilder = new StringBuilder("");
             locationStringBuilder.append("Latitude: " + mLastLocation.getLatitude() + "      ");
             locationStringBuilder.append("Longitude: " + mLastLocation.getLongitude() + "");
-            Toast.makeText( getActivity(),locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
-    public void setQuestionnaireLocation(boolean isLocationRequired, String location){
-    getViewDataBinding().getViewModel().setQuestionnaireLocation(isLocationRequired,location);
+    public void setQuestionnaireLocation(boolean isLocationRequired, String location) {
+        getViewDataBinding().getViewModel().setQuestionnaireLocation(isLocationRequired, location);
     }
-
 
 
     private ActivityResultLauncher<String> requestPermissionLauncher =
@@ -385,7 +391,7 @@ int PERMISSION_ID = 101;
             });
 
 
-    public void checkIfAppHasLocationPermissionAndRequestIt(){
+    public void checkIfAppHasLocationPermissionAndRequestIt() {
 
         if (ContextCompat.checkSelfPermission(
                 getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -393,10 +399,9 @@ int PERMISSION_ID = 101;
 
             getLastLocation();
 
-        }else if (shouldShowRequestPermissionRationale(getResources().getString(R.string.permission_location_request))){
+        } else if (shouldShowRequestPermissionRationale(getResources().getString(R.string.permission_location_request))) {
 
-        }
-        else {
+        } else {
             requestPermissionLauncher.launch(
                     Manifest.permission.ACCESS_FINE_LOCATION);
         }
@@ -404,6 +409,89 @@ int PERMISSION_ID = 101;
     }
 
 
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                       // ClearCacheImprovised();
+                    }
+                }
+            });
 
+
+    public void shareQrCode(Uri ImageUri) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, ImageUri);
+        shareIntent.addFlags(
+                Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                shareIntent.setType("image/jpeg");
+       // startActivity(Intent.createChooser(shareIntent, null));
+
+
+        someActivityResultLauncher.launch(shareIntent);
+    }
+
+    public Uri storeImageIntoCacheAndReturnUri(Bitmap bitmapToStore, String nameToStoreWith, String extension) {
+        File sd = getContext().getCacheDir();
+        File folder = new File(sd, "/edurate/");
+        if (!folder.exists()) {
+            if (!folder.mkdir()) {
+                Log.e("ERROR", "Cannot create a directory!");
+            } else {
+                folder.mkdirs();
+            }
+        }
+
+        File fileName = new File(folder, nameToStoreWith + "."+extension);
+
+        try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(fileName))) {
+            bitmapToStore.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            Uri uri = FileProvider.getUriForFile(this.getContext(), "com.mindorks.framework.mvvm", fileName);
+           // Uri tempUri  = getImageUri(getActivity(), bitmapToStore);
+            return uri;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+
+
+    public void ClearCacheImprovised() {
+        try {
+            File sd = getContext().getCacheDir();
+            File folder = new File(sd, "/edurate");
+
+            for (File c : folder.listFiles()) {
+               c.delete();
+            }
+
+
+        } catch (Exception exe) {
+
+        }
+    }
+
+    public int getDefaultHourOnPicker() {
+        return defaultHourOnPicker;
+    }
+
+    public void setDefaultHourOnPicker(int defaultHourOnPicker) {
+        this.defaultHourOnPicker = defaultHourOnPicker;
+    }
+
+    public int getDefaultMinuteOnPicker() {
+        return defaultMinuteOnPicker;
+    }
+
+    public void setDefaultMinuteOnPicker(int defaultMinuteOnPicker) {
+        this.defaultMinuteOnPicker = defaultMinuteOnPicker;
+    }
 
 }

@@ -343,12 +343,11 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-    public void insertQuestionnaireOrganization(QuestionnaireOrganization questionnaireOrganization) {
+    public void insertQuestionnaireOrganization(QuestionnaireOrganization questionnaireOrganization,Action actionOnSuccess,Action actionOnFailure) {
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
+        relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization)
+                .addOnSuccessListener(x->actionOnSuccess.takeAction()).addOnFailureListener(x->actionOnFailure.takeAction());
 
-        // relativeDatabaseReference.push().setValue(questionnaireOrganization);
-        relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization);
-        // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
     }
 
     public final <T> boolean insertEntityIntoSet(T entity, String setName) {

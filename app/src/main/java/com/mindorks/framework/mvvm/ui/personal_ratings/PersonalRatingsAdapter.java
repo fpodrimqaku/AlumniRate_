@@ -166,6 +166,7 @@ public class PersonalRatingsAdapter extends RecyclerView.Adapter<PersonalRatings
         dimen = dimen * 3 / 4;
 
         QRGEncoder qrgEncoder = new QRGEncoder(fvalue_string, null, QRGContents.Type.TEXT, dimen);
+
         try {
             // getting our qrcode in the form of bitmap.
              bitmapToShareTempStoreHere = qrgEncoder.encodeAsBitmap();

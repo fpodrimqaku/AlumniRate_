@@ -58,7 +58,6 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.databinding.FragmentQuestionnaireCreationBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
-import com.mindorks.framework.mvvm.ui.main.MainActivity;
 import com.mindorks.framework.mvvm.ui.questionnaire.QuestionnaireListNavigator;
 
 import java.io.File;
@@ -83,7 +82,8 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
     UUID uuid = UUID.randomUUID();
     WindowManager manager;
     FusedLocationProviderClient mFusedLocationClient;
-
+Bitmap imageBitmapTemp ;
+String qrCode  = uuid.toString();
     int defaultHourOnPicker = 12;
     int defaultMinuteOnPicker = 0;
 
@@ -163,8 +163,9 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
             // the bitmap is set inside our image
             // view using .setimagebitmap method.
             qrCode_image.setImageBitmap(bitmap);
-           Uri imageToShareUri= storeImageIntoCacheAndReturnUri(bitmap,fvalue_string,"jpeg");
-            shareQrCode(imageToShareUri);
+          imageBitmapTemp = bitmap;
+
+            //shareQrCode(imageToShareUri);
 
         } catch (WriterException e) {
             // this method is called for
@@ -435,8 +436,18 @@ try{
 
         someActivityResultLauncher.launch(shareIntent);
     }
+@OnClick(R.id.questionnaireCreatedShare)
+    public void shareImage(){
+        if(imageBitmapTemp!=null &&qrCode !=null)
+            storeImageIntoCacheAndShareIt(imageBitmapTemp,qrCode,"jpeg");
 
-    public Uri storeImageIntoCacheAndReturnUri(Bitmap bitmapToStore, String nameToStoreWith, String extension) {
+    }
+
+
+
+
+
+    public Uri storeImageIntoCacheAndShareIt(Bitmap bitmapToStore, String nameToStoreWith, String extension) {
         File sd = getContext().getCacheDir();
         File folder = new File(sd, "/edurate/");
         if (!folder.exists()) {
@@ -454,6 +465,7 @@ try{
 
             Uri uri = FileProvider.getUriForFile(this.getContext(), "com.mindorks.framework.mvvm", fileName);
            // Uri tempUri  = getImageUri(getActivity(), bitmapToStore);
+            shareQrCode(uri);
             return uri;
         } catch (Exception e) {
             return null;

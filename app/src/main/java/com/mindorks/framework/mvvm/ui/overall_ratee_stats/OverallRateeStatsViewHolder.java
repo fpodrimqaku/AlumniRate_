@@ -81,18 +81,18 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
         List<AxisValue> axisXValues = new ArrayList<AxisValue>();;
-        Map<String, UserAnswerData> userAnswerDataa = rateeRankingsData.getUserAnswerDataCollectedForUser();
+        Map<Integer, UserAnswerData> userAnswerDataa = rateeRankingsData.getUserAnswerDataCollectedForUser();
 
         userAnswerDataa.keySet().stream().sorted().forEach(key -> {
 
-                axisXValues.add(new AxisValue(1+Integer.parseInt(key.split("\\.")[0])).setLabel("Pyetja"+key.split("\\.")[0]));
+                axisXValues.add(new AxisValue(key).setLabel("Pyetja"+key));
 
             UserAnswerData userData = userAnswerDataa.get(key);
             List<SubcolumnValue> values;
             values = new ArrayList<SubcolumnValue>();
             for (int j = 1; j <= numSubcolumns; ++j) {
                 String label = "";
-                label = "Pyetja " + key.split("\\.")[0] + "; Vlerësuar (" + context.getResources().getString(AppConstants.answersWordified.get(j)) + ")- " + userData.getOptionsPickedStats().get(j) + " person/a";
+                label = "Pyetja " + key + "; Vlerësuar (" + context.getResources().getString(AppConstants.answersWordified.get(j)) + ")- " + userData.getOptionsPickedStats().get(j) + " person/a";
                 values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j), getChartColumnColorBasedOnRating(j)).setLabel(label));
             }
 
@@ -143,7 +143,7 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
          */
         Viewport v = new Viewport(chart.getMaximumViewport());
         v.left = 0;
-        v.right = 10;
+        v.right = 11;
        // chart.setCurrentViewport(v);
 
 

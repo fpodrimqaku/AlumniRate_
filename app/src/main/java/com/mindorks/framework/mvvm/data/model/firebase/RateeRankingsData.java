@@ -40,9 +40,9 @@ public class RateeRankingsData {
     }
 
 
-    public Map<String, UserAnswerData> getUserAnswerDataCollectedForUser() {
+    public Map<Integer, UserAnswerData> getUserAnswerDataCollectedForUser() {
 
-        Map<String, UserAnswerData> userAnswerData = new HashMap<>();
+        Map<Integer, UserAnswerData> userAnswerData = new HashMap<>();
 
         List<UserAnswerData> userAnswerDataList = questionnaireDataCollectedList.values().stream().map((x) -> {
             return x.getUserAnswerData();
@@ -58,7 +58,7 @@ public class RateeRankingsData {
             if (uad == null) {
                 uad = new UserAnswerData();
                 uad.setQuestionId(x.getQuestionId());
-                userAnswerData.put(uad.getQuestionId(), new UserAnswerData());
+                userAnswerData.put(uad.getQuestionNum(), new UserAnswerData());
             }
             userAnswerData.get(x.getQuestionId()).AddToOptions(x);
 

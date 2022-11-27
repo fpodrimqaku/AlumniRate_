@@ -44,7 +44,7 @@ public class QuestionnaireQuestionsAdapter extends RecyclerView.Adapter<Question
 if(viewModel.getQuestionnaireAswers().getAnswers().stream().count() ==0)
     return;
         Question question = items.get(position);
-        UserAnswer userAnswer = viewModel.getQuestionnaireAswers().getAnswers().stream().filter(item->question.getQuestion().equals(item.getQuestionId())).findFirst().get();
+        UserAnswer userAnswer = viewModel.getQuestionnaireAswers().getAnswers().stream().filter(item->question.getNum().equals(item.getQuestionId())).findFirst().get();
         holder.setUserAnswerSlot(userAnswer);
         holder.initiateItem(question);
 

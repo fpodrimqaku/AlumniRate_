@@ -110,7 +110,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             public void onChanged(List<Question> questions) {
                 mViewModel.getQuestionnaireAswers().getAnswers().clear();
                 questions.forEach(question -> {
-                    UserAnswer userAnswer = new UserAnswer(question.getQuestion());//todo changelater
+                    UserAnswer userAnswer = new UserAnswer(question.getNum());//todo changelater
                     mViewModel.getQuestionnaireAswers().getAnswers().add(userAnswer);
 
                 });

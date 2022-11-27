@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class QuestionnaireDataCollected {
     QuestionnaireOrganization questionnaireOrganization ;
-    Map<String,UserAnswerData> userAnswerData;
+    Map<Integer,UserAnswerData> userAnswerData;
     Integer peopleParticipated ;
 
 public QuestionnaireDataCollected(){
@@ -29,24 +29,24 @@ public QuestionnaireDataCollected(){
         this.questionnaireOrganization = questionnaireOrganization;
     }
 
-    public Map<String,UserAnswerData> getUserAnswerData() {
+    public Map<Integer,UserAnswerData> getUserAnswerData() {
         return userAnswerData;
     }
 
-    public void setUserAnswerData(Map<String,UserAnswerData> userAnswerData) {
+    public void setUserAnswerData(Map<Integer,UserAnswerData> userAnswerData) {
         this.userAnswerData = userAnswerData;
     }
 
-    public Map<String, UserAnswerData> getUserAnswerDataCollectedForQuestionnaire() {
+    public Map<Integer, UserAnswerData> getUserAnswerDataCollectedForQuestionnaire() {
 
-        Map<String, UserAnswerData> userAnswerDataMap = new HashMap<>();
+        Map<Integer, UserAnswerData> userAnswerDataMap = new HashMap<>();
 
 
         userAnswerData.values().stream().forEach((x) -> {
             UserAnswerData uad = userAnswerDataMap.get(x.getQuestionId());
             if (uad == null) {
                 uad = new UserAnswerData();
-                uad.setQuestionId(x.getQuestionId());
+                uad.setQuestionId(x.getQuestionNum());
                 userAnswerDataMap.put(uad.getQuestionId(), new UserAnswerData());
             }
             userAnswerDataMap.get(x.getQuestionId()).AddToOptions(x);

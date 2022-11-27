@@ -105,7 +105,7 @@ public class QuestionnaireListItemViewHolder extends BaseViewHolder {
 
     public void initiateItem(Question item) {
         questionnaireName.setText(item.getQuestion());
-        this.userAnswer.setQuestionId(item.getQuestion());
+        this.userAnswer.setQuestionId(item.getNum());
     }
 
     public void setUserAnswerSlot(UserAnswer userAnswer) {

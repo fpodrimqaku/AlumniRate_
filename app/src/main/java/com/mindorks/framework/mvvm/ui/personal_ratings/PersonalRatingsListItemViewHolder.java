@@ -91,7 +91,7 @@ try {
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
 
-        Map<String, UserAnswerData> userAnswerDataa = questionnaireDataCollected.getUserAnswerDataCollectedForQuestionnaire();
+        Map<Integer, UserAnswerData> userAnswerDataa = questionnaireDataCollected.getUserAnswerDataCollectedForQuestionnaire();
 
         userAnswerDataa.values().stream().forEach(userData->{
             List<SubcolumnValue> values;

@@ -494,14 +494,14 @@ currentLoggedInUser.setValue(user);
                             );
                             questions.getValue().forEach(question -> {
                                 UserAnswerData UAD1 = new UserAnswerData();
-                                UAD1.setQuestionId(question.getQuestion());
-                                userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
+                                UAD1.setQuestionId(question.getNum());
+                                userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getNum()))
                                         .forEach(x -> {
                                             if (x == null || x.getOptionPicked() == null)
                                                 return;
                                             UAD1.AddToOption(x.getOptionPicked(), 1);
                                         });
-                                qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
+                                qdc.getUserAnswerData().put(question.getNum(), UAD1);
                             });
 
 
@@ -606,14 +606,14 @@ currentLoggedInUser.setValue(user);
                                         );
                                         questions.getValue().forEach(question -> {
                                             UserAnswerData UAD1 = new UserAnswerData();
-                                            UAD1.setQuestionId(question.getQuestion());
-                                            userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getQuestion()))
+                                            UAD1.setQuestionId(question.getNum());
+                                            userAnswers.stream().filter(x -> x.getQuestionId().equals(question.getNum()))
                                                     .forEach(x -> {
                                                         if (x == null || x.getOptionPicked() == null)
                                                             return;
                                                         UAD1.AddToOption(x.getOptionPicked(), 1);
                                                     });
-                                            qdc.getUserAnswerData().put(question.getQuestion(), UAD1);
+                                            qdc.getUserAnswerData().put(question.getNum(), UAD1);
                                         });
 
 

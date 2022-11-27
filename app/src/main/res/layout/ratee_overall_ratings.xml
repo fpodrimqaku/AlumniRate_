@@ -60,8 +60,6 @@
                             android:layout_height="fill_parent"
 
                             android:scaleType="centerCrop"
-
-
                             tools:src="@drawable/ic_rabbit" />
                     </androidx.cardview.widget.CardView>
 

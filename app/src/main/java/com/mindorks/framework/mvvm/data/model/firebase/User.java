@@ -16,6 +16,7 @@ public class User {
     private String UID;
 
 
+
     public Boolean getEmailVerified() {
         return isEmailVerified;
     }

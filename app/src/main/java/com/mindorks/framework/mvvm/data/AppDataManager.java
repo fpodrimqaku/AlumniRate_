@@ -52,6 +52,7 @@ import com.mindorks.framework.mvvm.data.remote.ApiHelper;
 import com.mindorks.framework.mvvm.utils.Action;
 import com.mindorks.framework.mvvm.utils.AppConstants;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
+import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 import java.lang.reflect.Type;
 import java.util.Dictionary;
@@ -344,7 +345,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
+    public void signInWithEmailAndPassword(String email, String password, ConsumerAction<String> onSuccess, Action onFailure) {
         firebaseHelper.signInWithEmailAndPassword(email, password, onSuccess, onFailure);
     }
 
@@ -445,6 +446,11 @@ public class AppDataManager implements DataManager {
            x.getQuestionnaireId()!=null && x.getDeviceId()!=null && x.getQuestionnaireId().equals(QuestionnaireQrId) && x.getDeviceId().equals(DeviceId)
 
         );
+
+    }
+
+    public MutableLiveData<com.mindorks.framework.mvvm.data.model.firebase.User> getCurrentLoggedInUserPassive(){
+        return firebaseHelper.getCurrentLoggedInUserPassive();
 
     }
 }

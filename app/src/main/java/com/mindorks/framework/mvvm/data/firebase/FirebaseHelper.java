@@ -19,6 +19,7 @@ import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireType;
 import com.mindorks.framework.mvvm.data.model.firebase.RateeRankingsData;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.utils.Action;
+import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 import java.util.Dictionary;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.function.Consumer;
 public interface FirebaseHelper {
     public FirebaseUser getCurrentLoggedInUser();
 
-    public void signInWithEmailAndPassword(String email, String password, Action onSuccess,Action onFailure);
+    public void signInWithEmailAndPassword(String email, String password, ConsumerAction<String> onSuccess,Action onFailure);
 
 
 
@@ -42,7 +43,7 @@ public interface FirebaseHelper {
     public QuestionnaireType createQuestionnaireType(QuestionnaireType questionnaireType);
     public void getQuestionnairesRealtime(Consumer<List<QuestionnaireType>> consumerFunction, Consumer<DatabaseError> consumerOnError);
     public MutableLiveData<List<Question>> getQuestions();
-    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization,Action actionOnSuccess,Action actionOnFailure);
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization, Action actionOnSuccess, Action actionOnFailure);
     public <T>boolean insertEntityIntoSet(T entity,String setName);
     public MutableLiveData<QuestionnaireOrganization>  fetchQuestionnaireByQrCode (String qrCode);
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected ();
@@ -54,4 +55,5 @@ public interface FirebaseHelper {
     public void initiatefetchRateeRankingsData();
     public MutableLiveData<Map<String,QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice ();
     public void fetchQuestionnairesFilledByUserPreviously();
+    public MutableLiveData<User> getCurrentLoggedInUserPassive();
 }

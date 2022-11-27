@@ -118,5 +118,6 @@
 
     <string name="questionnaire_share">Shpërndaj</string>
     <string name="action_close">Mbyll</string>
-
+    <string name="menu_botom_nav_profile">Profili</string>
+    <string name="log_out">Shkyqu</string>
 </resources>

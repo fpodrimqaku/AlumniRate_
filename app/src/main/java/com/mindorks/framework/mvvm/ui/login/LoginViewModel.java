@@ -57,7 +57,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                     .updateUserInfo(
                             null,
                             null,
-                            DataManager.LoggedInMode.LOGGED_IN_MODE_SERVER,
+                            DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT,
                             null,
                             null,
                             null);
@@ -69,20 +69,20 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
 
         setIsLoading(true);
 
-        getDataManager().signInWithEmailAndPassword(email, password, () -> {
+        getDataManager().signInWithEmailAndPassword(email, password, (token) -> {
 
             getNavigator().openMainActivity();
             setIsLoading(false);
             getDataManager()
                     .updateUserInfo(
-                            null,
+                            token,
                             null,
                             DataManager.LoggedInMode.LOGGED_IN_MODE_SERVER,
                             null,
                             email,
                             email);
             getDataManager().setCurrentLoginUserMode(loginAsRatee);
-
+boolean f = getDataManager().getCurrentLoginUserMode();;
         }, () -> {
 
             Log.d("blu3", "here");

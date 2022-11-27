@@ -28,11 +28,7 @@
         android:name="com.mindorks.framework.mvvm.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
-    <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.mindorks.framework.mvvm.ui.feed.blogs.BlogFragment"
-        android:label="@string/title_profile"
-        tools:layout="@layout/fragment_blog" />
+
 
     <fragment
         android:id="@+id/navigation_overall_ratee_stats"
@@ -49,5 +45,11 @@
             android:id="@+id/action_navigation_scan_form_fragment_to_navigation_home2"
             app:destination="@id/navigation_home" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.mindorks.framework.mvvm.ui.about.AboutFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_about" />
 
 </navigation>

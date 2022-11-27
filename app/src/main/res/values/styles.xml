@@ -50,6 +50,14 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white_24px</item>
     </style>
 
+    <style name="AppThemeFullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
+
+
+
+
     <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">false</item>
         <item name="color">@color/white</item>
@@ -170,4 +178,8 @@
     </style>
 
 
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

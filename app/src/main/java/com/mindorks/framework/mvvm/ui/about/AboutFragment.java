@@ -2,11 +2,18 @@
 package com.mindorks.framework.mvvm.ui.about;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.Observable;
+import androidx.lifecycle.Observer;
 
+import com.bumptech.glide.Glide;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.databinding.FragmentAboutBinding;
 import com.mindorks.framework.mvvm.di.component.FragmentComponent;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
@@ -15,7 +22,7 @@ import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewModel> implements AboutNavigator {
 
     public static final String TAG = "AboutFragment";
-
+public ImageView profileImageView;
     public static AboutFragment newInstance() {
         Bundle args = new Bundle();
         AboutFragment fragment = new AboutFragment();
@@ -44,6 +51,24 @@ public class AboutFragment extends BaseFragment<FragmentAboutBinding, AboutViewM
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel.setNavigator(this);
+
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        profileImageView = view.findViewById(R.id.main_profile_image);
+        Glide.with(getContext()).load(mViewModel.getUser().getPhotoUrl()).into(profileImageView);
+
+        mViewModel.getDataManager().getCurrentLoggedInUserPassive().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user1) {
+                mViewModel.setUser(user1);
+            }
+        });
+
     }
 
     @Override

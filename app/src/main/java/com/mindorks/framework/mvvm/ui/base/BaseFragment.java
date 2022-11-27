@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -145,4 +146,15 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.login_janablue));
         snackbar.show();
     }
+    public void toastShowLong(String Text ){
+
+        Toast.makeText(getActivity(),Text,Toast.LENGTH_LONG).show();
+    }
+
+    public void toastShowShort(String Text ){
+        Toast.makeText(getActivity(),Text,Toast.LENGTH_SHORT).show();
+    }
+
+
+
 }

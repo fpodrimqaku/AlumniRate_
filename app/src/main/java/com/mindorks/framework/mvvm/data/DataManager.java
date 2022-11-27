@@ -51,4 +51,5 @@ public interface DataManager extends DbHelper, PreferencesHelper, ApiHelper, Fir
         }
     }
     public MutableLiveData<String> getCurrentBarcodeScanned();
+    public boolean userHasFilledTheQuestionnaireBefore(String QuestionnaireQrId);
 }

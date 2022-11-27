@@ -32,6 +32,14 @@
         android:layout_height="120dp"
         >
 
+        <ImageView
+            android:id="@+id/user_image_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+android:src="@drawable/ic_baseline_account_box_24"
+            ></ImageView>
+
     </androidx.cardview.widget.CardView>
     <TextView
         android:layout_width="wrap_content"

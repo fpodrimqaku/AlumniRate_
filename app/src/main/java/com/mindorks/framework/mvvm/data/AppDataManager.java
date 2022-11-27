@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.google.gson.reflect.TypeToken;
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelper;
 import com.mindorks.framework.mvvm.data.firebase.FirebaseHelperImpl;
 import com.mindorks.framework.mvvm.data.local.db.DbHelper;
@@ -51,10 +52,12 @@ import com.mindorks.framework.mvvm.data.remote.ApiHelper;
 import com.mindorks.framework.mvvm.utils.Action;
 import com.mindorks.framework.mvvm.utils.AppConstants;
 import com.mindorks.framework.mvvm.utils.CommonUtils;
+import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 import java.lang.reflect.Type;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.inject.Inject;
@@ -342,7 +345,7 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
+    public void signInWithEmailAndPassword(String email, String password, ConsumerAction<String> onSuccess, Action onFailure) {
         firebaseHelper.signInWithEmailAndPassword(email, password, onSuccess, onFailure);
     }
 
@@ -371,8 +374,8 @@ public class AppDataManager implements DataManager {
         return firebaseHelper.getQuestions();
     };
 
-    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization){
-        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization);
+    public void insertQuestionnaireOrganization (QuestionnaireOrganization questionnaireOrganization,Action actionOnSuccess,Action actionOnFailure){
+        firebaseHelper.insertQuestionnaireOrganization(questionnaireOrganization,actionOnSuccess,actionOnFailure);
 
     }
     //not for direct use rather here to suppress overriding rules
@@ -391,10 +394,19 @@ public class AppDataManager implements DataManager {
 
     }
 
-    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (String userId){
-        return firebaseHelper.fetchQuestionnaireDataCollected(userId);
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>>fetchQuestionnaireDataCollected (){
+        return firebaseHelper.fetchQuestionnaireDataCollected();
 
     }
+
+    public void initiatefetchRateeRankingsData(){
+        firebaseHelper.initiatefetchRateeRankingsData();
+    }
+    public void initiatefetchingQuestionnaireDataCollected(String userId){
+
+        firebaseHelper.initiatefetchingQuestionnaireDataCollected(userId);
+    }
+
 
 
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email){
@@ -421,4 +433,24 @@ public class AppDataManager implements DataManager {
         return currentBarcodeScanned;
     }
 
+    public MutableLiveData<Map<String,QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice (){
+        return firebaseHelper.getQuestionnairesAnsweredByTheCurrentUserIdDevice();
+    };
+    public void fetchQuestionnairesFilledByUserPreviously(){
+        firebaseHelper.fetchQuestionnairesFilledByUserPreviously();
+    }
+
+    public boolean userHasFilledTheQuestionnaireBefore(String QuestionnaireQrId){
+        String DeviceId = MvvmApp.getDeviceId();
+        return getQuestionnairesAnsweredByTheCurrentUserIdDevice().getValue().values().stream().anyMatch(x->
+           x.getQuestionnaireId()!=null && x.getDeviceId()!=null && x.getQuestionnaireId().equals(QuestionnaireQrId) && x.getDeviceId().equals(DeviceId)
+
+        );
+
+    }
+
+    public MutableLiveData<com.mindorks.framework.mvvm.data.model.firebase.User> getCurrentLoggedInUserPassive(){
+        return firebaseHelper.getCurrentLoggedInUserPassive();
+
+    }
 }

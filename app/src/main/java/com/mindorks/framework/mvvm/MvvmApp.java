@@ -23,7 +23,7 @@ import io.github.inflationx.viewpump.ViewPump;
 public class MvvmApp extends Application {
 
     public AppComponent appComponent;
-public static  String DeviceId  = null;
+ private static  String DeviceId  = null;
 
     @Override
     public void onCreate() {
@@ -57,5 +57,9 @@ public static  String DeviceId  = null;
                 .build());
 
 
+    }
+
+    public static String getDeviceId (){
+        return DeviceId;
     }
 }

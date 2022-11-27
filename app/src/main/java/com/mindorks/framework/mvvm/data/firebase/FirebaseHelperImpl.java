@@ -4,6 +4,7 @@ import android.media.Image;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.lifecycle.MutableLiveData;
 
@@ -15,17 +16,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mindorks.framework.mvvm.MvvmApp;
 import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireAnswers;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
@@ -36,11 +40,14 @@ import com.mindorks.framework.mvvm.data.model.firebase.User;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswer;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.utils.Action;
+import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -50,7 +57,6 @@ import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 
 
 @Singleton
@@ -76,6 +82,12 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference storageReference;
+    MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
+    MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
+    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<Map<String, QuestionnaireAnswers>> questionnairesFilledByUser = new MutableLiveData<>();
+MutableLiveData<User> currentLoggedInUser= new MutableLiveData<User>();
 
     @Inject
     public FirebaseHelperImpl(FirebaseAuth firebaseAuth,
@@ -87,22 +99,25 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         this.databaseReference = databaseReference;
         this.storageReference = FirebaseStorage.getInstance().getReference();
         initiatequestions();
+        setAuthStateListener();
     }
 
-
+    public MutableLiveData<User> getCurrentLoggedInUserPassive() {
+       return currentLoggedInUser;
+    }
 
     public FirebaseUser getCurrentLoggedInUser() {
         return firebaseAuth.getCurrentUser();
     }
 
-    public void signInWithEmailAndPassword(String email, String password, Action onSuccess, Action onFailure) {
+    public void signInWithEmailAndPassword(String email, String password, ConsumerAction<String> onSuccess, Action onFailure) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            onSuccess.takeAction();
+                        if (task.isSuccessful()) { Object s = task.getResult().getCredential();
+                            onSuccess.takeAction("sdfsdfsdfsdf");
                         } else {
                             onFailure.takeAction();
                         }
@@ -135,7 +150,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     public void InsertUser(User user) {
 
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.USERS);
-        relativeDatabaseReference.push().setValue(user);
+        relativeDatabaseReference.child(user.getUID()).setValue(user);
 
     }
 
@@ -147,6 +162,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+                            user.setUID(task.getResult().getUser().getUid());
                             InsertUser(user);
                             task.getResult().getUser().updateProfile(new UserProfileChangeRequest.Builder().setDisplayName("" + user.getFirst() + " " + user.getLast())
                                     .setPhotoUri(Uri.parse(user.getPhotoUrl()))
@@ -212,6 +228,23 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
+    public void setAuthStateListener(){
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() !=null){
+                    getCurrentUserSigned();
+                }
+                else {
+                    currentLoggedInUser.setValue(null);
+                }
+
+            }
+        });
+
+    }
+
+
     public User getCurrentUserSigned() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -223,6 +256,26 @@ public class FirebaseHelperImpl implements FirebaseHelper {
             user.setEmailVerified(firebaseUser.isEmailVerified());
             user.setUID(firebaseUser.getUid());
         }
+
+        databaseReference.child(FirebaseReferences.USERS).child(user.getUID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                User userFetched = snapshot.getValue(User.class);
+                if(userFetched == null)
+                    return;;
+                user.setTitle(userFetched.getTitle());
+                user.setFirst(userFetched.getFirst());
+                user.setLast(userFetched.getLast());
+currentLoggedInUser.setValue(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return user;
     }
 
@@ -288,8 +341,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questions;
     }
 
-    MutableLiveData<List<Question>> questions = new MutableLiveData<>(new ArrayList<>());
-
 
     public void initiatequestions() {
 
@@ -336,12 +387,11 @@ public class FirebaseHelperImpl implements FirebaseHelper {
     }
 
 
-    public void insertQuestionnaireOrganization(QuestionnaireOrganization questionnaireOrganization) {
+    public void insertQuestionnaireOrganization(QuestionnaireOrganization questionnaireOrganization, Action actionOnSuccess, Action actionOnFailure) {
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations);
+        relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization)
+                .addOnSuccessListener(x -> actionOnSuccess.takeAction()).addOnFailureListener(x -> actionOnFailure.takeAction());
 
-        // relativeDatabaseReference.push().setValue(questionnaireOrganization);
-        relativeDatabaseReference.child(questionnaireOrganization.get_QRCode()).setValue(questionnaireOrganization);
-        // relativeDatabaseReference.child(FirebaseReferences.QUESTIONNAIRE_QUESTIONS).push(questions);
     }
 
     public final <T> boolean insertEntityIntoSet(T entity, String setName) {
@@ -356,7 +406,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return true;
     }
 
-    MutableLiveData<QuestionnaireOrganization> questionnaireOrganizationMutableLiveData = new MutableLiveData<>();
 
     public void addListenerToGetQuestionnaireByQrCode(String qrCode) {
         DatabaseReference relativeDatabaseReference = databaseReference.child(FirebaseReferences.Questionnaire_Organizations).child(qrCode);
@@ -388,10 +437,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         return questionnaireOrganizationMutableLiveData;
     }
 
-
-    MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> questionnaireDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
-
-    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected(String userId) {
+    public void initiatefetchingQuestionnaireDataCollected(String userId) {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
 
@@ -459,7 +505,6 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                             });
 
 
-
                         });
 
                         questionnaireDataCollected.setValue(questionnaireDataCollected.getValue());
@@ -481,14 +526,14 @@ public class FirebaseHelperImpl implements FirebaseHelper {
         });
 
 
+    }
+
+    public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected() {
         return questionnaireDataCollected;
 
     }
 
-
-    MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsDataCollected = new MutableLiveData<>(new ConcurrentHashMap<>());
-
-    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {
+    public void initiatefetchRateeRankingsData() {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
         DatabaseReference relativeDatabaseReference_U = databaseReference.child(FirebaseReferences.USERS);
@@ -522,7 +567,7 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                             //  questionnaireDataCollected.getValue().put(x.getKey(), qdc);
 
                             RateeRankingsData userRatingsData = fetchRateeRankingsDataCollected.getValue().get(qo.getRateeId());
-                            if(userRatingsData!=null)
+                            if (userRatingsData != null)
                                 userRatingsData.getQuestionnaireDataCollectedList().put(x.getKey(), qdc);
                         });
 
@@ -577,6 +622,8 @@ public class FirebaseHelperImpl implements FirebaseHelper {
                                 });
 
                                 //
+
+                                fetchRateeRankingsDataCollected.setValue(fetchRateeRankingsDataCollected.getValue());
                             }
 
                             @Override
@@ -601,6 +648,45 @@ public class FirebaseHelperImpl implements FirebaseHelper {
 
             }
         });
+
+
+    }
+
+
+    public void fetchQuestionnairesFilledByUserPreviously() {
+        String DeviceId = MvvmApp.getDeviceId();
+        DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+
+        relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, QuestionnaireAnswers> questionnaireAnswersMapInternal = new HashMap<>();
+                snapshot.getChildren().forEach(item -> {
+                    QuestionnaireAnswers questionnaireAnswersInstance = item.getValue(QuestionnaireAnswers.class);
+                    if (!questionnaireAnswersInstance.getDeviceId().equals(DeviceId))
+                        return;
+                    String key = item.getKey();
+                    questionnaireAnswersMapInternal.put(key, questionnaireAnswersInstance);
+                });
+                questionnairesFilledByUser.setValue(questionnaireAnswersMapInternal);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+
+    public MutableLiveData<Map<String, QuestionnaireAnswers>> getQuestionnairesAnsweredByTheCurrentUserIdDevice() {
+        return questionnairesFilledByUser;
+    }
+
+    public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData() {
+
         return fetchRateeRankingsDataCollected;
 
     }

@@ -14,6 +14,10 @@
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_baseline_create_24"
         android:title="@string/menu_botom_nav_create" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_account"
+        android:title="@string/menu_botom_nav_profile" />
 
 
 </menu>

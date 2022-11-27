@@ -1,8 +1,7 @@
 
-package com.mindorks.framework.mvvm.ui.about;
+package com.mindorks.framework.mvvm.ui.profile;
 
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.Observer;
 
 import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
@@ -66,6 +65,20 @@ public class AboutViewModel extends BaseViewModel<AboutNavigator> {
 
     public ObservableField<String> getFullName(){
         return new ObservableField<String>(user.getFirst()+" "+user.getLast());
+
+    }
+
+    public void logout(){
+
+            getDataManager().setCurrentLoginUserMode(false);
+            getDataManager()
+                    .updateUserInfo(
+                            null,
+                            null,
+                            DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT,
+                            null,
+                            null,
+                            null);
 
     }
 

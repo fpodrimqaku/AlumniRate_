@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mindorks.framework.mvvm.ViewModelProviderFactory;
 import com.mindorks.framework.mvvm.data.DataManager;
-import com.mindorks.framework.mvvm.ui.about.AboutViewModel;
+import com.mindorks.framework.mvvm.ui.profile.AboutViewModel;
 import com.mindorks.framework.mvvm.ui.base.BaseFragment;
 import com.mindorks.framework.mvvm.ui.questionnaire_creation.DashboardViewModel;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogAdapter;

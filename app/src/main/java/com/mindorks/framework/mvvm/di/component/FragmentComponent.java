@@ -2,7 +2,7 @@ package com.mindorks.framework.mvvm.di.component;
 
 import com.mindorks.framework.mvvm.di.module.FragmentModule;
 import com.mindorks.framework.mvvm.di.scope.FragmentScope;
-import com.mindorks.framework.mvvm.ui.about.AboutFragment;
+import com.mindorks.framework.mvvm.ui.profile.AboutFragment;
 import com.mindorks.framework.mvvm.ui.questionnaire_creation.DashboardFragment;
 import com.mindorks.framework.mvvm.ui.feed.blogs.BlogFragment;
 import com.mindorks.framework.mvvm.ui.feed.opensource.OpenSourceFragment;

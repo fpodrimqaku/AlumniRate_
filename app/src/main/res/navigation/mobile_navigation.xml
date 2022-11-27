@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.mindorks.framework.mvvm.ui.about.AboutFragment"
+        android:name="com.mindorks.framework.mvvm.ui.profile.AboutFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_about" />
 

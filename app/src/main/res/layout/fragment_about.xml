@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mindorks.framework.mvvm.ui.about.AboutViewModel" />
+            type="com.mindorks.framework.mvvm.ui.profile.AboutViewModel" />
 
     </data>
 
@@ -177,11 +177,12 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/profile_button_logout"
             style="@style/Button.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+
             android:text="@string/log_out"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

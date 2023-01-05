@@ -12,7 +12,7 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 
 public class AboutViewModel extends BaseViewModel<AboutNavigator> {
 
-    User user = new User();
+    ObservableField<User> user = new ObservableField<User>(new User());
 
 
 
@@ -27,46 +27,13 @@ public class AboutViewModel extends BaseViewModel<AboutNavigator> {
     }
 
 
-    public ObservableField<String> getFirst() {
-        return new ObservableField<String>(user.getFirst());
-    }
-
-
-
-    public ObservableField<String> getLast() {
-        return new ObservableField<String>(user.getLast());
-    }
-
-    public ObservableField<String> getUsername() {
-        return new ObservableField<String>(user.getUsername());
-    }
-
-
-    public ObservableField<String> getTitle() {
-        return new ObservableField<String>(user.getTitle());
-    }
-
-    public ObservableField<String> getPhotoUri() {
-        return new ObservableField<String>(user.getPhotoUrl());
-    }
-
-    public ObservableField<String> getEmail() {
-        return new ObservableField<String>(user.getEmail());
-    }
-
-    public User getUser() {
-        return user;
-    }
+   public ObservableField<User> getUser() {
+       return user;
+   }
     public void setUser(User user) {
-         this.user = user;
+        this.user.set(user);
     }
 
-
-
-    public ObservableField<String> getFullName(){
-        return new ObservableField<String>(user.getFirst()+" "+user.getLast());
-
-    }
 
     public void logout(){
 

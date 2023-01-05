@@ -81,5 +81,7 @@ public class User {
         this.email = email;
     }
 
+    public String getFullName (){return ""+ getFirst()+' ' +getLast();};
+
 
 }

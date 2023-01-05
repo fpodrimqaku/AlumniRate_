@@ -65,12 +65,16 @@ public ImageView profileImageView;
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         profileImageView = view.findViewById(R.id.main_profile_image);
-        Glide.with(getContext()).load(mViewModel.getUser().getPhotoUrl()).into(profileImageView);
 
         mViewModel.getDataManager().getCurrentLoggedInUserPassive().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user1) {
+               if(user1== null)
+                   return;
+
                 mViewModel.setUser(user1);
+                Glide.with(getContext()).load(user1.getPhotoUrl()).into(profileImageView);
+
             }
         });
 

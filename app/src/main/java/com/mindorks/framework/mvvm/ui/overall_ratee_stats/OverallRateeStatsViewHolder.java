@@ -85,7 +85,7 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
         userAnswerDataa.keySet().stream().sorted().forEach(key -> {
 
-                axisXValues.add(new AxisValue(key).setLabel("Pyetja"+key));
+                axisXValues.add(new AxisValue(key).setLabel("Pyetja "+key));
 
             UserAnswerData userData = userAnswerDataa.get(key);
             List<SubcolumnValue> values;

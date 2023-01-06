@@ -1,5 +1,6 @@
 package com.mindorks.framework.mvvm.ui.personal_ratings;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -7,15 +8,18 @@ import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
+import com.mindorks.framework.mvvm.utils.AppConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.SubcolumnValue;
@@ -26,6 +30,7 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
 
+    Context context;
     QuestionnaireDataCollected questionnaireDataCollected;
     TextView questionnaire_organization_collected_text;
     TextView questionnaire_organization_collected_attendees_num;
@@ -34,13 +39,13 @@ public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
 private String qrCode = "";
 
 
-    public PersonalRatingsListItemViewHolder(View view) {
+    public PersonalRatingsListItemViewHolder(Context context, View view) {
         super(view);
         questionnaire_organization_collected_text = view.findViewById(R.id.questionnaire_organization_collected_text);
         questionnaire_organization_collected_period = view.findViewById(R.id.questionnaire_organization_collected_period);
         questionnaire_organization_collected_attendees_num = view.findViewById(R.id.questionnaire_organization_collected_attendees_num);
         chartView = itemView.findViewById(R.id.user_specific_questionnaire_data_chart);
-
+this.context = context;
     }
 
     @Override
@@ -88,16 +93,24 @@ try {
         ColumnChartData data;
         int numSubcolumns = 5;
         int numColumns = 10;
+
+        List<AxisValue> axisXValues = new ArrayList<AxisValue>();;
         // Column can have many subcolumns, here by default I use 1 subcolumn in each of 8 columns.
         List<Column> columns = new ArrayList<Column>();
 
         Map<Integer, UserAnswerData> userAnswerDataa = questionnaireDataCollected.getUserAnswerDataCollectedForQuestionnaire();
 
-        userAnswerDataa.values().stream().forEach(userData->{
+        userAnswerDataa.keySet().stream().forEach(key->{
+
+            axisXValues.add(new AxisValue(key).setLabel("Pyetja "+key));
+
             List<SubcolumnValue> values;
             values = new ArrayList<SubcolumnValue>();
+            UserAnswerData userData = userAnswerDataa.get(key);
             for (int j = 1; j <= numSubcolumns; ++j) {
-                values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j) , getChartColumnColorBasedOnRating(j)));
+                String label = "";
+                label = "Pyetja " + key + "; Vlerësuar (" + context.getResources().getString(AppConstants.answersWordified.get(j)) + ")- " + userData.getOptionsPickedStats().get(j) + " person/a";
+                values.add(new SubcolumnValue(userData.getOptionsPickedStats().get(j) , getChartColumnColorBasedOnRating(j)).setLabel(label));
             }
 
             Column column = new Column(values);
@@ -119,6 +132,12 @@ try {
             if (hasAxesNames) {
                 axisX.setName("Pyetja");
                 axisY.setName("Nr. Studentëve");
+
+                axisY.setHasLines(false);
+
+                axisX.setFormatter(new SimpleAxisValueFormatter().setDecimalDigitsNumber(0));
+                axisY.setFormatter(new SimpleAxisValueFormatter().setDecimalDigitsNumber(0));
+                axisX.setValues(axisXValues);
             }
             data.setAxisXBottom(axisX);
             data.setAxisYLeft(axisY);

@@ -53,7 +53,9 @@
                     android:layout_height="451dp"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.isLoading ? View.INVISIBLE : View.VISIBLE}"
+                    >
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,7 +103,17 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/plus_add_bg"
 
-                                android:onClick="addPhotoFromGallery"></Button>
+                                android:onClick="addPhotoFromGallery"
+                                android:visibility="@{viewModel.isLoadingSecondary ? View.GONE : View.VISIBLE}"
+                                ></Button>
+
+                            <androidx.core.widget.ContentLoadingProgressBar
+                                android:id="@+id/sign_up_secondary_image_loader"
+                                style="?android:attr/progressBarStyleLarge"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:visibility="@{viewModel.isLoadingSecondary ? View.VISIBLE : View.GONE}" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -136,7 +148,7 @@
                                 android:inputType="text"
                                 android:maxLength="50"
                                 android:paddingBottom="10dp"
-                                android:text="@={viewModel.name}"
+                                android:text="@={viewModel.user.first}"
                                 android:textColor="@color/black_effective"
                                 android:textSize="18sp" />
 
@@ -163,7 +175,7 @@
                                 android:inputType="text"
                                 android:maxLength="50"
                                 android:paddingBottom="10dp"
-                                android:text="@={viewModel.lastName}"
+                                android:text="@={viewModel.user.last}"
                                 android:textColor="@color/black_effective"
                                 android:textSize="18sp" />
 
@@ -192,7 +204,7 @@
                             android:inputType="text"
                             android:maxLength="50"
                             android:paddingBottom="10dp"
-                            android:text="@={viewModel.title}"
+                            android:text="@={viewModel.user.title}"
                             android:textColor="@color/black_effective"
                             android:textSize="18sp" />
 
@@ -219,7 +231,7 @@
                             android:inputType="textEmailAddress"
                             android:maxLength="50"
                             android:paddingBottom="10dp"
-                            android:text="@={viewModel.email}"
+                            android:text="@={viewModel.user.email}"
                             android:textColor="@color/black_effective"
                             android:textSize="18sp" />
 

@@ -417,8 +417,8 @@ public class AppDataManager implements DataManager {
     public void createUserWithProfilePic (String email, String password, Uri mImageUri){
          firebaseHelper.createUserWithProfilePic ( email,  password,  mImageUri);
     }
-    public MutableLiveData<String> storeImage(Uri mImageUri){
-        return  firebaseHelper.storeImage(mImageUri);
+    public MutableLiveData<String> storeImage(Uri mImageUri, ConsumerAction<String> onSuccessConsumer, Action onFailureAction) {
+        return  firebaseHelper.storeImage(mImageUri,  onSuccessConsumer,onFailureAction);
     }
 
     public com.mindorks.framework.mvvm.data.model.firebase.User getCurrentUserSigned(){

@@ -74,7 +74,6 @@ public ImageView profileImageView;
 
                 mViewModel.setUser(user1);
                 Glide.with(getContext()).load(user1.getPhotoUrl()).into(profileImageView);
-
             }
         });
 

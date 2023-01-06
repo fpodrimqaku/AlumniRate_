@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.bumptech.glide.Glide;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.data.model.firebase.User;
@@ -23,6 +25,7 @@ import com.mindorks.framework.mvvm.ui.main.MainActivity;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Map;
 
 public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpViewModel> implements LoginNavigator {
 
@@ -71,13 +74,12 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
         mViewModel.setNavigator(this);
 
         mViewModel.getUserSaved().observe(this, (x) -> {
-            if(x==null){}
-
-            else if (x.equals(true) ) {
-                Toast.makeText(this, "User Registered Successfully!", Toast.LENGTH_SHORT).show();
+            if (x == null) {
+            } else if (x.equals(true)) {
+                Toast.makeText(this, "Përdoruesi u regjistrua me sukses!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Toast.makeText(this, "Failed To Store User!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Regjistrimi i Përdoruesit Dështoi!", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -91,6 +93,19 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
 
 
     public void createAccount(View view) {
+        mViewModel.validateUser();
+        if (!mViewModel.getUserValidationErrors().isEmpty() && mViewModel.getUserValidationErrors().size() == 1) {
+            Map.Entry<String, String> entry = mViewModel.getUserValidationErrors().entrySet().iterator().next();
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            super.snackShowLong_ERROR(view, "".concat(key).concat(" ").concat(value).concat("!"));
+            return;
+        } else if (!mViewModel.getUserValidationErrors().isEmpty() && mViewModel.getUserValidationErrors().size() > 1) {
+            super.snackShowLong_ERROR(view, "Plotësoni të gjitha fushat!");
+            return;
+        }
+
         mViewModel.createAccount();
     }
 
@@ -102,41 +117,33 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
         if (resultCode == -1 && reqCode == RESULT_OK_GALLERY_PHOTO_UPLOADED) {
             try {
                 final Uri imageUri = data.getData();
+                File imageToUpload = new File(imageUri.getPath());
+
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ((ImageView) findViewById(R.id.user_image_view)).setImageBitmap(selectedImage);
-                mViewModel.storeUserImage(imageUri);
-                mViewModel.getImageUri().observe(this, (x) -> {
-                    if (x != null)
-                        mViewModel.getUser().setPhotoUrl(x);
+                //  ((ImageView) findViewById(R.id.user_image_view)).setImageBitmap(selectedImage);
+                mViewModel.setIsLoadingSecondary(true);
+                mViewModel.storeUserImage(imageUri, (storedImageUri) -> {
+                    mViewModel.getUser().get().setPhotoUrl(storedImageUri);
+                    Glide.with(this).load(mViewModel.getUser().get().getPhotoUrl()).into((ImageView) findViewById(R.id.user_image_view));
+                    mViewModel.setIsLoadingSecondary(false);
+                }, () -> {
+                    snackShowLong_ERROR(findViewById(R.id.user_image_view), "Ngarkimi i fotos së profilit dështoi!");
+                    mViewModel.getUser().get().setPhotoUrl(null);
+                    mViewModel.setIsLoadingSecondary(false);
                 });
 
             } catch (Exception e) {
                 e.printStackTrace();
+                //hideLoading();
+                mViewModel.setIsLoadingSecondary(false);
 
             }
 
         } else {
-            //Toast.makeText(PostImage.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+            snackShowLong_ERROR(findViewById(R.id.user_image_view), "Ngarkimi i fotos së profilit dështoi!");
         }
 
-
-    }
-
-    public void startImageCropper(String ImagePath) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setClassName("com.android.camera", "com.android.camera.CropImage");
-        File file = new File(ImagePath);
-        Uri uri = Uri.fromFile(file);
-        intent.setData(uri);
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 96);
-        intent.putExtra("outputY", 96);
-        intent.putExtra("noFaceDetection", true);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, RESULT_OK_GALLERY_PHOTO_CROPPED);
     }
 
 

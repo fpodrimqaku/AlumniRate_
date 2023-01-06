@@ -123,14 +123,14 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
                 Date currentDateTime  = new Date();
 
                 if(mViewModel.UserHasFilledThequestionnaireBefore(x.get_QRCode())){
-                    snackShowLong(getResources().getString(R.string.questionnaire_filled_before));
+                    snackShowLong_ERROR(getResources().getString(R.string.questionnaire_filled_before));
                     return;
                 }
 
 
                 if(!(currentDateTime.after(x.getFromDateTime()) && currentDateTime.before(x.getToDateTime()))){
 
-                    snackShowLong(getResources().getString(R.string.questionnaire_org_out_of_time));
+                    snackShowLong_ERROR(getResources().getString(R.string.questionnaire_org_out_of_time));
                     return;
                 }
 
@@ -141,7 +141,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
 
                     if (getDistanceBetweenTwoCordinates(currentLatitude, latitude, currentLongitude, longitude) > 300) {
-                        snackShowLong(getResources().getString(R.string.questionnaire_far_from_spot));
+                        snackShowLong_ERROR(getResources().getString(R.string.questionnaire_far_from_spot));
                     } else {
                         mViewModel.getDataManager().setCurrentFormUID(qrCodeScanned);
 
@@ -281,7 +281,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
     }
 
     private boolean checkLocationPermissions() {
-        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return  ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -306,7 +306,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+
                 Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
 

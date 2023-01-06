@@ -82,8 +82,8 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
     UUID uuid = UUID.randomUUID();
     WindowManager manager;
     FusedLocationProviderClient mFusedLocationClient;
-Bitmap imageBitmapTemp ;
-String qrCode  = uuid.toString();
+    Bitmap imageBitmapTemp;
+    String qrCode = uuid.toString();
     int defaultHourOnPicker = 12;
     int defaultMinuteOnPicker = 0;
 
@@ -163,7 +163,7 @@ String qrCode  = uuid.toString();
             // the bitmap is set inside our image
             // view using .setimagebitmap method.
             qrCode_image.setImageBitmap(bitmap);
-          imageBitmapTemp = bitmap;
+            imageBitmapTemp = bitmap;
 
             //shareQrCode(imageToShareUri);
 
@@ -184,10 +184,11 @@ String qrCode  = uuid.toString();
         initiateQrCode(view);
 
         initVariablesAndEvents(view);
-try{
-    ClearCacheImprovised();
+        try {
+            ClearCacheImprovised();
 
-}catch(Exception exe ){}
+        } catch (Exception exe) {
+        }
     }
 
     @Override
@@ -215,10 +216,10 @@ try{
     @OnClick(R.id.buttonSaveQuestionnaireOrganization)
     public void buttonSaveQuestionnaireOrganization_clicked() {
         dashboardViewModel.insertQuestionnaireOrganization(
-                ()->{
+                () -> {
                     toastShowLong(getString(R.string.questionnaire_inserted_successfully));
                 },
-                ()->{
+                () -> {
                     toastShowLong(getString(R.string.questionnaire_inserted_UNsuccessfully));
                 }
         );
@@ -333,7 +334,7 @@ try{
     }
 
     private boolean checkLocationPermissions() {
-        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -358,7 +359,7 @@ try{
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+
                 Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
 
@@ -370,8 +371,8 @@ try{
             StringBuilder locationStringBuilder = new StringBuilder("");
             locationStringBuilder.append("Latitude: " + mLastLocation.getLatitude() + "      ");
             locationStringBuilder.append("Longitude: " + mLastLocation.getLongitude() + "");
-            if(locationStringBuilder!=null)
-            Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
+            if (locationStringBuilder != null)
+                Toast.makeText(getActivity(), locationStringBuilder.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -387,8 +388,9 @@ try{
 
                 } else {
 
-                    snackShowLong(getResources().getString(R.string.permission_location_request));
-
+                    snackShowLong_ERROR(getResources().getString(R.string.permission_location_request));
+                    mViewModel.setQuestionnaireLocationRequired(false);
+                    ((CheckBox) getView().findViewById(R.id.questionnaireOrganizationLocationRequired)).setChecked(false);
                 }
             });
 
@@ -419,7 +421,7 @@ try{
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
                         Intent data = result.getData();
-                       // ClearCacheImprovised();
+                        // ClearCacheImprovised();
                     }
                 }
             });
@@ -431,21 +433,19 @@ try{
         shareIntent.putExtra(Intent.EXTRA_STREAM, ImageUri);
         shareIntent.addFlags(
                 Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                shareIntent.setType("image/jpeg");
-       // startActivity(Intent.createChooser(shareIntent, null));
+        shareIntent.setType("image/jpeg");
+        // startActivity(Intent.createChooser(shareIntent, null));
 
 
         someActivityResultLauncher.launch(shareIntent);
     }
-@OnClick(R.id.questionnaireCreatedShare)
-    public void shareImage(){
-        if(imageBitmapTemp!=null &&qrCode !=null)
-            storeImageIntoCacheAndShareIt(imageBitmapTemp,qrCode,"jpeg");
+
+    @OnClick(R.id.questionnaireCreatedShare)
+    public void shareImage() {
+        if (imageBitmapTemp != null && qrCode != null)
+            storeImageIntoCacheAndShareIt(imageBitmapTemp, qrCode, "jpeg");
 
     }
-
-
-
 
 
     public Uri storeImageIntoCacheAndShareIt(Bitmap bitmapToStore, String nameToStoreWith, String extension) {
@@ -459,13 +459,13 @@ try{
             }
         }
 
-        File fileName = new File(folder, nameToStoreWith + "."+extension);
+        File fileName = new File(folder, nameToStoreWith + "." + extension);
 
         try (FileOutputStream outputStream = new FileOutputStream(String.valueOf(fileName))) {
             bitmapToStore.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             Uri uri = FileProvider.getUriForFile(this.getContext(), "com.mindorks.framework.mvvm", fileName);
-           // Uri tempUri  = getImageUri(getActivity(), bitmapToStore);
+            // Uri tempUri  = getImageUri(getActivity(), bitmapToStore);
             shareQrCode(uri);
             return uri;
         } catch (Exception e) {
@@ -475,14 +475,13 @@ try{
     }
 
 
-
     public void ClearCacheImprovised() {
         try {
             File sd = getContext().getCacheDir();
             File folder = new File(sd, "/edurate");
 
             for (File c : folder.listFiles()) {
-               c.delete();
+                c.delete();
             }
 
 

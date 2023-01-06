@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.databinding.ActivityMainBinding;
 import com.mindorks.framework.mvvm.databinding.NavHeaderMainBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
@@ -67,16 +68,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         // handle error
     }
 
-    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(AboutFragment.TAG);
-        if (fragment == null) {
-            super.onBackPressed();
-        } else {
-            onFragmentDetached(AboutFragment.TAG);
-        }
-    }
 
 
 
@@ -293,6 +284,31 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     public NavController getNavController(){
         return navController;
+    }
+
+    @Override
+    public void onBackPressed() {
+       /* FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(AboutFragment.TAG);
+        if (fragment == null) {
+            super.onBackPressed();
+        } else {
+            onFragmentDetached(AboutFragment.TAG);
+        }
+
+        */decideNextActivity();
+    }
+
+
+    private void decideNextActivity() {
+       // int o = DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT.getType();
+        //int u =getViewDataBinding().getViewModel().getDataManager().getCurrentUserLoggedInMode();
+        if (getViewDataBinding().getViewModel().getDataManager().getCurrentUserLoggedInMode() == DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT.getType()) {
+            openLoginActivity();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
 }

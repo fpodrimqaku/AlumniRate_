@@ -159,7 +159,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
 
             } else {
-                Toast.makeText(getActivity(), "Questionnaire Not Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Pytësori nuk u gjet!", Toast.LENGTH_SHORT).show();
 
             }
             decoratedBarcodeView.decodeSingle(callback);

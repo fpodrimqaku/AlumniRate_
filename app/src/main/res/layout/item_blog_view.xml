@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:text="@{viewModel.author}"
-                        tools:text="Amit Shekhar" />
+                        tools:text="Test Text" />
 
                     <TextView
                         android:id="@+id/dateTextView"

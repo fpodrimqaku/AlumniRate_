@@ -442,11 +442,11 @@ firebaseAuth.signOut();
     public void initiatefetchingQuestionnaireDataCollected(String userId) {
 
         DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        String currentUserUID = getCurrentLoggedInUser().getUid();
+        Query queryRef_QO = databaseReference.child(FirebaseReferences.Questionnaire_Organizations)
+                .orderByChild("rateeId").equalTo(currentUserUID);
 
-        DatabaseReference relativeDatabaseReference_QO = databaseReference.child(FirebaseReferences.Questionnaire_Organizations)
-                .orderByChild("questionnaireId").getRef();
-        String currentUserEmail = getCurrentLoggedInUser().getEmail();
-        relativeDatabaseReference_QO.addValueEventListener(new ValueEventListener() {
+        queryRef_QO.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 questionnaireDataCollected.getValue().clear();
@@ -455,8 +455,8 @@ firebaseAuth.signOut();
                     QuestionnaireDataCollected qdc = new QuestionnaireDataCollected();
                     QuestionnaireOrganization qo = x.getValue(QuestionnaireOrganization.class);
 
-                    if (qo.getRateeId() == null || !qo.getRateeId().equals(currentUserEmail))
-                        return;
+                   // if (qo.getRateeId() == null || !qo.getRateeId().equals(currentUserUID))
+                     //   return;
 
                     qdc.setQuestionnaireOrganization(qo);
                     questionnaireDataCollected.getValue().put(x.getKey(), qdc);

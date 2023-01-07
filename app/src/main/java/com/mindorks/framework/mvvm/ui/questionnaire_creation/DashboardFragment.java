@@ -217,10 +217,10 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
     public void buttonSaveQuestionnaireOrganization_clicked() {
         dashboardViewModel.insertQuestionnaireOrganization(
                 () -> {
-                    toastShowLong(getString(R.string.questionnaire_inserted_successfully));
+                    snackShowLong(getString(R.string.questionnaire_inserted_successfully));
                 },
                 () -> {
-                    toastShowLong(getString(R.string.questionnaire_inserted_UNsuccessfully));
+                    snackShowLong_ERROR(getString(R.string.questionnaire_inserted_UNsuccessfully));
                 }
         );
     }
@@ -318,7 +318,6 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
 
                             locationStringBuilder.append("Latitude: " + location.getLatitude() + "      ");
                             locationStringBuilder.append("Longitude: " + location.getLongitude() + "");
-
 
                         }
                     }

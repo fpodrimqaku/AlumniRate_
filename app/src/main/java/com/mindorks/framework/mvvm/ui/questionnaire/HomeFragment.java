@@ -67,6 +67,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 boolean successful = mViewModel.saveMyRatingAnswers();
                 if (successful) {
                     navController.navigate(R.id.navigation_scan_form_fragment);
+                    snackShowLong("Përgjigjet u ngarkuan me sukses!");
+                }else {
+
+                    navController.navigate(R.id.navigation_scan_form_fragment);
+                    snackShowLong_ERROR("Përgjigjet dështuan të ngarkohen!");
                 }
             }
         });

@@ -14,10 +14,6 @@ import com.mindorks.framework.mvvm.utils.rx.SchedulerProvider;
 import java.util.Dictionary;
 import java.util.List;
 
-import android.app.Application;
-import android.provider.Settings.Secure;
-
-
 
 public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
 
@@ -28,7 +24,7 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
     public LiveData<String> getText() {
         return mText;
     }
-    private String android_id = MvvmApp.getDeviceId();
+    private String hashedAndroidId = MvvmApp.getDeviceIdHashed();
 
     public QuestionnaireAnswers questionnaireAnswers;
 
@@ -38,7 +34,7 @@ public class HomeViewModel extends BaseViewModel<QuestionnaireListNavigator> {
         mText = new MutableLiveData<>();
         this.questionnaireAnswers = new QuestionnaireAnswers();
         this.questionnaireAnswers.setQuestionnaireId(getDataManager().getCurrentFormUID());
-        this.questionnaireAnswers.setDeviceId(android_id);
+        this.questionnaireAnswers.setDeviceIdHashed(hashedAndroidId);
        // this.questionnaireAnswers.setRateeId();
     }
 

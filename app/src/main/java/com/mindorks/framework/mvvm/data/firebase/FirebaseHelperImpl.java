@@ -1,10 +1,8 @@
 package com.mindorks.framework.mvvm.data.firebase;
 
-import android.media.Image;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,7 +14,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +40,6 @@ import com.mindorks.framework.mvvm.utils.Action;
 import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -656,8 +652,8 @@ firebaseAuth.signOut();
 
 
     public void fetchQuestionnairesFilledByUserPreviously() {
-        String DeviceId = MvvmApp.getDeviceId();
-        DatabaseReference relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS);
+        String DeviceIdHashed = MvvmApp.getDeviceIdHashed();
+        Query relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS).orderByChild("deviceId").equalTo(DeviceIdHashed);
 
         relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
             @Override
@@ -665,7 +661,7 @@ firebaseAuth.signOut();
                 Map<String, QuestionnaireAnswers> questionnaireAnswersMapInternal = new HashMap<>();
                 snapshot.getChildren().forEach(item -> {
                     QuestionnaireAnswers questionnaireAnswersInstance = item.getValue(QuestionnaireAnswers.class);
-                    if (!questionnaireAnswersInstance.getDeviceId().equals(DeviceId))
+                    if (!questionnaireAnswersInstance.getDeviceIdHashed().equals(DeviceIdHashed))
                         return;
                     String key = item.getKey();
                     questionnaireAnswersMapInternal.put(key, questionnaireAnswersInstance);

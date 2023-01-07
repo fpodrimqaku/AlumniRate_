@@ -15,6 +15,9 @@ public class QuestionnaireOrganization {
     private Date toDateTime;
     private String questionnaireName;
     private String rateeId;
+    private Date CreationDateTime;
+
+
 
     public String getQuestionnaireName() {
         return this.questionnaireName;
@@ -70,6 +73,16 @@ public class QuestionnaireOrganization {
     public void setRateeId(String rateeId) {
         this.rateeId = rateeId;
     }
+
+    public Date getCreationDateTime() {
+        return CreationDateTime;
+    }
+
+    public void setCreationDateTime(Date creationDateTime) {
+        CreationDateTime = creationDateTime;
+    }
+
+
 
     public List<Integer> isValid(){
 

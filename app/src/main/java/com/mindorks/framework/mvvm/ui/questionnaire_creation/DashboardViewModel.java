@@ -47,6 +47,7 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
             getError().setValue(errorList.get(0));
             return;
         }
+        questionnaireOrganization.setCreationDateTime(new Date());
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization,
                 actionOnSuccess,
                 actionOnFailure

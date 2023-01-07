@@ -163,6 +163,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
             }
             decoratedBarcodeView.decodeSingle(callback);
+            questionnaireOrganizationMutableLiveData.removeObservers(this);
         });
     }
 
@@ -191,6 +192,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
         if (pause) {
             decoratedBarcodeView.pause();
         } else if(checkLocationPermissions()){
+            decoratedBarcodeView.decodeSingle(callback);
             decoratedBarcodeView.resume();
         }
     }
@@ -230,8 +232,8 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
     public void checkIfAppHasCameraPermissionAndRequestIt() {
 
-        if (ContextCompat.checkSelfPermission(
-                getActivity(), Manifest.permission.CAMERA) ==
+        if (getContext().checkSelfPermission(
+                Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED) {
             if(checkLocationPermissions()==false){
                 checkIfAppHasLocationPermissionAndRequestIt();
@@ -281,7 +283,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
     }
 
     private boolean checkLocationPermissions() {
-        return  ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return  getContext().checkSelfPermission( Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 

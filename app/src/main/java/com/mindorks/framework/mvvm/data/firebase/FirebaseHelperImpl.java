@@ -653,7 +653,7 @@ firebaseAuth.signOut();
 
     public void fetchQuestionnairesFilledByUserPreviously() {
         String DeviceIdHashed = MvvmApp.getDeviceIdHashed();
-        Query relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS).orderByChild("deviceId").equalTo(DeviceIdHashed);
+        Query relativeDatabaseReference_QA = databaseReference.child(FirebaseReferences.QUESTIONNAIRE_ANSWERS).orderByChild("deviceIdHashed").equalTo(DeviceIdHashed);
 
         relativeDatabaseReference_QA.addValueEventListener(new ValueEventListener() {
             @Override

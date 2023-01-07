@@ -334,7 +334,7 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
     }
 
     private boolean checkLocationPermissions() {
-        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return getContext().checkSelfPermission( Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -397,8 +397,8 @@ public class DashboardFragment extends BaseFragment<FragmentQuestionnaireCreatio
 
     public void checkIfAppHasLocationPermissionAndRequestIt() {
 
-        if (ContextCompat.checkSelfPermission(
-                getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (getActivity().checkSelfPermission(
+                 Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
 
             getLastLocation();

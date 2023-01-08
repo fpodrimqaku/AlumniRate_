@@ -17,26 +17,29 @@
         android:layout_width="259dp"
         android:layout_height="259dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="15dp"
+        android:weightSum="2"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewShowQrCodeForSharing"
+        app:layout_constraintStart_toStartOf="@+id/imageViewShowQrCodeForSharing"
         app:layout_constraintTop_toBottomOf="@+id/imageViewShowQrCodeForSharing">
 
         <Button
             android:id="@+id/okay_text"
             style="@style/Button.Primary"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:layout_weight="1"
             android:drawableLeft="@drawable/ic_baseline_share_24"
             android:text="@string/questionnaire_share"
             android:textColor="@color/white"
@@ -45,16 +48,17 @@
         <Button
             android:id="@+id/cancel_text"
             style="@style/Button.Primary"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_baseline_close"
-            android:layout_marginStart="30dp"
+            android:layout_marginLeft="10sp"
             android:layout_toRightOf="@id/okay_text"
+
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_close"
             android:text="@string/action_close"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

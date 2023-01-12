@@ -1,9 +1,13 @@
 package com.mindorks.framework.mvvm.ui.overall_ratee_stats;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mindorks.framework.mvvm.R;
@@ -19,6 +23,7 @@ import java.util.Map;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -32,14 +37,15 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
     Context context;
-
-    public OverallRateeStatsViewHolder(Context context, View itemView) {
+    OverallRateeStatsViewModel viewModel;
+    public OverallRateeStatsViewHolder(Context context, View itemView,OverallRateeStatsViewModel viewModel) {
         super(itemView);
         userImage = itemView.findViewById(R.id.user_profileImage);
         userFullName = itemView.findViewById(R.id.rate_overall_data_name_lastname);
         userTitle = itemView.findViewById(R.id.ratee_title);
         chartView = itemView.findViewById(R.id.user_overall_data_chart);
         this.context = context;
+        this.viewModel  =viewModel;
     }
 
     public ImageView userImage;
@@ -138,6 +144,8 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
         chart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         chart.setColumnChartData(data);
         chart.setVisibility(View.VISIBLE);
+        chart.setOnValueTouchListener(new ValueTouchListener());
+
         /**Note: The following 7, 10 just represent a number to analogize.
          * At that time, it was to solve the fixed number of X-axis data. See (http://forum.xda-developers.com/tools/programming/library-hellocharts-charting-library-t2904456/page2);
          */
@@ -149,11 +157,75 @@ public class OverallRateeStatsViewHolder extends BaseViewHolder {
 
     }
 
+    private class ValueTouchListener implements ColumnChartOnValueSelectListener {
+
+        @Override
+        public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+            // Toast.makeText(context, "Selected column: " + value, Toast.LENGTH_SHORT).show();
+            try {
+                String questionText = viewModel.getDataManager().getQuestions().getValue().stream().filter(x -> x.getNum() == columnIndex+1).findFirst().get().getQuestion();
+                showModal(questionText, (int) value.getValue(), subcolumnIndex + 1);
+            }catch(Exception exe){
+                Toast.makeText(context, "Ka ndodhur një gabim gjatë marrjes së të dhënave!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onValueDeselected() {
+            // Toast.makeText(context, "Selected line point: " , Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
 
     public int getChartColumnColorBasedOnRating(int rating) {
         int color[] = {ChartUtils.COLOR_RED, ChartUtils.COLOR_ORANGE, ChartUtils.COLOR_BLUE, ChartUtils.COLOR_VIOLET, ChartUtils.COLOR_GREEN};
         return color[rating - 1];
     }
+
+
+    public void showModal(String questionText, int numberOfRaters,int optionPicked) {
+
+        Dialog dialog = new Dialog(context);
+        Button closeButton;
+        TextView questionTextView, ratedText;
+        //ImageView qrCodeDisplayer ;
+        dialog.setContentView(R.layout.question_stats);
+        // qrCodeDisplayer = dialog.findViewById(R.id.imageViewShowQrCodeForSharing);
+        //initiateQrCode(viewHolder.getQrCode(),qrCodeDisplayer);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        questionTextView = dialog.findViewById(R.id.modal_question_text);
+        ratedText = dialog.findViewById(R.id.modal_q_stats_persons_answered);
+        closeButton = dialog.findViewById(R.id.modal_view_q_stats_close);
+
+        questionTextView.setText(questionText);
+        ratedText.setText(""
+                .concat("")
+                .concat(String.valueOf(numberOfRaters))
+                .concat(" studentë përgjigjen/et me: ")
+                .concat(context.getResources().getString(AppConstants.answersWordified.get(optionPicked))));
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                // Toast.makeText(context, "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
+
+
+
 }
 
 

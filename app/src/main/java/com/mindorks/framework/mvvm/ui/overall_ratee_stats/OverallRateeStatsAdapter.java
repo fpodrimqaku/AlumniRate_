@@ -32,7 +32,7 @@ public class OverallRateeStatsAdapter extends RecyclerView.Adapter<OverallRateeS
                         false);
 
 
-        return new OverallRateeStatsViewHolder(parent.getContext(), itemView);
+        return new OverallRateeStatsViewHolder(parent.getContext(), itemView,viewModel);
 
     }
 

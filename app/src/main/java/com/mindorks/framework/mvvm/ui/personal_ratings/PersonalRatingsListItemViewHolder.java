@@ -1,11 +1,17 @@
 package com.mindorks.framework.mvvm.ui.personal_ratings;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.model.firebase.Question;
 import com.mindorks.framework.mvvm.data.model.firebase.QuestionnaireDataCollected;
 import com.mindorks.framework.mvvm.data.model.firebase.UserAnswerData;
 import com.mindorks.framework.mvvm.ui.base.BaseViewHolder;
@@ -39,17 +45,20 @@ public class PersonalRatingsListItemViewHolder extends BaseViewHolder {
     TextView questionnaire_organization_collected_text;
     TextView questionnaire_organization_collected_attendees_num;
     TextView questionnaire_organization_collected_period;
+
      Chart chartView;
 private String qrCode = "";
+    PersonalRatingsViewModel viewModel;
 
 
-    public PersonalRatingsListItemViewHolder(Context context, View view) {
+    public PersonalRatingsListItemViewHolder(Context context, View view,PersonalRatingsViewModel viewModel) {
         super(view);
         questionnaire_organization_collected_text = view.findViewById(R.id.questionnaire_organization_collected_text);
         questionnaire_organization_collected_period = view.findViewById(R.id.questionnaire_organization_collected_period);
         questionnaire_organization_collected_attendees_num = view.findViewById(R.id.questionnaire_organization_collected_attendees_num);
         chartView = itemView.findViewById(R.id.user_specific_questionnaire_data_chart);
 this.context = context;
+this.viewModel = viewModel;
     }
 
     @Override
@@ -193,12 +202,18 @@ try {
 
         @Override
         public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-            Toast.makeText(context, "Selected column: " + value, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "Selected column: " + value, Toast.LENGTH_SHORT).show();
+            try {
+                String questionText = viewModel.getDataManager().getQuestions().getValue().stream().filter(x -> x.getNum() == columnIndex+1).findFirst().get().getQuestion();
+                showModal(questionText, (int) value.getValue(), subcolumnIndex + 1);
+            }catch(Exception exe){
+                Toast.makeText(context, "Ka ndodhur një gabim gjatë marrjes së të dhënave!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
         public void onValueDeselected() {
-            Toast.makeText(context, "Selected line point: " , Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "Selected line point: " , Toast.LENGTH_SHORT).show();
 
         }
 
@@ -207,6 +222,47 @@ try {
 
 
     }
+    public void showModal(String questionText, int numberOfRaters,int optionPicked) {
+
+        Dialog dialog = new Dialog(context);
+        Button closeButton;
+                TextView questionTextView, ratedText;
+                //ImageView qrCodeDisplayer ;
+                dialog.setContentView(R.layout.question_stats);
+               // qrCodeDisplayer = dialog.findViewById(R.id.imageViewShowQrCodeForSharing);
+                //initiateQrCode(viewHolder.getQrCode(),qrCodeDisplayer);
+
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(false);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        questionTextView = dialog.findViewById(R.id.modal_question_text);
+        ratedText = dialog.findViewById(R.id.modal_q_stats_persons_answered);
+        closeButton = dialog.findViewById(R.id.modal_view_q_stats_close);
+
+        questionTextView.setText(questionText);
+        ratedText.setText(""
+                .concat("")
+                .concat(String.valueOf(numberOfRaters))
+                .concat(" studentë përgjigjen/et me: ")
+                .concat(context.getResources().getString(AppConstants.answersWordified.get(optionPicked))));
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        // Toast.makeText(context, "Cancel clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.show();
+
+            }
+
+
+
+
+
 
 
 }

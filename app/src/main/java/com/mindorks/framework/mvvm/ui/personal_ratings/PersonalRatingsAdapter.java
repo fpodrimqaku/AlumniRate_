@@ -70,7 +70,7 @@ public class PersonalRatingsAdapter extends RecyclerView.Adapter<PersonalRatings
                         false);
 
 
-        PersonalRatingsListItemViewHolder personalRatingsListItemViewHolder = new PersonalRatingsListItemViewHolder(context,itemView);
+        PersonalRatingsListItemViewHolder personalRatingsListItemViewHolder = new PersonalRatingsListItemViewHolder(context,itemView,viewModel);
         setViewShareQrCodeEventOnCLick(personalRatingsListItemViewHolder, itemView);
         return personalRatingsListItemViewHolder;
     }

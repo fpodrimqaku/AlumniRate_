@@ -545,8 +545,8 @@ firebaseAuth.signOut();
                 snapshot.getChildren().forEach((userFetched) -> {
                     RateeRankingsData rateeRankingsData = new RateeRankingsData();
                     User user = userFetched.getValue(User.class);
-                    fetchRateeRankingsDataCollected.getValue().put(user.getEmail(), rateeRankingsData);
-                    fetchRateeRankingsDataCollected.getValue().get(user.getEmail()).setUser(user);
+                    fetchRateeRankingsDataCollected.getValue().put(user.getUID(), rateeRankingsData);
+                    fetchRateeRankingsDataCollected.getValue().get(user.getUID()).setUser(user);
                 });
 
                 fetchRateeRankingsDataCollected.setValue(fetchRateeRankingsDataCollected.getValue());

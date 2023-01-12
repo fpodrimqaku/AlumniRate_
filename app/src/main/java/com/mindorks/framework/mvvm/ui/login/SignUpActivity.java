@@ -121,11 +121,12 @@ public class SignUpActivity extends BaseActivity<LayoutSignUpBinding, SignUpView
 
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                //  ((ImageView) findViewById(R.id.user_image_view)).setImageBitmap(selectedImage);
+
                 mViewModel.setIsLoadingSecondary(true);
                 mViewModel.storeUserImage(imageUri, (storedImageUri) -> {
                     mViewModel.getUser().get().setPhotoUrl(storedImageUri);
-                    Glide.with(this).load(mViewModel.getUser().get().getPhotoUrl()).into((ImageView) findViewById(R.id.user_image_view));
+                   // Glide.with(this).load(mViewModel.getUser().get().getPhotoUrl()).into((ImageView) findViewById(R.id.user_image_view));
+                    ((ImageView) findViewById(R.id.user_image_view)).setImageBitmap(selectedImage);
                     mViewModel.setIsLoadingSecondary(false);
                 }, () -> {
                     snackShowLong_ERROR(findViewById(R.id.user_image_view), "Ngarkimi i fotos së profilit dështoi!");

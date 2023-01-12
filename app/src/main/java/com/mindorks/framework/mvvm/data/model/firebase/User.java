@@ -111,6 +111,10 @@ public class User {
             return errorList;
         }
 
+        if (getEmail() == null || !isEmailWithinUniversityDomain(getEmail())) {
+            errorList.put("Emaili duhet të jet në domainin uni-pr.edu", "");
+            return errorList;
+        }
 
         if (getTitle() == null || getTitle().equals("")) {
             errorList.put("Plotësoni fushën ", "Titulli");
@@ -130,5 +134,8 @@ public class User {
         String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         return email.matches(regex);
     }
-
+    public static boolean isEmailWithinUniversityDomain(String email) {
+        String regex = "^[A-Za-z0-9._%+-]+@uni-pr\\.edu$";
+        return email.matches(regex);
+    }
 }

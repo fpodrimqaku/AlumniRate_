@@ -5,6 +5,8 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import android.os.Build;
@@ -14,8 +16,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mindorks.framework.mvvm.MvvmApp;
+import com.mindorks.framework.mvvm.R;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
 import com.mindorks.framework.mvvm.di.component.DaggerActivityComponent;
 import com.mindorks.framework.mvvm.di.module.ActivityModule;
@@ -138,5 +143,52 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
     }
+
+
+    public void snackShowLong(View view ,String Text ){
+        Snackbar snackbar = Snackbar
+                .make(view, Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.login_janablue));
+        snackbar.show();
+    }
+
+    public void snackShowShort(View view ,String Text ){
+        Snackbar snackbar = Snackbar
+                .make(view, Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.login_janablue));
+        snackbar.show();
+    }
+
+
+
+    public void snackShowLong_ERROR(View view ,String Text ){
+        Snackbar snackbar = Snackbar
+                .make(view, Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.salmon_red));
+        snackbar.show();
+    }
+
+    public void snackShowShort_ERROR(View view ,String Text ){
+        Snackbar snackbar = Snackbar
+                .make(view, Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.salmon_red));
+        snackbar.show();
+    }
+
+
+
+    public void toastShowLong(String Text ){
+
+        Toast.makeText(this,Text,Toast.LENGTH_LONG).show();
+    }
+
+    public void toastShowShort(String Text ){
+        Toast.makeText(this,Text,Toast.LENGTH_SHORT).show();
+    }
+
 }
 

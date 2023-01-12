@@ -67,6 +67,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 boolean successful = mViewModel.saveMyRatingAnswers();
                 if (successful) {
                     navController.navigate(R.id.navigation_scan_form_fragment);
+                    snackShowLong("Përgjigjet u ngarkuan me sukses!");
+                }else {
+
+                    navController.navigate(R.id.navigation_scan_form_fragment);
+                    snackShowLong_ERROR("Përgjigjet dështuan të ngarkohen!");
                 }
             }
         });
@@ -110,7 +115,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             public void onChanged(List<Question> questions) {
                 mViewModel.getQuestionnaireAswers().getAnswers().clear();
                 questions.forEach(question -> {
-                    UserAnswer userAnswer = new UserAnswer(question.getQuestion());//todo changelater
+                    UserAnswer userAnswer = new UserAnswer(question.getNum());//todo changelater
                     mViewModel.getQuestionnaireAswers().getAnswers().add(userAnswer);
 
                 });

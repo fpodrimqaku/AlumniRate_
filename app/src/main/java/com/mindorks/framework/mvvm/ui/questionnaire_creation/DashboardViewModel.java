@@ -41,12 +41,13 @@ public class DashboardViewModel extends BaseViewModel<QuestionnaireListNavigator
     }
 
     public void  insertQuestionnaireOrganization(Action actionOnSuccess, Action actionOnFailure) {
-        questionnaireOrganization.setRateeId(getDataManager().getCurrentUserEmail());
+        questionnaireOrganization.setRateeId(getDataManager().getCurrentLoggedInUser().getUid());
         List<Integer> errorList = questionnaireOrganization.isValid();
         if(errorList.stream().count() > 0){
             getError().setValue(errorList.get(0));
             return;
         }
+        questionnaireOrganization.setCreationDateTime(new Date());
         getDataManager().insertQuestionnaireOrganization(questionnaireOrganization,
                 actionOnSuccess,
                 actionOnFailure

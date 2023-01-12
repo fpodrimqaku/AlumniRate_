@@ -3,23 +3,23 @@ package com.mindorks.framework.mvvm.data.model.firebase;
 import java.util.Objects;
 
 public class UserAnswer {
-    private String questionId;
+    private Integer questionId;
     private Integer optionPicked;
 
     public UserAnswer() {
     }
 
 
-    public UserAnswer(String questionId) {
+    public UserAnswer(Integer questionId) {
         this.questionId = questionId;
 
     }
 
-    public String getQuestionId() {
+    public Integer getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(String questionId) {
+    public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
 

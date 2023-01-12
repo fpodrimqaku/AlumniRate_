@@ -50,12 +50,12 @@
     "is_correct": true
   },
   {
-    "option_text": "Janishar Ali",
+    "option_text": "Test Test",
     "question_id": 6,
     "is_correct": false
   },
   {
-    "option_text": "Amit Shekhar",
+    "option_text": "Test Test ",
     "question_id": 6,
     "is_correct": false
   },
@@ -65,7 +65,7 @@
     "is_correct": false
   },
   {
-    "option_text": "Mindorks",
+    "option_text": "Test",
     "question_id": 7,
     "is_correct": true
   },

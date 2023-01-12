@@ -146,6 +146,28 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.login_janablue));
         snackbar.show();
     }
+
+    public void snackShowLong_ERROR(String Text ){
+        Snackbar snackbar = Snackbar
+                .make(getView(), Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.salmon_red));
+        snackbar.show();
+    }
+
+    public void snackShowShort_ERROR(String Text ){
+        Snackbar snackbar = Snackbar
+                .make(getView(), Text, Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.white));
+        snackbar.setBackgroundTint(ContextCompat.getColor(getActivity(), R.color.salmon_red));
+        snackbar.show();
+    }
+
+
+
+
+
+
     public void toastShowLong(String Text ){
 
         Toast.makeText(getActivity(),Text,Toast.LENGTH_LONG).show();

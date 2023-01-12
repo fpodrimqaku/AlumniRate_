@@ -7,7 +7,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,14 +24,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.mindorks.framework.mvvm.BR;
 import com.mindorks.framework.mvvm.BuildConfig;
 import com.mindorks.framework.mvvm.R;
+import com.mindorks.framework.mvvm.data.DataManager;
 import com.mindorks.framework.mvvm.databinding.ActivityMainBinding;
 import com.mindorks.framework.mvvm.databinding.NavHeaderMainBinding;
 import com.mindorks.framework.mvvm.di.component.ActivityComponent;
-import com.mindorks.framework.mvvm.ui.about.AboutFragment;
+import com.mindorks.framework.mvvm.ui.profile.AboutFragment;
 import com.mindorks.framework.mvvm.ui.base.BaseActivity;
 import com.mindorks.framework.mvvm.ui.feed.FeedActivity;
 import com.mindorks.framework.mvvm.ui.login.LoginActivity;
@@ -69,16 +68,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         // handle error
     }
 
-    @Override
-    public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(AboutFragment.TAG);
-        if (fragment == null) {
-            super.onBackPressed();
-        } else {
-            onFragmentDetached(AboutFragment.TAG);
-        }
-    }
 
 
 
@@ -144,7 +133,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 
          navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+      //  NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -295,6 +284,31 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     public NavController getNavController(){
         return navController;
+    }
+
+    @Override
+    public void onBackPressed() {
+       /* FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(AboutFragment.TAG);
+        if (fragment == null) {
+            super.onBackPressed();
+        } else {
+            onFragmentDetached(AboutFragment.TAG);
+        }
+
+        */decideNextActivity();
+    }
+
+
+    private void decideNextActivity() {
+       // int o = DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT.getType();
+        //int u =getViewDataBinding().getViewModel().getDataManager().getCurrentUserLoggedInMode();
+        if (getViewDataBinding().getViewModel().getDataManager().getCurrentUserLoggedInMode() == DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT.getType()) {
+            openLoginActivity();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
 }

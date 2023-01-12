@@ -44,8 +44,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void login(boolean loginAsRatee) {
        // String email = mActivityLoginBinding.etEmail.getText().toString();
       //  String password =mActivityLoginBinding.etPassword.getText().toString();
-        String email = "blu3samurai@outlook.com";//mActivityLoginBinding.etEmail.getText().toString();
-        String password = "Default123?";//mActivityLoginBinding.etPassword.getText().toString();
+        String email = mActivityLoginBinding.etEmail.getText().toString() != "" ?mActivityLoginBinding.etEmail.getText().toString():"blu3samurai@outlook.com" ;
+        String password = mActivityLoginBinding.etPassword.getText().toString()!= "" ?mActivityLoginBinding.etPassword.getText().toString()  : "Default123?";
         if (loginAsRatee == true && mViewModel.isEmailAndPasswordValid(email, password)) {
             hideKeyboard();
             mViewModel.login(email, password, loginAsRatee);

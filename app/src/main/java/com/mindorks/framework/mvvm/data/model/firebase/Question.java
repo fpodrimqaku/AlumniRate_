@@ -5,7 +5,7 @@ import java.util.List;
 public class Question {
 
     private String question;
-
+private Integer num;
 
     public String getQuestion() {
         return question;
@@ -15,4 +15,11 @@ public class Question {
         this.question = question;
     }
 
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
 }

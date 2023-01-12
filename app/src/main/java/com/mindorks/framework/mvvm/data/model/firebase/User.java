@@ -2,6 +2,9 @@ package com.mindorks.framework.mvvm.data.model.firebase;
 
 import android.net.Uri;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 
 public class User {
@@ -14,7 +17,6 @@ public class User {
     private String photoUri;
     private String email;
     private String UID;
-
 
 
     public Boolean getEmailVerified() {
@@ -81,5 +83,52 @@ public class User {
         this.email = email;
     }
 
+    public String getFullName() {
+        return "" + getFirst() + ' ' + getLast();
+    }
+
+    ;
+
+
+    public HashMap<String, String> validateFields() {
+        HashMap<String, String> errorList = new HashMap<>();
+
+        if (getFirst() == null || getFirst().equals("")) {
+            errorList.put("Plotësoni fushën ", "Emri");
+            return errorList;
+        }
+        if (getLast() == null || getLast().equals("")) {
+            errorList.put("Plotësoni fushën ", "Mbiemri");
+            return errorList;
+        }
+        if (getEmail() == null || getEmail().equals("")) {
+            errorList.put("Plotësoni fushën ", "Emaili");
+            return errorList;
+        }
+
+        if (getEmail() == null || !isValidEmail(getEmail())) {
+            errorList.put("Emaili i dhënë është jo valid", "");
+            return errorList;
+        }
+
+
+        if (getTitle() == null || getTitle().equals("")) {
+            errorList.put("Plotësoni fushën ", "Titulli");
+            return errorList;
+        }
+
+        if (getPhotoUrl() == null || getPhotoUrl().equals("")) {
+            errorList.put("Ngarkoni një foto të përdoruesit ", "");
+            return errorList;
+        }
+
+
+        return errorList;
+    }
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        return email.matches(regex);
+    }
 
 }

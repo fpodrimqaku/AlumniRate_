@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mindorks.framework.mvvm.ui.about.AboutViewModel" />
+            type="com.mindorks.framework.mvvm.ui.profile.AboutViewModel" />
 
     </data>
 
@@ -47,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
-                android:src="@{viewModel.photoUri}"
+                android:src="@{viewModel.user.photoUrl}"
                 ></ImageView>
         </androidx.cardview.widget.CardView>
         <TextView
@@ -56,7 +56,7 @@
             app:layout_constraintLeft_toRightOf="@+id/imageCard"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="105dp"
-            android:text="@{viewModel.fullName}"
+            android:text="@{viewModel.user.fullName}"
             android:textColor="#C9FFFFFF"
             android:layout_marginLeft="20dp"
             android:textSize="22dp"
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
 
-                        android:text="@{viewModel.title}" />
+                        android:text="@{viewModel.user.fullName}" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
-                        android:text="@{viewModel.email}" />
+                        android:text="@{viewModel.user.email}" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -170,18 +170,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
-                        android:text="@{viewModel.title}" />
+                        android:text="@{viewModel.user.title}" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/profile_button_logout"
             style="@style/Button.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+
             android:text="@string/log_out"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

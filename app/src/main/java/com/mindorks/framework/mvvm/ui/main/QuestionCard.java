@@ -15,9 +15,7 @@ import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 
-/**
- * Created by amitshekhar on 08/07/17.
- */
+
 
 @NonReusable
 @Layout(R.layout.card_layout)

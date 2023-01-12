@@ -51,6 +51,7 @@ public class PersonalRatingsAdapter extends RecyclerView.Adapter<PersonalRatings
     WindowManager manager;
 
     public PersonalRatingsAdapter(Context context, List<QuestionnaireDataCollected> items, PersonalRatingsViewModel viewModel, Function3<Bitmap,String,String,Uri> shareImage) {
+       items.sort((y,x)->{return x.getQuestionnaireOrganization().getCreationDateTime().compareTo(y.getQuestionnaireOrganization().getCreationDateTime());});
         this.items = items;
         this.viewModel = viewModel;
         this.context = context;
@@ -69,7 +70,7 @@ public class PersonalRatingsAdapter extends RecyclerView.Adapter<PersonalRatings
                         false);
 
 
-        PersonalRatingsListItemViewHolder personalRatingsListItemViewHolder = new PersonalRatingsListItemViewHolder(itemView);
+        PersonalRatingsListItemViewHolder personalRatingsListItemViewHolder = new PersonalRatingsListItemViewHolder(context,itemView);
         setViewShareQrCodeEventOnCLick(personalRatingsListItemViewHolder, itemView);
         return personalRatingsListItemViewHolder;
     }
@@ -81,7 +82,7 @@ public class PersonalRatingsAdapter extends RecyclerView.Adapter<PersonalRatings
     }
 
     public void updateData(List<QuestionnaireDataCollected> newItems) {
-
+        newItems.sort((y,x)->{return x.getQuestionnaireOrganization().getCreationDateTime().compareTo(y.getQuestionnaireOrganization().getCreationDateTime());});
         items.clear();
         items.addAll(newItems);
         this.notifyDataSetChanged();

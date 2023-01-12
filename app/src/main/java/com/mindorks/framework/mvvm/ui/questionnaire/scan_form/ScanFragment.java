@@ -123,14 +123,14 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
                 Date currentDateTime  = new Date();
 
                 if(mViewModel.UserHasFilledThequestionnaireBefore(x.get_QRCode())){
-                    snackShowLong(getResources().getString(R.string.questionnaire_filled_before));
+                    snackShowLong_ERROR(getResources().getString(R.string.questionnaire_filled_before));
                     return;
                 }
 
 
                 if(!(currentDateTime.after(x.getFromDateTime()) && currentDateTime.before(x.getToDateTime()))){
 
-                    snackShowLong(getResources().getString(R.string.questionnaire_org_out_of_time));
+                    snackShowLong_ERROR(getResources().getString(R.string.questionnaire_org_out_of_time));
                     return;
                 }
 
@@ -141,7 +141,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
 
                     if (getDistanceBetweenTwoCordinates(currentLatitude, latitude, currentLongitude, longitude) > 300) {
-                        snackShowLong(getResources().getString(R.string.questionnaire_far_from_spot));
+                        snackShowLong_ERROR(getResources().getString(R.string.questionnaire_far_from_spot));
                     } else {
                         mViewModel.getDataManager().setCurrentFormUID(qrCodeScanned);
 
@@ -159,10 +159,11 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
 
             } else {
-                Toast.makeText(getActivity(), "Questionnaire Not Found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Pytësori nuk u gjet!", Toast.LENGTH_SHORT).show();
 
             }
             decoratedBarcodeView.decodeSingle(callback);
+            questionnaireOrganizationMutableLiveData.removeObservers(this);
         });
     }
 
@@ -191,6 +192,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
         if (pause) {
             decoratedBarcodeView.pause();
         } else if(checkLocationPermissions()){
+            decoratedBarcodeView.decodeSingle(callback);
             decoratedBarcodeView.resume();
         }
     }
@@ -230,8 +232,8 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
     public void checkIfAppHasCameraPermissionAndRequestIt() {
 
-        if (ContextCompat.checkSelfPermission(
-                getActivity(), Manifest.permission.CAMERA) ==
+        if (getContext().checkSelfPermission(
+                Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED) {
             if(checkLocationPermissions()==false){
                 checkIfAppHasLocationPermissionAndRequestIt();
@@ -281,7 +283,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
     }
 
     private boolean checkLocationPermissions() {
-        return ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return  getContext().checkSelfPermission( Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -306,7 +308,7 @@ public class ScanFragment extends BaseFragment<FragmentScanFormQrBinding, ScanVi
 
     private void requestPermissions() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+
                 Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
 

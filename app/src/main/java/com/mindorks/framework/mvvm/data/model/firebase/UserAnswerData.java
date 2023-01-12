@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserAnswerData {
-    private String questionId;
+
+    private Integer questionNum;
     private Map<Integer, Integer> optionsPickedStats;
 
     public UserAnswerData() {
@@ -14,12 +15,12 @@ public class UserAnswerData {
         initiateOptionPickedStats();
     }
 
-    public String getQuestionId() {
-        return questionId;
+    public Integer getQuestionId() {
+        return questionNum;
     }
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+    public void setQuestionId(Integer questionNum) {
+        this.questionNum = questionNum;
     }
 
     public Map<Integer, Integer> getOptionsPickedStats() {
@@ -51,5 +52,11 @@ public class UserAnswerData {
 
     }
 
+    public Integer getQuestionNum() {
+        return questionNum;
+    }
 
+    public void setQuestionNum(Integer questionNum) {
+        this.questionNum = questionNum;
+    }
 }

@@ -49,7 +49,7 @@ public interface FirebaseHelper {
     public MutableLiveData<ConcurrentMap<String, QuestionnaireDataCollected>> fetchQuestionnaireDataCollected ();
     public MutableLiveData <Boolean>  sendPasswordResetEmail(String email);
     public void createUserWithProfilePic (String email, String password, Uri mImageUri);
-    public MutableLiveData<String> storeImage(Uri mImageUri);
+    public MutableLiveData<String> storeImage(Uri mImageUri, ConsumerAction<String> onSuccessConsumer, Action onFailureAction);
     public MutableLiveData<ConcurrentMap<String, RateeRankingsData>> fetchRateeRankingsData();
     public void initiatefetchingQuestionnaireDataCollected(String userId);
     public void initiatefetchRateeRankingsData();

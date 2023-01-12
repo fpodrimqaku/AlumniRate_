@@ -50,4 +50,7 @@
     <color name="login_warm_skin">#FFF7E9</color>
     <color name="login_janablue">#5F9DF7</color>
     <color name="login_warm_blue">#1746A2</color>
+
+    <color name="salmon_red">#FA8072</color>
+
 </resources>

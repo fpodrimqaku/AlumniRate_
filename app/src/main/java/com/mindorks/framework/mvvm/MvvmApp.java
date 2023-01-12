@@ -11,6 +11,7 @@ import com.google.firebase.storage.StorageReference;
 import com.mindorks.framework.mvvm.di.component.AppComponent;
 import com.mindorks.framework.mvvm.di.component.DaggerAppComponent;
 import com.mindorks.framework.mvvm.utils.AppLogger;
+import com.mindorks.framework.mvvm.utils.CommonUtils;
 
 import javax.inject.Inject;
 
@@ -59,7 +60,8 @@ public class MvvmApp extends Application {
 
     }
 
-    public static String getDeviceId (){
-        return DeviceId;
+    public static String getDeviceIdHashed(){
+        String hashedDeviceId = CommonUtils.hashSha256(DeviceId);
+        return hashedDeviceId;
     }
 }

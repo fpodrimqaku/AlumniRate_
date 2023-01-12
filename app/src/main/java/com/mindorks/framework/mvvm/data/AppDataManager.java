@@ -20,7 +20,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.core.util.Consumer;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +54,6 @@ import com.mindorks.framework.mvvm.utils.CommonUtils;
 import com.mindorks.framework.mvvm.utils.ConsumerAction;
 
 import java.lang.reflect.Type;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -417,8 +415,8 @@ public class AppDataManager implements DataManager {
     public void createUserWithProfilePic (String email, String password, Uri mImageUri){
          firebaseHelper.createUserWithProfilePic ( email,  password,  mImageUri);
     }
-    public MutableLiveData<String> storeImage(Uri mImageUri){
-        return  firebaseHelper.storeImage(mImageUri);
+    public MutableLiveData<String> storeImage(Uri mImageUri, ConsumerAction<String> onSuccessConsumer, Action onFailureAction) {
+        return  firebaseHelper.storeImage(mImageUri,  onSuccessConsumer,onFailureAction);
     }
 
     public com.mindorks.framework.mvvm.data.model.firebase.User getCurrentUserSigned(){
@@ -441,9 +439,9 @@ public class AppDataManager implements DataManager {
     }
 
     public boolean userHasFilledTheQuestionnaireBefore(String QuestionnaireQrId){
-        String DeviceId = MvvmApp.getDeviceId();
+        String DeviceIdHashed = MvvmApp.getDeviceIdHashed();
         return getQuestionnairesAnsweredByTheCurrentUserIdDevice().getValue().values().stream().anyMatch(x->
-           x.getQuestionnaireId()!=null && x.getDeviceId()!=null && x.getQuestionnaireId().equals(QuestionnaireQrId) && x.getDeviceId().equals(DeviceId)
+           x.getQuestionnaireId()!=null && x.getDeviceIdHashed()!=null && x.getQuestionnaireId().equals(QuestionnaireQrId) && x.getDeviceIdHashed().equals(DeviceIdHashed)
 
         );
 

@@ -8,7 +8,7 @@ import java.util.List;
 public class QuestionnaireAnswers {
 
     private String questionnaireId;
-    private String deviceId;
+    private String deviceIdHashed;
    // private String rateeId; //dont need it
     private List<UserAnswer> answers;
 
@@ -25,12 +25,12 @@ public class QuestionnaireAnswers {
 
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getDeviceIdHashed() {
+        return deviceIdHashed;
     }
 
-    public void setDeviceId(String userId) {
-        this.deviceId = userId;
+    public void setDeviceIdHashed(String userId) {
+        this.deviceIdHashed = userId;
     }
 
     public List<UserAnswer> getAnswers() {

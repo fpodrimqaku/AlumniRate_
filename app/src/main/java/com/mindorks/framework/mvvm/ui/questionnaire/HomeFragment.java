@@ -76,7 +76,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
 
-        mViewModel.getErrorTxt().observe(this.getActivity(), new Observer<Integer>() {
+        mViewModel.getErrorTxt().observe(this.getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer textIdInResources) {
                 if (textIdInResources != null)

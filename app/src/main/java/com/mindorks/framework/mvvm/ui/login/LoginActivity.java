@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             mViewModel.login(email, password, loginAsRatee);
         }
         else {
-            Toast.makeText(this, getString(R.string.invalid_email_password), Toast.LENGTH_SHORT).show();
+          //  snackShowLong_ERROR(this.getCurrentFocus(), getString(R.string.invalid_email_password));
         }
     }
 
@@ -82,12 +82,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         mViewModel.sendPasswordResetEmail();
         mViewModel.getEmailSentToResetPwResult().observe(this, (res) -> {
             if (res == Boolean.TRUE) {
-                Toast.makeText(this, "Request sent successuflly!", Toast.LENGTH_SHORT).show();
+                toastShowLong( "Kërkesa për kthim fjalëkalimi u dërgua, kontrolloni emailin!");
+
+
                 mViewModel.setEmailToResetPasswordTo("");
                 mViewModel.setLoginUIMode(true);
+                mViewModel.getEmailSentToResetPwResult().removeObservers(this);
             } else if (res == Boolean.FALSE) {
-                Toast.makeText(this, "Request failed!", Toast.LENGTH_SHORT).show();
-
+                toastShowLong( "Kërkesa për kthim fjalëkalimi dështoi!");
+                mViewModel.getEmailSentToResetPwResult().removeObservers(this);
             } else {
 
 

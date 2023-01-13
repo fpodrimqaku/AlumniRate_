@@ -25,7 +25,7 @@
     <string name="password">Fjalekalimi</string>
 
     <!--Login Validation-->
-    <string name="invalid_email_password">Please provide a valid email and password.</string>
+    <string name="invalid_email_password">Ju lutemi kyquni me email dhe fjalëkalim.</string>
 
     <!--about fragment-->
     <string name="project_info">This sample app implements MVVM architecture using Dagger2, GreenDao, RxJava, FastAndroidNetworking and PlaceholderView</string>
